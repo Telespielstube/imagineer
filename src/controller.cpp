@@ -1,23 +1,51 @@
 #include <ros/ros.h>
-#include "imagineer/ImageAck.h"
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <sensor_msgs/Image.h>
+#include <std_msgs/Int32.h>
+#include <iterator>
+#include <map>
 
-int main(int argc, char **argv)
+/* adds the subscribed messages as key value pairs to a map.
+* @image_message    contains the image received from the subcribed camera/image topic   
+* @int_message
+* @storage          map<> data structure to save the messages from the topics as key value pairs.
+*/
+inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message, const std_msgs::Int32 int_message, std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage)
 {
-    ros::init(argc, argv, "controller");
-    ros::NodeHandle node;
-
-    ros::Subscriber subscriber = node.subscribe("image/integer", 1, int_callback);
-    ros::ServiceServer service = node.advertiseService("")
+    storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message))
 }
 
-void int_callback(const std_msgs::Int32 message)
+/* Callback function which is called when the node rerceives a new message from subscrribed topics.
+* @image_message    contains the image received from the subcribed camera/image topic   
+* @int_message
+* @storage          map<> data structure to save the messages from the topics as key value pairs.
+*/
+void int_callback(const sensor_msgs::ImageConstPtr& image_message, const std_msgs::Int32 int_message, std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage)
 {
     try
     {
-        ROS_INFO("%d", message.data);
+        add_to_map(image_message, int_message, storage );
     }
     catch(cv_bridge::Exception& e)
     {
         ROS_ERROR("Something went wrong");
     }
 }
+
+/* Entry point for the software program.
+* @argc    command line passed argument count and that the number of parameters passed
+* @argv    command line passed argument values. This contains the images passed from the command line 
+*/
+int main(int argc, char **argv)
+{
+    ros::init(argc, argv, "controller");
+    ros::NodeHandle node;
+    std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
+    message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "image/image", 1);
+    message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
+    message_filters::TimeSynchronizer<sensor_msgs::ImageConstPtr, std_msgs::Int32> sync(img_subscriber, int_subscriber); 
+    sync.registerCallback(boost::bind(callback, _1, storage); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
+    ros::spin();
+}
+
