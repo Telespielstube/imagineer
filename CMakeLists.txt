@@ -5,15 +5,16 @@ set(OpenCV_DIR /usr/lib/x86_64-linux-gnu/cmake/opencv4/)
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS
-OpenCV REQUIRED	
-sensor_msgs
-cv_bridge
-image_transport
-roscpp 
-rospy 
-std_msgs 
-message_generation
+find_package(
+    catkin REQUIRED COMPONENTS
+    OpenCV REQUIRED	
+    sensor_msgs
+    cv_bridge
+    image_transport
+    roscpp 
+    rospy 
+    std_msgs 
+    message_generation
 )
 
 ## Declare ROS messages and services
@@ -36,10 +37,12 @@ generate_messages(
 )
 
 ## Declare a catkin package
-catkin_package()
+catkin_package(
+    CATKIN_DEPENDS message_runtime
+)
 
 # Build the neural_network service.
-catkin_install_python(PROGRAMS scripts/camera.py scripts/processor.py scripts/controller.py script/controller.py
+catkin_install_python(PROGRAMS scripts/ai_service.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 
 ## Build camera, processor, controller.
