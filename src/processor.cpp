@@ -21,15 +21,13 @@ cv::Mat process_image(cv::Mat& message)
 /* If a new message arrives on the subscribed topic this function gets called.
 * @message    contains the original image.
 */
-void img_callback(const sensor_msgs::ImageConstPtr& message)
+void callback(const sensor_msgs::ImageConstPtr& message)
 {
     cv::Mat original_msg = cv_bridge::toCvCopy(message)->image; // Converts the cv_bridge back to a ros image.
     try
     {
-        //cv::resize(original_msg, original_msg, cv::Size(), 0.5, 0.5, cv::INTER_AREA);
-        //cv::cvtColor(original_msg, original_msg, cv::COLOR_BGR2GRAY);
-        //cv::threshold(original_msg, original_msg, 150, 255, cv::THRESH_BINARY);
         cv::Mat processed_image = process_image(original_msg);
+
         cv::imshow("view", processed_image);
         cv::waitKey(30);
     }
@@ -39,16 +37,22 @@ void img_callback(const sensor_msgs::ImageConstPtr& message)
     }
 }
 
-
-
+/* Callback function which is called when the node rerceives a new message from subscrribed topics.
+* @image_message    contains the image received from the subcribed camera/image topic   
+* @int_message
+* @storage          map<> data structure to save the messages from the topics as key value pairs.
+*/
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "processor");
+    ROS_INFO("Processor node is running");
     ros::NodeHandle node;
     cv::namedWindow("view");
 
     image_transport::ImageTransport transport(node);
-    image_transport::Subscriber sub = transport.subscribe("camera/image", 1, img_callback);
+    image_transport::Publisher publisher = transport.advertise("processor /image", 1);
+    image_transport::Subscriber subscriber = transport.subscribe("camera/image", 1, callback);
+
     ros::spin();
     cv::destroyWindow("view");
 }

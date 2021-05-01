@@ -4,6 +4,11 @@
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
 
+/* Callback function which is called when the node rerceives a new message from subscrribed topics.
+* @image_message    contains the image received from the subcribed camera/image topic   
+* @int_message
+* @storage          map<> data structure to save the messages from the topics as key value pairs.
+*/
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "camera");
@@ -20,6 +25,7 @@ int main(int argc, char** argv)
     ros::Rate loop_rate(1);
     int_message.data = 2;
 
+    // as long as the node is running send the image and integer messages.
     while (node.ok()) 
     {
         img_publisher.publish(img_message);

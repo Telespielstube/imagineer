@@ -38,7 +38,11 @@ generate_messages(
 ## Declare a catkin package
 catkin_package()
 
-## Build camera, processor, controller and neural_network service
+# Build the neural_network service.
+catkin_install_python(PROGRAMS scripts/camera.py scripts/processor.py scripts/controller.py script/controller.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+
+## Build camera, processor, controller.
 include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
@@ -49,3 +53,8 @@ add_dependencies(camera imagineer_generate_messages_cpp)
 add_executable(processor src/processor.cpp)
 target_link_libraries(processor ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} )
 add_dependencies(processor imagineer_generate_messages_cpp)
+
+add_executable(controller src/controller.cpp)
+target_link_libraries(controller ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} )
+add_dependencies(controller imagineer_generate_messages_cpp)
+)
