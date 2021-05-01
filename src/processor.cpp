@@ -11,11 +11,11 @@
 cv::Mat process_image(cv::Mat& message)
 {
     cv::Mat processed_image;
-    cv::resize(message, message, cv::Size(), 0.5, 0.5, cv::CV_INTER_AREA);
+    cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
     cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
     //cv::threshold(message, message, 80, 255, cv::THRESH_BINARY);
     processed_image = message;
-    return processed_image
+    return processed_image;
 }
 
 /* If a new message arrives on the subscribed topic this function gets called.
