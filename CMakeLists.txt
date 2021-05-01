@@ -44,6 +44,7 @@ catkin_package(
 # Build the neural_network service.
 catkin_install_python(PROGRAMS scripts/ai_service.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Build camera, processor, controller.
 include_directories(include ${catkin_INCLUDE_DIRS})
