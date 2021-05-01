@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     cv::namedWindow("view");
 
     image_transport::ImageTransport transport(node);
-    image_transport::Publisher publisher = transport.advertise("processor /image", 1);
+    image_transport::Publisher publisher = transport.advertise("processor/image", 1);
     image_transport::Subscriber subscriber = transport.subscribe("camera/image", 1, callback);
 
     ros::spin();

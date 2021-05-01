@@ -31,8 +31,8 @@ inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message,
 * @int_message
 * @storage          map<> data structure to save the messages from the topics as key value pairs.
 */
-void callback(const sensor_msgs::ImageConstPtr& image_message, 
-              const std_msgs::Int32 int_message, 
+void callback(const sensor_msgs::ImageConstPtr& image, 
+              const std_msgs::Int32 number, 
               std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage,
               ros::ServiceClient ack_message)
 {
