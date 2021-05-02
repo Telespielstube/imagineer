@@ -6,7 +6,7 @@
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
 #include <std_msgs/Int32.h>
-#include <imagineer/ImageAck.h>
+#include "imagineer/ImageAck.h"
 
 void send_image_ack(const sensor_msgs::ImageConstPtr& image, ros::ServiceClient ack_service)
 {
@@ -48,11 +48,11 @@ void callback(const sensor_msgs::ImageConstPtr& image,
     {
         add_to_map(image, number, storage);
         ROS_INFO("Int and image are saved");
-        send_ack_message(image, ack_message);
+        send_image_ack(image, ack_message);
     }
     catch(cv_bridge::Exception& e)
     {
-        ROS_ERROR("Something went wrong");
+        ROS_ERROR("Something went wrong: %s", e.what());
     }
 }
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "processor/image", 1);
     message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
     message_filters::TimeSynchronizer<sensor_msgs::ImageConstPtr, std_msgs::Int32> sync(img_subscriber, int_subscriber); 
-    sync.registerCallback(boost::bind(callback, _1, _2, storage, ack_service); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
+    sync.registerCallback(boost::bind(callback, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
     
     ros::spin();
 }
