@@ -13,8 +13,8 @@ void send_image_ack(const sensor_msgs::ImageConstPtr& image,
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
 {
-    cv::Mat image = cv_bridge::toCvCopy(message)->image;
-    ack_service.request.image = image;
+    cv::Mat ros_image = cv_bridge::toCvCopy(message)->image;
+    ack_service.request.image = ros_image;
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %d", ack_service.response.number);
@@ -74,8 +74,8 @@ int main(int argc, char **argv)
     ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
     imagineer::ImageAck ack_service;
 
-    message_filters::Subscriber<Image> img_subscriber(node, "processor/image", 1);
-    message_filters::Subscriber<Int32> int_subscriber(node, "camera/integer", 1); 
+    message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "processor/image", 1);
+    message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
     message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync(img_subscriber, int_subscriber); 
     sync.registerCallback(boost::bind(callback, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
     
