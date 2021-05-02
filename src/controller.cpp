@@ -75,8 +75,8 @@ int main(int argc, char **argv)
 
     message_filters::Subscriber<Image> img_subscriber(node, "processor/image", 1);
     message_filters::Subscriber<Int32> int_subscriber(node, "camera/integer", 1); 
-    message_filters::TimeSynchronizer<Image, Int32> sync(img_subscriber, int_subscriber, 10); 
-    sync.registerCallback(boost::bind(callback, _1, _2, _3)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
+    message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync(img_subscriber, int_subscriber); 
+    sync.registerCallback(boost::bind(callback, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
     
     ros::spin();
 }
