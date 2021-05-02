@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(imagineer)
 
 set(OpenCV_DIR /usr/lib/x86_64-linux-gnu/cmake/opencv4/)
+set(Boost_DIR /usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/)
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 
 ## Find catkin and any catkin packages
