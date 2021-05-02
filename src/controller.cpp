@@ -8,10 +8,12 @@
 #include <std_msgs/Int32.h>
 #include "imagineer/ImageAck.h"
 
-void send_image_ack(const sensor_msgs::ImageConstPtr& image, ros::ServiceClient ack_service)
+void send_image_ack(const sensor_msgs::ImageConstPtr& image, 
+                    ros::ServiceClient service_client,
+                    imagineer::ImageAck ack_service)
 {
     ack_service.request.img = image;
-    if (client.call(ack_service))
+    if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %d", ack_service.response.number);
     }
@@ -31,7 +33,7 @@ inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message,
                        std::map<sensor_msgs::ImageConstPtr, 
                        std_msgs::Int32>& storage)
 {
-    storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message))
+    storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message));
 }
 
 /* Callback function which is called when the node rerceives a new message from subscrribed topics.
@@ -42,13 +44,14 @@ inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message,
 void callback(const sensor_msgs::ImageConstPtr& image, 
             const std_msgs::Int32 number, 
             std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage,
-            imagineer::ImageAck ack_message)
+            imagineer::ImageAck ack_service,
+            ros::ServiceClient service_client)
 {
     try
     {
         add_to_map(image, number, storage);
         ROS_INFO("Int and image are saved");
-        send_image_ack(image, ack_message);
+        send_image_ack(image, service_client, ack_service);
     }
     catch(cv_bridge::Exception& e)
     {
@@ -66,13 +69,13 @@ int main(int argc, char **argv)
     ros::NodeHandle node;
     std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
 
-    ros::ServiceClient ack_message = node.serviceClient<imagineer::ImageAck>("ImageAck");
+    ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
     imagineer::ImageAck ack_service;
 
     message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "processor/image", 1);
     message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
     message_filters::TimeSynchronizer<sensor_msgs::ImageConstPtr, std_msgs::Int32> sync(img_subscriber, int_subscriber); 
-    sync.registerCallback(boost::bind(callback, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
+    sync.registerCallback(boost::bind(callback, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. map<> 
     
     ros::spin();
 }

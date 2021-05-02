@@ -8,7 +8,7 @@ set(OpenCV_DIR /usr/lib/x86_64-linux-gnu/cmake/opencv4/)
 find_package(
     catkin REQUIRED COMPONENTS
     OpenCV REQUIRED	
-    Boost REQUIRED COMPONENTS bind
+    #Boost REQUIRED COMPONENTS bind
     sensor_msgs
     cv_bridge
     image_transport
