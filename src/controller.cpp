@@ -14,7 +14,7 @@ void send_image_ack(const sensor_msgs::ImageConstPtr& image,
                     imagineer::ImageAck ack_service)
 {
    // cv::Mat ros_image = cv_bridge::toCvCopy(image)->image;
-    ack_service.request.image = image;
+    ack_service.request.image = image.get();
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %d", ack_service.response.number);
