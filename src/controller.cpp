@@ -2,6 +2,7 @@
 #include <iterator>
 #include <iostream>
 #include <map>
+#include <cv_bridge/cv_bridge.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
@@ -53,9 +54,9 @@ void callback(const sensor_msgs::ImageConstPtr& image,
         ROS_INFO("Int and image are saved");
         send_image_ack(image, service_client, ack_service);
     }
-    catch(cv_bridge::Exception e)
+    catch (cv_bridge::Exception& e)
     {
-        ROS_ERROR(e.what());
+        ROS_ERROR("Error: %s", e.what());
     }
 }
 
