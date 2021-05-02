@@ -55,7 +55,7 @@ void callback(const sensor_msgs::ImageConstPtr& image,
     }
     catch(cv_bridge::Exception e)
     {
-        ROS_ERROR("Something went wrong: %s", e.what());
+        ROS_ERROR(e.what());
     }
 }
 
