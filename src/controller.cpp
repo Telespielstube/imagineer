@@ -12,7 +12,7 @@ void send_image_ack(const sensor_msgs::ImageConstPtr& image,
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
 {
-    ack_service.request.img = image;
+    ack_service.request.image = image;
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %d", ack_service.response.number);
@@ -53,7 +53,7 @@ void callback(const sensor_msgs::ImageConstPtr& image,
         ROS_INFO("Int and image are saved");
         send_image_ack(image, service_client, ack_service);
     }
-    catch(cv_bridge::Exception& e)
+    catch(cv_bridge::Exception e)
     {
         ROS_ERROR("Something went wrong: %s", e.what());
     }
