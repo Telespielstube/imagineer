@@ -13,6 +13,7 @@ void send_image_ack(const sensor_msgs::ImageConstPtr& image,
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
 {
+    cv::Mat image = cv_bridge::toCvCopy(message)->image;
     ack_service.request.image = image;
     if (service_client.call(ack_service))
     {
