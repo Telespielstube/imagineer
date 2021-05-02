@@ -6,11 +6,11 @@
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
 #include <std_msgs/Int32.h>
-#include "imagineer.srv/ImageAck.h"
+#include <imagineer/ImageAck.h>
 
-void send_image_ack(const sensor_msgs::ImageConstPtr& image, ros::ServiceClient ack_message)
+void send_image_ack(const sensor_msgs::ImageConstPtr& image, ros::ServiceClient ack_service)
 {
-    ack_service.request.img = std::map<sensor_msgs::ImageConstPtr;
+    ack_service.request.img = image;
     if (client.call(ack_service))
     {
         ROS_INFO("Received number: %d", ack_service.response.number);
@@ -42,7 +42,7 @@ inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message,
 void callback(const sensor_msgs::ImageConstPtr& image, 
             const std_msgs::Int32 number, 
             std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage,
-            imagineer:ImageAck ack_message)
+            imagineer::ImageAck ack_message)
 {
     try
     {
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
 
     ros::ServiceClient ack_message = node.serviceClient<imagineer::ImageAck>("ImageAck");
-    imagineer:ImageAck ack_service;
+    imagineer::ImageAck ack_service;
 
     message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "processor/image", 1);
     message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
