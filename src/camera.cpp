@@ -21,15 +21,14 @@ int main(int argc, char** argv)
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
     std_msgs::Int32 int_message;
-    std_msgs::Header header;
-    sensor_msgs::Header header;
+    std_msgs::Header std_header;
     ros::Rate loop_rate(1);
     int_message.data = 2;
 
     // as long as the node is running send the image and integer messages.
     while (node.ok()) 
     {
-        header.stamp = ros::Time::now();
+        std_header.stamp = ros::Time::now();
         img_publisher.publish(img_message);
         int_publisher.publish(int_message);
         ros::spinOnce();
