@@ -58,7 +58,7 @@ class Controller
         * @int_message
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
-        inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message, const imagineer::Number int_message, 
+        inline void add_to_map(const imagineer::Number int_message, const sensor_msgs::ImageConstPtr& image_message, 
                             std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage)
         {
             storage.insert(std::pair<imagineer::Number, sensor_msgs::ImageConstPtr>(int_message, image_message));
@@ -77,7 +77,7 @@ class Controller
         {
             try
             {
-                add_to_map(image, number, storage);
+                add_to_map(number, image, storage);
                 ROS_INFO("Int and image are saved");
                 send_image(image, service_client, ack_service);
             }
