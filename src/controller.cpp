@@ -29,11 +29,11 @@ class Controller
         * @service_client    Service object.
         * @ack_service       Service message object.
         */
-        void send_image_ack(const sensor_msgs::ImageConstPtr& image, 
+        void send_image_ack(const sensor_msgs::ImageConstPtr& img_message, 
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
         {
-            ack_service.request.image = image;
+            ack_service.request.image = img_message;
             if (service_client.call(ack_service))
             {
                 ROS_INFO("Received number: %d", ack_service.response.number);
