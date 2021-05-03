@@ -14,6 +14,14 @@
 class Controller
 {
     public:
+
+        ros::NodeHandle node;
+        imagineer::ImageAck ack_service;
+        std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
+        message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
+        message_filters::Subscriber<std_msgs::Int32> int_subscriber;
+        message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync;
+        
         Controller() : sync(img_subscriber, int_subscriber, 1)
         {
             ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
@@ -21,8 +29,6 @@ class Controller
             int_subscriber.subscribe(node, "camera/integer", 1);  
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
-
-    private:
 
         /* Sends the image as servide message to the neural network node.
         * @image             message to be send to the neural network node.
@@ -80,13 +86,6 @@ class Controller
                 ROS_ERROR("Error: %s", e.what());
             }
         }
-
-        ros::NodeHandle node;
-        imagineer::ImageAck ack_service;
-        std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
-        message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
-        message_filters::Subscriber<std_msgs::Int32> int_subscriber;
-        message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync;
 };
 
 /* Entry point for the software program.
