@@ -73,7 +73,7 @@ class Controller
         void callback(const sensor_msgs::ImageConstPtr& image, 
                     const imagineer::Number& digit,
                     std::map<sensor_msgs::Image, imagineer::Number>& storage,
-                    imagineer::ImageAck ack_service)
+                    imagineer::ImageAck& ack_service)
                     //ros::ServiceClient service_client)
         {
             try
