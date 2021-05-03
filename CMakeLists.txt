@@ -13,6 +13,7 @@ find_package(
     cv_bridge
     image_transport
     message_filters
+    unordered_map
     roscpp 
     rospy 
     std_msgs
