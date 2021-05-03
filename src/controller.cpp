@@ -35,13 +35,13 @@ class Controller
         * @service_client    Service object.
         * @ack_service       Service message object.
         */
-        void send_image_ack(const sensor_msgs::ImageConstPtr& img_message, 
+        void send_image(const sensor_msgs::ImageConstPtr& img_message, 
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
-        {
-            
-            cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(img_message, sensor_msgs::image_encodings::BGR8);;
-            ack_service.request.image = cv_ptr;
+        {     
+            sensor_msgs::Image ai_image_message;
+            ai_image_message = *img_message;
+            ack_service.request.image = ai_image_message;
             if (service_client.call(ack_service))
             {
                 ROS_INFO("Received number: %d", ack_service.response.number);
@@ -80,7 +80,7 @@ class Controller
             {
                 add_to_map(image, number, storage);
                 ROS_INFO("Int and image are saved");
-                send_image_ack(image, service_client, ack_service);
+                send_image(image, service_client, ack_service);
             }
             catch (cv_bridge::Exception& e)
             {
