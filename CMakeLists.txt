@@ -10,12 +10,13 @@ find_package(
     catkin REQUIRED COMPONENTS
     OpenCV REQUIRED	
     Boost REQUIRED 
-    sensor_msgs
     cv_bridge
     image_transport
+    message_filters
     roscpp 
     rospy 
-    std_msgs 
+    std_msgs
+    sensor_msgs 
     message_generation
 )
 
