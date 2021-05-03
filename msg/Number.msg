@@ -1,2 +1,2 @@
 std_msgs/Header header
-int32 number
+int32 digit

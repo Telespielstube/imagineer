@@ -58,10 +58,10 @@ class Controller
         * @int_message
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
-        inline void add_to_map(const imagineer::Number& int_message, const sensor_msgs::ImageConstPtr& image_message, 
+        inline void add_to_map(const imagineer::Number& digit, const sensor_msgs::ImageConstPtr& image, 
                             std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage)
         {
-            storage.insert(std::pair<sensor_msgs::ImageConstPtr, imagineer::Number>(int_message, image_message));
+            storage.insert(std::pair<sensor_msgs::ImageConstPtr, imagineer::Number>(digit, image));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
@@ -70,14 +70,14 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
-                    const imagineer::Number& number,
+                    const imagineer::Number& digit,
                     std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
                     imagineer::ImageAck ack_service)
                     //ros::ServiceClient service_client)
         {
             try
             {
-                add_to_map(number, image, storage);
+                add_to_map(digit, image, storage);
                 ROS_INFO("Int and image are saved");
                 send_image(image, service_client, ack_service);
             }
