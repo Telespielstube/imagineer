@@ -63,7 +63,7 @@ class Controller
         {
             sensor_msgs::Image saved_image;
             saved_image = *image;
-            storage.insert(std::pair<sensor_msgs::Image, imagineer::Number>(digit, image));
+            storage.insert(std::pair<sensor_msgs::Image, imagineer::Number>(saved_image, digit));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
