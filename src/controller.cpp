@@ -33,7 +33,8 @@ class Controller
                     ros::ServiceClient service_client,
                     imagineer::ImageAck ack_service)
         {
-            ack_service.request.image = img_message;
+            
+            ack_service.request.image = img_message.toImageMsg();
             if (service_client.call(ack_service))
             {
                 ROS_INFO("Received number: %d", ack_service.response.number);
