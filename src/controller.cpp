@@ -40,7 +40,8 @@ class Controller
                     imagineer::ImageAck ack_service)
         {
             
-            ack_service.request.image = cv_bridge::toCvCopy(img_message, sensor_msgs::image_encodings::BGR8);;
+            cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(img_message, sensor_msgs::image_encodings::BGR8);;
+            ack_service.request.image = cv_ptr;
             if (service_client.call(ack_service))
             {
                 ROS_INFO("Received number: %d", ack_service.response.number);
