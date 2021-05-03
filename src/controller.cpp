@@ -26,7 +26,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
+            std::map<sensor_msgs::Image, imagineer::Number> storage;
             imagineer::ImageAck ack_service; 
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
@@ -59,9 +59,11 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         inline void add_to_map(const imagineer::Number& digit, const sensor_msgs::ImageConstPtr& image, 
-                            std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage)
+                            std::map<sensor_msgs::Image, imagineer::Number>& storage)
         {
-            storage.insert(std::pair<sensor_msgs::ImageConstPtr, imagineer::Number>(digit, image));
+            sensor_msgs::Image ai_message;
+            saved_image = *image;
+            storage.insert(std::pair<sensor_msgs::Image, imagineer::Number>(digit, image));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
@@ -71,7 +73,7 @@ class Controller
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
                     const imagineer::Number& digit,
-                    std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
+                    std::map<sensor_msgs::Image, imagineer::Number>& storage,
                     imagineer::ImageAck ack_service)
                     //ros::ServiceClient service_client)
         {
