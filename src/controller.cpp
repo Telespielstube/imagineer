@@ -28,7 +28,7 @@ class Controller
             int_subscriber.subscribe(node, "camera/integer", 1); 
             std::map<imagineer::Number, sensor_msgs::ImageConstPtr> storage;
             imagineer::ImageAck ack_service; 
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, 3, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -58,12 +58,10 @@ class Controller
         * @int_message
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
-        inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message, 
-                            const imagineer::Number int_message, 
-                            std::map<sensor_msgs::ImageConstPtr, 
-                            imagineer::Number>& storage)
+        inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message, const imagineer::Number int_message, 
+                            std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage)
         {
-            storage.insert(std::pair<sensor_msgs::ImageConstPtr, imagineer::Number>(image_message, int_message));
+            storage.insert(std::pair<imagineer::Number, sensor_msgs::ImageConstPtr>(int_message, image_message));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
