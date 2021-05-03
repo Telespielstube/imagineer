@@ -26,9 +26,9 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            std::unordered_map<sensor_msgs::Image, imagineer::Number> storage;
+            std::unordered_map<sensor_msgs::Image, imagineer::Number> map;
             imagineer::ImageAck ack_service; 
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, map, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -56,29 +56,29 @@ class Controller
         /* adds the subscribed messages as key value pairs to a map.
         * @image_message    contains the image received from the subcribed camera/image topic   
         * @int_message
-        * @storage          map<> data structure to save the messages from the topics as key value pairs.
+        * @map          map<> data structure to save the messages from the topics as key value pairs.
         */
         void add_to_map(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image, 
-                            std::unordered_map<sensor_msgs::Image, imagineer::Number>& storage)
+                            std::unordered_map<sensor_msgs::Image, imagineer::Number>& map)
         {
             sensor_msgs::Image saved_image = *image;
-            storage[saved_image] = digit;
+            map[saved_image] = digit;
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
         * @image_message    contains the image received from the subcribed camera/image topic   
         * @int_message
-        * @storage          map<> data structure to save the messages from the topics as key value pairs.
+        * @map          map<> data structure to save the messages from the topics as key value pairs.
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
                     const imagineer::Number& digit,
-                    std::unordered_map<sensor_msgs::Image, imagineer::Number>& storage,
+                    std::unordered_map<sensor_msgs::Image, imagineer::Number>& map,
                     imagineer::ImageAck& ack_service)
                     //ros::ServiceClient service_client)
         {
             try
             {
-                //add_to_map(digit, image, storage);
+                //add_to_map(digit, image, map);
                 ROS_INFO("Int and image are saved");
                 send_image(image, service_client, ack_service);
             }
