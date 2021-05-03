@@ -7,7 +7,7 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
-#include "imagineer/Number.h"
+#include "imagineer/Number.msg"
 #include "imagineer/ImageAck.h"
 
 

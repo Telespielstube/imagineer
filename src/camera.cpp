@@ -3,7 +3,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
-#include "imagineer.msg/Number.h"
+#include "imagineer.msg/Number.msg"
 
 /* Callback function which is called when the node rerceives a new message from subscrribed topics.
 * @image_message    contains the image received from the subcribed camera/image topic   
