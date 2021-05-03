@@ -17,7 +17,7 @@ class Controller
 
         ros::NodeHandle node;
         imagineer::ImageAck ack_service;
-        std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
+        std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
@@ -63,7 +63,7 @@ class Controller
                             std::map<sensor_msgs::ImageConstPtr, 
                             imagineer::Number>& storage)
         {
-            storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message));
+            storage.insert(std::pair<sensor_msgs::ImageConstPtr, imagineer::Number>(image_message, int_message));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
