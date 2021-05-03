@@ -78,7 +78,7 @@ class Controller
         {
             try
             {
-                //add_to_map(digit, image, map);
+                add_to_map(digit, image, map);
                 ROS_INFO("Int and image are saved");
                 send_image(image, service_client, ack_service);
             }
