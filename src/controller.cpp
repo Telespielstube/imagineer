@@ -39,7 +39,7 @@ inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message,
     storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message));
 }
 
-/* Callback function which is called when the node rerceives a new message from subscrribed topics.
+/* Callback function which is called when the node receives a new message from subscribed topics.
 * @image_message    contains the image received from the subcribed camera/image topic   
 * @int_message
 * @storage          map<> data structure to save the messages from the topics as key value pairs.
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     message_filters::Subscriber<sensor_msgs::Image> img_subscriber(node, "processor/image", 1);
     message_filters::Subscriber<std_msgs::Int32> int_subscriber(node, "camera/integer", 1); 
     message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync(img_subscriber, int_subscriber, 2); 
-    sync.registerCallback(boost::bind(&callback, 1, 2, 3)(storage, ack_service, service_client); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+    sync.registerCallback(boost::bind(callback, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
     
     ros::spin();
 }
