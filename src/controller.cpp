@@ -21,7 +21,7 @@ class Controller
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<std_msgs::Int32> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync;
-        
+
         Controller() : sync(img_subscriber, int_subscriber, 1)
         {
             ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
@@ -40,7 +40,7 @@ class Controller
                     imagineer::ImageAck ack_service)
         {
             
-            ack_service.request.image = img_message.toImageMsg();
+            ack_service.request.image = cv_bridge::toCvCopy(img_message, sensor_msgs::image_encodings::BGR8);;
             if (service_client.call(ack_service))
             {
                 ROS_INFO("Received number: %d", ack_service.response.number);
