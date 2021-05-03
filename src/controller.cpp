@@ -61,7 +61,7 @@ class Controller
         inline void add_to_map(const imagineer::Number& digit, const sensor_msgs::ImageConstPtr& image, 
                             std::map<sensor_msgs::Image, imagineer::Number>& storage)
         {
-            sensor_msgs::Image ai_message;
+            sensor_msgs::Image saved_image;
             saved_image = *image;
             storage.insert(std::pair<sensor_msgs::Image, imagineer::Number>(digit, image));
         }
