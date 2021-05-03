@@ -28,7 +28,7 @@ class Controller
             int_subscriber.subscribe(node, "camera/integer", 1); 
             std::map<imagineer::Number, sensor_msgs::ImageConstPtr> storage;
             imagineer::ImageAck ack_service; 
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, _4, _5, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
