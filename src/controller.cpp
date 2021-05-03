@@ -58,12 +58,12 @@ class Controller
         * @int_message
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
-        inline void add_to_map(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image, 
-                            std::map<sensor_msgs::Image, imagineer::Number>& storage)
-        {
-            sensor_msgs::Image saved_image = *image;
-            storage.insert(std::pair<const sensor_msgs::Image, const imagineer::Number>(saved_image, digit));
-        }
+        // inline void add_to_map(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image, 
+        //                     std::map<sensor_msgs::Image, imagineer::Number>& storage)
+        // {
+        //     sensor_msgs::Image saved_image = *image;
+        //     storage.insert(std::pair<const sensor_msgs::Image, const imagineer::Number>(saved_image, digit));
+        // }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
         * @image_message    contains the image received from the subcribed camera/image topic   
@@ -78,7 +78,7 @@ class Controller
         {
             try
             {
-                add_to_map(digit, image, storage);
+                //add_to_map(digit, image, storage);
                 ROS_INFO("Int and image are saved");
                 send_image(image, service_client, ack_service);
             }
