@@ -86,8 +86,7 @@ class Controller
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<std_msgs::Int32> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync;
-
-}
+};
 
 /* Entry point for the software program.
 * @argc    command line passed argument count and that the number of parameters passed
