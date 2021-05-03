@@ -16,20 +16,19 @@ class Controller
     public:
 
         ros::NodeHandle node;
-        
+        ros::ServiceClient service_client;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
 
         Controller() : sync(img_subscriber, int_subscriber, 1)
         {
-            ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
-            imagineer::ImageAck ack_service;
-            std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
+            service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
-            int_subscriber.subscribe(node, "camera/integer", 1);  
-            
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            int_subscriber.subscribe(node, "camera/integer", 1); 
+            std::map<imagineer::Number, sensor_msgs::ImageConstPtr> storage;
+            imagineer::ImageAck ack_service; 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, 3, storage, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -73,11 +72,10 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
-                    const imagineer::Number& number, 
-                    //std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
-                    //imagineer::ImageAck ack_service,
+                    const imagineer::Number& number,
+                    std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
+                    imagineer::ImageAck ack_service)
                     //ros::ServiceClient service_client)
-                    )
         {
             try
             {
