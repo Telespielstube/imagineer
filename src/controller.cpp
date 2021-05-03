@@ -58,11 +58,11 @@ class Controller
         * @int_message
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
-        inline void add_to_map(imagineer::Number& digit, sensor_msgs::ImageConstPtr& image, 
+        inline void add_to_map(const imagineer::Number& digit, const sensor_msgs::ImageConstPtr& image, 
                             std::map<sensor_msgs::Image, imagineer::Number>& storage)
         {
             sensor_msgs::Image saved_image = *image;
-            storage.insert(std::pair<sensor_msgs::Image, imagineer::Number>(saved_image, digit));
+            storage.insert(std::pair<const sensor_msgs::Image, const imagineer::Number>(saved_image, digit));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
