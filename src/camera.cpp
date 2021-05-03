@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     header.stamp = ros::Time::now();
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
     std_msgs::Int32 int_message;
-    
+    ros::message_traits::TimeStamp<std_msgs::Int32> int_message;
     ros::Rate loop_rate(1);
     int_message.data = 2;
 

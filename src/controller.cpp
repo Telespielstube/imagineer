@@ -27,7 +27,7 @@ class Controller
             ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1);  
-            ros::message_traits::HasHeader<int_subscriber>;
+            
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
