@@ -28,7 +28,7 @@ class Controller
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1);  
             
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, _4, _5, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
