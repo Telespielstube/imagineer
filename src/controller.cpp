@@ -7,7 +7,7 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
-#include <std_msgs/Int32.h>
+#include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
 
 
@@ -19,8 +19,8 @@ class Controller
         imagineer::ImageAck ack_service;
         std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
-        message_filters::Subscriber<std_msgs::Int32> int_subscriber;
-        message_filters::TimeSynchronizer<sensor_msgs::Image, std_msgs::Int32> sync;
+        message_filters::Subscriber<imagineer::Number> int_subscriber;
+        message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
 
         Controller() : sync(img_subscriber, int_subscriber, 1)
         {
@@ -59,9 +59,9 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         inline void add_to_map(const sensor_msgs::ImageConstPtr& image_message, 
-                            const std_msgs::Int32 int_message, 
+                            const imagineer::Number int_message, 
                             std::map<sensor_msgs::ImageConstPtr, 
-                            std_msgs::Int32>& storage)
+                            imagineer::Number>& storage)
         {
             storage.insert(std::pair<sensor_msgs::ImageConstPtr, std_msgs::Int32>(image_message, int_message));
         }
@@ -72,8 +72,8 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
-                    const std_msgs::Int32& number, 
-                    std::map<sensor_msgs::ImageConstPtr, std_msgs::Int32>& storage,
+                    const imagineer::Number& number, 
+                    std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
                     imagineer::ImageAck ack_service,
                     ros::ServiceClient service_client)
         {

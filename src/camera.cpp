@@ -3,6 +3,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
+#include "imagineer.msg/Number.h"
 
 /* Callback function which is called when the node rerceives a new message from subscrribed topics.
 * @image_message    contains the image received from the subcribed camera/image topic   
@@ -21,8 +22,9 @@ int main(int argc, char** argv)
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     std_msgs::Header header;
     header.stamp = ros::Time::now();
-    sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
-    std_msgs::Int32 int_message;
+    sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
+    
+    imagineer::Number int_message;
     int_message.header.stamp = ros::Time::now();
     ros::Rate loop_rate(1);
     int_message.data = 2;
