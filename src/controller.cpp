@@ -59,7 +59,7 @@ class Controller
         * @storage          map<> data structure to save the messages from the topics as key value pairs.
         */
         inline void add_to_map(const imagineer::Number& int_message, const sensor_msgs::ImageConstPtr& image_message, 
-                            std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage)
+                            std::map<imagineer::Number, sensor_msgs::ImageConstPtr>& storage)
         {
             storage.insert(std::pair<imagineer::Number, sensor_msgs::ImageConstPtr>(int_message, image_message));
         }
