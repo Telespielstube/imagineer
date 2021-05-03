@@ -16,7 +16,6 @@ class Controller
     public:
 
         ros::NodeHandle node;
-        imagineer::ImageAck ack_service;
         std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
@@ -25,10 +24,11 @@ class Controller
         Controller() : sync(img_subscriber, int_subscriber, 1)
         {
             ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
+            imagineer::ImageAck ack_service;
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1);  
             
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, _3, _4, _5, storage, ack_service, service_client)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(callback); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -73,9 +73,9 @@ class Controller
         */
         void callback(const sensor_msgs::ImageConstPtr& image, 
                     const imagineer::Number& number, 
-                    std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
-                    imagineer::ImageAck ack_service,
-                    ros::ServiceClient service_client)
+                    //std::map<sensor_msgs::ImageConstPtr, imagineer::Number>& storage,
+                    //imagineer::ImageAck ack_service,
+                    //ros::ServiceClient service_client)
         {
             try
             {
