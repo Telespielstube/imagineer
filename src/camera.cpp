@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     imagineer::Number int_message;
     int_message.header.stamp = ros::Time::now();
     ros::Rate loop_rate(1);
-    int_message.data = 2;
+    int_message.number = 2;
 
     // as long as the node is running send the image and integer messages.
     while (node.ok()) 
