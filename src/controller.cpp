@@ -16,7 +16,7 @@ class Controller
     public:
 
         ros::NodeHandle node;
-        std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
+        
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
@@ -25,6 +25,7 @@ class Controller
         {
             ros::ServiceClient service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             imagineer::ImageAck ack_service;
+            std::map<sensor_msgs::ImageConstPtr, imagineer::Number> storage;
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1);  
             
