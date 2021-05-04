@@ -15,18 +15,16 @@ class NumberAndPicture
 {
     public:
         NumberAndPicture(); // default constructor
-
         NumberAndPicture(imagineer::Number digit, sensor_msgs::Image image)
         {
-            int num = digit;
-            sensor_msgs::Image image = image;
+            imagineer::Number num = digit;
+            sensor_msgs::Image img = image;
         }
 };
 
 class Controller
 {
     public:
-
         ros::NodeHandle node;
         ros::ServiceClient service_client;
         std::vector<NumberAndPicture> storage;
