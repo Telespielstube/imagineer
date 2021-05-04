@@ -23,8 +23,8 @@ class NumberAndPicture
 
         NumberAndPicture& operator= (const NumberAndPicture &other)
         {
-            this.num = other.num;
-            this.img = other.img;
+            num = other.num;
+            img = other.img;
         }
     private:
         imagineer::Number num;
