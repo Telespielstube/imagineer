@@ -48,8 +48,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            
-            imagineer::ImageAck ack_service; 
+           // imagineer::ImageAck ack_service; 
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
@@ -58,20 +57,19 @@ class Controller
         * @service_client    Service object.
         * @ack_service       Service message object.
         */
-        void send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
-        {     
-            sensor_msgs::Image ai_message;
-            ai_message = *image; // passes ImageConstPtr to sensor_msg format
-            ack_service.request.image = ai_message;
-            if (service_client.call(ack_service))
-            {
-                ROS_INFO("Received number: %d", ack_service.response.number);
-            }
-            else
-            {
-                ROS_ERROR("Something went wrong no number received!");
-            }
-        }
+        // void send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
+        // {     
+        //     sensor_msgs::Image ai_message = *image; // passes ImageConstPtr to sensor_msg format
+        //     ack_service.request.image = ai_message;
+        //     if (service_client.call(ack_service))
+        //     {
+        //         ROS_INFO("Received number: %d", ack_service.response.number);
+        //     }
+        //     else
+        //     {
+        //         ROS_ERROR("Something went wrong no number received!");
+        //     }
+        // }
 
         /* adds the subscribed messages as key value pairs to a map.
         * @image_message    contains the image received from the subcribed camera/image topic   
@@ -95,7 +93,26 @@ class Controller
             {
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
-                send_image(image, ack_service);
+                //send_image(image, ack_service);
+                
+
+
+                imagineer::ImageAck ack_service; 
+                sensor_msgs::Image ai_message = *image; // converts ImageConstPtr to sensor_msg format
+                ack_service.request.image = ai_message;
+                if (service_client.call(ack_service))
+                {
+                    ROS_INFO("Received number: %d", ack_service.response.number);
+                }
+                else
+                {
+                    ROS_ERROR("Something went wrong no number received!");
+                }
+
+
+
+
+
             }
             catch (cv_bridge::Exception& e)
             {
