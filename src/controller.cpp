@@ -17,9 +17,19 @@ class NumberAndPicture
         NumberAndPicture(); // default constructor
         NumberAndPicture(imagineer::Number digit, sensor_msgs::Image image)
         {
-            imagineer::Number num = digit;
-            sensor_msgs::Image img = image;
+            num = digit;
+            img = image;
         }
+
+        NumberAndPicture& operator= (const NumberAndPicture &other)
+        {
+            this.num = other.num;
+            this.img = other.img;
+        }
+    private:
+        imagineer::Number num;
+        sensor_msgs::Image img;
+
 };
 
 class Controller
