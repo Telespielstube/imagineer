@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <iterator>
 #include <iostream>
-#include <unordered_map>
+#include <vector>
 #include <cv_bridge/cv_bridge.h>
 #include <boost/bind.hpp>
 #include <message_filters/subscriber.h>
@@ -11,12 +11,25 @@
 #include "imagineer/ImageAck.h"
 
 
+class NumberAndPicture
+{
+    public:
+        NumberAndPicture(); // default constructor
+
+        NumberAndPicture(imagineer::Number digit, sensor_msgs::Image image)
+        {
+            int num = digit;
+            sensor_msgs::Image image = image;
+        }
+};
+
 class Controller
 {
     public:
 
         ros::NodeHandle node;
         ros::ServiceClient service_client;
+        std::vector<NumberAndPicture> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
@@ -26,9 +39,9 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            std::unordered_map<sensor_msgs::Image, imagineer::Number> map;
+            storage = NumberAndPicture();
             imagineer::ImageAck ack_service; 
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2, map, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -36,9 +49,7 @@ class Controller
         * @service_client    Service object.
         * @ack_service       Service message object.
         */
-        void send_image(const sensor_msgs::ImageConstPtr& image, 
-                    ros::ServiceClient service_client,
-                    imagineer::ImageAck ack_service)
+        void send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
         {     
             sensor_msgs::Image ai_message;
             ai_message = *image; // passes ImageConstPtr to sensor_msg format
@@ -58,11 +69,10 @@ class Controller
         * @int_message
         * @map          map<> data structure to save the messages from the topics as key value pairs.
         */
-        void add_to_map(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image, 
-                            std::unordered_map<sensor_msgs::Image, imagineer::Number>& map)
+        void add_to_list(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image)
         {
             sensor_msgs::Image saved_image = *image;
-            map[saved_image] = digit;
+            storage.push_back(NumberAndPicture(digit, image));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
@@ -70,17 +80,13 @@ class Controller
         * @int_message
         * @map          map<> data structure to save the messages from the topics as key value pairs.
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, 
-                    const imagineer::Number& digit,
-                    std::unordered_map<sensor_msgs::Image, imagineer::Number>& map,
-                    imagineer::ImageAck& ack_service)
-                    //ros::ServiceClient service_client)
+        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit, imagineer::ImageAck& ack_service)
         {
             try
             {
-                add_to_map(digit, image, map);
+                add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
-                send_image(image, service_client, ack_service);
+                send_image(image, ack_service);
             }
             catch (cv_bridge::Exception& e)
             {
