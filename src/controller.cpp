@@ -48,7 +48,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            storage = NumberAndPicture();
+            
             imagineer::ImageAck ack_service; 
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, ack_service)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
