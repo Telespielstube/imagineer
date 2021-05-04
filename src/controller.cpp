@@ -14,7 +14,7 @@
 class NumberAndPicture
 {
     public:
-        NumberAndPicture(); // default constructor
+        NumberAndPicture() {} // default constructor
         NumberAndPicture(const imagineer::Number digit, sensor_msgs::Image image)
         {
             num = digit;
@@ -25,6 +25,7 @@ class NumberAndPicture
         {
             num = other.num;
             img = other.img;
+            return *this;
         }
     private:
         imagineer::Number num;
