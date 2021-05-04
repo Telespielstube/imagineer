@@ -43,7 +43,7 @@ class Controller
         message_filters::Subscriber<imagineer::Number> int_subscriber;
        // message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
 
-        Controller() : sync(img_subscriber, int_subscriber, 1)
+        Controller() //: sync(img_subscriber, int_subscriber, 1)
         {
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
