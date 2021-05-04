@@ -92,6 +92,7 @@ class Controller
         {
             try
             {
+                imagineer::ImageAck ack_service;
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
                 send_image(image, ack_service);
