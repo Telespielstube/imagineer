@@ -20,13 +20,14 @@ class NumberAndPicture
             num = digit;
             img = image;
         }
-
+        
         NumberAndPicture& operator= (const NumberAndPicture &other)
         {
             num = other.num;
             img = other.img;
             return *this;
         }
+
     private:
         imagineer::Number num;
         sensor_msgs::Image img;
@@ -48,9 +49,8 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-           // imagineer::ImageAck ack_service; 
             message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 1);
-            sync.registerCallback(boost::bind(&Controller::callback, _1, _2)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
+            sync.registerCallback(boost::bind(&Controller::callback)); // boost::bind() allows to pass arguments to a callback. E.g. a map<int, string> 
         }
 
         /* Sends the image as servide message to the neural network node.
