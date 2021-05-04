@@ -89,7 +89,7 @@ class Controller
         * @int_message
         * @map          map<> data structure to save the messages from the topics as key value pairs.
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
+        void callback(sensor_msgs::ImageConstPtr& image, imagineer::Number& digit)
         {
             try
             {
