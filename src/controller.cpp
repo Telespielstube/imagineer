@@ -15,7 +15,7 @@ class NumberAndPicture
 {
     public:
         NumberAndPicture(); // default constructor
-        NumberAndPicture(const imagineer::Number& digit, const sensor_msgs::Image& image)
+        NumberAndPicture(const imagineer::Number digit, sensor_msgs::Image image)
         {
             num = digit;
             img = image;
@@ -80,7 +80,7 @@ class Controller
         void add_to_list(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image)
         {
             sensor_msgs::Image saved_image = *image;
-            storage.push_back(NumberAndPicture(digit, image));
+            storage.push_back(NumberAndPicture(digit, saved_image));
         }
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
