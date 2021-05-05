@@ -45,10 +45,11 @@ class Controller
         {
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
+            cv::namedWindow("view");
             sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10));
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             sync->registerCallback(&Controller::callback, this); // boost::bind() allows to pass arguments to a callback.  
-            ROS_INFO("Setup controller");
+            ROS_INFO("Controller is running");
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -87,6 +88,8 @@ class Controller
         {
             try
             {
+                cv::imshow("view", processed_image);
+                cv::waitKey(30);
                 imagineer::ImageAck ack_service;
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
@@ -119,5 +122,6 @@ int main(int argc, char **argv)
     Controller controller;
 
     ros::spin();
+    cv::destroyWindow("view");
 }
 

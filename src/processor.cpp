@@ -26,9 +26,7 @@ void callback(const sensor_msgs::ImageConstPtr& message)
     try
     {
         cv::Mat processed_image = process_image(original_msg);
-
-        cv::imshow("view", processed_image);
-        cv::waitKey(30);
+        ROS_INFO("Image is processed.");
     }
     catch (cv_bridge::Exception& e)
     {
@@ -46,12 +44,8 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "processor");
     ROS_INFO("Processor node is running");
     ros::NodeHandle node;
-    cv::namedWindow("view");
-
     image_transport::ImageTransport transport(node);
     image_transport::Publisher publisher = transport.advertise("processor/image", 1);
-    image_transport::Subscriber subscriber = transport.subscribe("camera/image", 1, callback);
 
     ros::spin();
-    cv::destroyWindow("view");
 }

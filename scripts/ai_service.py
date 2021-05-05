@@ -2,14 +2,14 @@ from __future__ import print_function
 import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from image_recognizer.srv import ImageAck, ImageAckResponse
+from imagineer.srv import ImageAck, ImageAckResponse
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request):
     print('Got image')
     number = '2'
-    return ImageAckResponse(number))
+    return ImageAckResponse(number)
 
 # Function to handle all the basics like initializing node, receiving images through cv_bridge.
 def main():
