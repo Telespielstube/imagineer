@@ -47,7 +47,7 @@ class Controller
         {
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
-            int_subscriber.subscribe(node, "camera/integer", 1); 
+            int_subscriber.subscribe(node, "processor/Image", 1); 
             sync_.reset(new Sync(MySyncPolicy(10), img_subscriber, int_subscriber));
             //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
             sync_->registerCallback(boost::bind(&Controller::callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
@@ -85,14 +85,14 @@ class Controller
         * @image    contains the image received from the subcribed camera/image topic.   
         * @digit    contains the number received from the subcribed camera/integer topic.   
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
+        void callback(const sensor_msgs::ImageConstPtr& image, const sensor_msgs::ImageConstPtr& image)
         {
             try
             {
-                imagineer::ImageAck ack_service;
-                add_to_list(digit, image);
+                //imagineer::ImageAck ack_service;
+                //add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
-                send_image(image, ack_service);
+                //send_image(image, ack_service);
             }
             catch (cv_bridge::Exception& e)
             {
