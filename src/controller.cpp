@@ -7,7 +7,6 @@
 //#include <message_filters/time_synchronizer.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
-#include <message_filters/tim.h>
 #include <sensor_msgs/Image.h>
 #include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
