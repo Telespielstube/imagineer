@@ -9,7 +9,7 @@ set(Boost_DIR /usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/)
 find_package(
     catkin REQUIRED COMPONENTS
     OpenCV REQUIRED	
-    Boost REQUIRED 
+    Boost REQUIRED COMPONENTS bind
     cv_bridge
     image_transport
     message_filters
