@@ -104,7 +104,7 @@ class Controller
         std::vector<NumberAndPicture> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
-        typedef sync_policies::ApproximateTime<sensor_msgs::Image, imagineer::Number> MySyncPolicy;
+        typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, imagineer::Number> MySyncPolicy;
         typedef message_filters::Synchronizer<MySyncPolicy> Sync;
         boost::shared_ptr<Sync> sync_;
         //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
