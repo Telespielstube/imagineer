@@ -88,12 +88,13 @@ class Controller
         {
             try
             {
-                cv::imshow("view", processed_image);
+                cv::imshow("view", image);
                 cv::waitKey(30);
                 imagineer::ImageAck ack_service;
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
                 send_image(image, ack_service);
+                ROS_INFO("Image sent")
             }
             catch (cv_bridge::Exception& e)
             {
