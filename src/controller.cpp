@@ -21,9 +21,9 @@ class NumberAndPicture
             img = image;
         }
         
-        /* Copy constructor accepts a reference to an object of the same type and creates a copy of the object.
-        * @other
-        * @return
+        /* operator overloading function which takes argument &other and copies it to a memeber variable.
+        * @other        reference to a parameter to be copied to a member variable .
+        * @return       object reference.
         */ 
         NumberAndPicture& operator= (const NumberAndPicture &other)
         {
@@ -46,7 +46,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            sync.registerCallback(boost::bind(&Controller::callback, boost::shared_ptr< imagineer::Number&> digit, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
+            sync_->registerCallback(boost::bind(&Controller::callback , _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -103,6 +103,7 @@ class Controller
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
+        boost::shared_ptr<sync> sync_;
 };
 
 /* Entry point for the software program.
