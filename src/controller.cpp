@@ -48,6 +48,7 @@ class Controller
             sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10));
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             sync->registerCallback(&Controller::callback, this); // boost::bind() allows to pass arguments to a callback.  
+            ROS_INFO("Setup controller");
         }
 
         /* Sends the image as servide message to the neural network node.
