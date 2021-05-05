@@ -52,7 +52,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            sync.registerCallback(boost::bind(&Controller::callback, this)); // boost::bind() allows to pass arguments to a callback.  
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -87,7 +87,7 @@ class Controller
         * @image    contains the image received from the subcribed camera/image topic.   
         * @digit    contains the number received from the subcribed camera/integer topic.   
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, imagineer::Number& digit)
+        static void callback(const sensor_msgs::ImageConstPtr& image, imagineer::Number& digit)
         {
             try
             {
