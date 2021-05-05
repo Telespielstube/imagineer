@@ -46,8 +46,9 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
-            sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
+            sync_.reset(new Sync(MySyncPolicy(10), sub_1_, sub_2_));
+            //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
+            sync_->registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -103,6 +104,9 @@ class Controller
         std::vector<NumberAndPicture> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
+        typedef sync_policies::ApproximateTime<sensor_msgs::Image, imagineer::Number> MySyncPolicy;
+        typedef message_filters::Synchronizer<MySyncPolicy> Sync;
+        boost::shared_ptr<Sync> sync_;
         //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
 };
 
