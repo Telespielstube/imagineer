@@ -18,13 +18,13 @@ int main(int argc, char** argv)
 
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
-    ros::Publisher int_publisher = node.advertise<imagineer::Number::Int32>("camera/integer", 1);
+    ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     std_msgs::Header header;
     header.stamp = ros::Time::now();
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
     ROS_INFO("CV image message - created");
-    int32 int_message;
+    int int_message;
     int_message.header.stamp = ros::Time::now();
     ros::Rate loop_rate(1);
     int_message.digit = 2;
