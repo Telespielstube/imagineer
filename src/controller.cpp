@@ -46,6 +46,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
+            message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
             sync.registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
@@ -102,7 +103,7 @@ class Controller
         std::vector<NumberAndPicture> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
-        message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
+        //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
 };
 
 /* Entry point for the software program.
