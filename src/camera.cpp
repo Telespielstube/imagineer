@@ -17,12 +17,19 @@ int main(int argc, char** argv)
     ros::NodeHandle node;
 
     image_transport::ImageTransport transport(node);
+    ROS_INFO("Camera node transport");
+
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
+    ROS_INFO("Camera node image_publisher");
+
     ros::Publisher int_publisher = node.advertise<std_msgs::Int32>("camera/integer", 1);
+        ROS_INFO("Camera node int_publisher");
+
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
+        ROS_INFO("Camera node imread");
+
     std_msgs::Header header;
     header.stamp = ros::Time::now();
-    ROS_INFO("CV image message - creating");
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
     ROS_INFO("CV image message - created");
     imagineer::Number int_message;
