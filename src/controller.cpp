@@ -114,6 +114,8 @@ class Controller
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "controller");
+    ROS_INFO("Controller::main");
+
     Controller controller;
 
     ros::spin();
