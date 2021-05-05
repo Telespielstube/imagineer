@@ -46,7 +46,7 @@ class Controller
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            sync_.reset(new Sync(MySyncPolicy(10), sub_1_, sub_2_));
+            sync_.reset(new Sync(MySyncPolicy(10), img_subscriber, int_subscriber));
             //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
             sync_->registerCallback(boost::bind(&Controller::callback, this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
