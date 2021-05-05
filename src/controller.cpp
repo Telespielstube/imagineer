@@ -4,9 +4,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <boost/bind.hpp>
 #include <message_filters/subscriber.h>
-//#include <message_filters/time_synchronizer.h>
-#include <message_filters/synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
 #include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
@@ -43,14 +41,13 @@ class Controller
 {
     public:
         
-        Controller() //: sync(img_subscriber, int_subscriber, 10)
+        Controller() : sync(img_subscriber, int_subscriber, 10)
         {
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
-            int_subscriber.subscribe(node, "processor/Image", 1); 
+            int_subscriber.subscribe(node, "camera/integer", 1); 
             sync_.reset(new Sync(MySyncPolicy(10), img_subscriber, int_subscriber));
-            //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
-            sync_->registerCallback(boost::bind(&Controller::callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
+            sync.registerCallback(boost::bind(&Controller::callback, this, _1)); // boost::bind() allows to pass arguments to a callback.  
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -85,14 +82,14 @@ class Controller
         * @image    contains the image received from the subcribed camera/image topic.   
         * @digit    contains the number received from the subcribed camera/integer topic.   
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, const sensor_msgs::ImageConstPtr& image2)
+        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
         {
             try
             {
-                //imagineer::ImageAck ack_service;
-                //add_to_list(digit, image);
+                imagineer::ImageAck ack_service;
+                add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
-                //send_image(image, ack_service);
+                send_image(image, ack_service);
             }
             catch (cv_bridge::Exception& e)
             {
@@ -106,10 +103,7 @@ class Controller
         std::vector<NumberAndPicture> storage;
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
-        typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, imagineer::Number> MySyncPolicy;
-        typedef message_filters::Synchronizer<MySyncPolicy> Sync;
-        boost::shared_ptr<Sync> sync_;
-        //message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync(img_subscriber, int_subscriber, 10);
+        message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
 };
 
 /* Entry point for the software program.
