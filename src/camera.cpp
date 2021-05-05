@@ -22,7 +22,9 @@ int main(int argc, char** argv)
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     std_msgs::Header header;
     header.stamp = ros::Time::now();
+    ROS_INFO("CV image message - creating");
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
+    ROS_INFO("CV image message - created");
     imagineer::Number int_message;
     int_message.header.stamp = ros::Time::now();
     ros::Rate loop_rate(1);
