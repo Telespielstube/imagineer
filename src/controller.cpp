@@ -87,7 +87,7 @@ class Controller
         * @image    contains the image received from the subcribed camera/image topic.   
         * @digit    contains the number received from the subcribed camera/integer topic.   
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
+        void callback(sensor_msgs::ImageConstPtr& image, imagineer::Number& digit)
         {
             try
             {
