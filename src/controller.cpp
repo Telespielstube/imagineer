@@ -40,19 +40,13 @@ class NumberAndPicture
 class Controller
 {
     public:
-        ros::NodeHandle node;
-        ros::ServiceClient service_client;
-        std::vector<NumberAndPicture> storage;
-        message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
-        message_filters::Subscriber<imagineer::Number> int_subscriber;
-        message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
         
         Controller() : sync(img_subscriber, int_subscriber, 10)
         {
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            sync.registerCallback(boost::bind(callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
+            sync->registerCallback(boost::bind(&Controller::callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
         /* Sends the image as servide message to the neural network node.
@@ -87,7 +81,7 @@ class Controller
         * @image    contains the image received from the subcribed camera/image topic.   
         * @digit    contains the number received from the subcribed camera/integer topic.   
         */
-        void callback(const sensor_msgs::ImageConstPtr& image, imagineer::Number& digit)
+        void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
         {
             try
             {
@@ -101,6 +95,14 @@ class Controller
                 ROS_ERROR("Error: %s", e.what());
             }
         }
+    
+    private:
+        ros::NodeHandle node;
+        ros::ServiceClient service_client;
+        std::vector<NumberAndPicture> storage;
+        message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
+        message_filters::Subscriber<imagineer::Number> int_subscriber;
+        message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
 };
 
 /* Entry point for the software program.
