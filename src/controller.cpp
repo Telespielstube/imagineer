@@ -49,6 +49,15 @@ class Controller
             sync.registerCallback(boost::bind(&Controller::callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
 
+        Controller(const Controller& other){
+            node = other.node;
+        service_client = other.service_client;
+        storage = other.storage;
+        img_subscriber = other.img_subscriber; 
+        int_subscriber = other.int_subscriber;
+        sync = other.sync
+        }
+
         /* Sends the image as servide message to the neural network node.
         * @image             message to be send to the neural network node.
         * @ack_service       Service message object.
