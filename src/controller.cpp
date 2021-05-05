@@ -56,7 +56,7 @@ class Controller
         storage = other.storage;
         img_subscriber = other.img_subscriber; 
         int_subscriber = other.int_subscriber;
-        sync = other.sync
+        sync = other.sync;
         }
 
         /* Sends the image as servide message to the neural network node.
