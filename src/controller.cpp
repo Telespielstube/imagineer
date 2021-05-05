@@ -43,13 +43,13 @@ class Controller
         
         Controller() 
         {
-            sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10)
+            sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10);
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck");
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
             sync->registerCallback(boost::bind(&Controller::callback, *this, _1, _2)); // boost::bind() allows to pass arguments to a callback.  
         }
-        
+
         /* Sends the image as servide message to the neural network node.
         * @image             message to be send to the neural network node.
         * @ack_service       Service message object.
