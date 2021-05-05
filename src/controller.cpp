@@ -8,7 +8,7 @@
 #include <sensor_msgs/Image.h>
 #include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
-
+#include <opencv2/highgui/highgui.hpp>
 
 class NumberAndPicture
 {
