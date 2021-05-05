@@ -94,7 +94,7 @@ class Controller
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
                 send_image(image, ack_service);
-                ROS_INFO("Image sent")
+                ROS_INFO("Image sent");
             }
             catch (cv_bridge::Exception& e)
             {
