@@ -8,7 +8,7 @@ from image_recognizer.srv import ImageAck, ImageAckResponse
 # @image    the received image. 
 def callback(request):
     print('Got image')
-    number = '1'
+    number = '2'
     return ImageAckResponse(number))
 
 # Function to handle all the basics like initializing node, receiving images through cv_bridge.
