@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     header.stamp = ros::Time::now();
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
     ROS_INFO("CV image message - created");
-    int int_message;
+    imagineer::Number int_message;
     int_message.header.stamp = ros::Time::now();
     ros::Rate loop_rate(1);
     int_message.digit = 2;
