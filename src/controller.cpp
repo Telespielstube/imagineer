@@ -103,7 +103,7 @@ class Controller
         message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
         message_filters::Subscriber<imagineer::Number> int_subscriber;
         message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number> sync;
-        boost::shared_ptr<imagineer::Number> sync_;
+        boost::shared_ptr<Controller> sync_;
 };
 
 /* Entry point for the software program.
