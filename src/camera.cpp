@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ROS_INFO("Camera node image_publisher");
 
-    ros::Publisher int_publisher = node.advertise<std_msgs::Int32>("camera/integer", 1);
+    ros::Publisher int_publisher = node.advertise<imagineer::Number::Int32>("camera/integer", 1);
         ROS_INFO("Camera node int_publisher");
 
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
