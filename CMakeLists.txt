@@ -10,7 +10,6 @@ find_package(
     catkin REQUIRED COMPONENTS
     OpenCV REQUIRED	
     Boost 
-    filesystem
     cv_bridge
     image_transport
     message_filters
