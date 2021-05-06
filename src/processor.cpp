@@ -34,7 +34,7 @@ class Processor
             try
             {
                 cv::Mat processed_image = process_image(img_message);
-                publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg(););
+                publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg());
                 ROS_INFO("Image is published.");
             }
             catch (cv_bridge::Exception& e)
