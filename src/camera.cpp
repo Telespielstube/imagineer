@@ -43,7 +43,7 @@ std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<std::stri
 }
 
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
-                    std::unordered_map<char, sensor_msgs::ImagePtr> message_list)
+                    std::unordered_map<std::string, sensor_msgs::ImagePtr> message_list)
 {
     ros::Rate loop(50);
     while (node.ok()) 
