@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     
         img_publisher.publish(img_message);
         int_publisher.publish(int_message);
-        ROS_INFO("Image and integer sent.")
+        ROS_INFO("Image and integer sent.");
         ros::spinOnce();
         loop.sleep();
     }
