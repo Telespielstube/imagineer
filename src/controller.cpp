@@ -88,8 +88,7 @@ class Controller
         {
             try
             {
-                cv::Mat original_msg = cv_bridge::toCvCopy(image)->image;
-                cv::imshow("view", original_msg);
+                cv::imshow("view", cv_bridge::toCvCopy(image)->image);
                 cv::waitKey(30);
                 imagineer::ImageAck ack_service;
                 add_to_list(digit, image);
