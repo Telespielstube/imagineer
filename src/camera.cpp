@@ -36,10 +36,10 @@ std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<char**> i
     for (cv::Mat img : sensor_msgs::ImagePtr)
     {
         char filename = image_files.substr(0, 1);
-        cv::Mat image = cv::imread(image_dir, cv::IMREAD_COLOR);
+        cv::Mat image = cv::imread(image_files, cv::IMREAD_COLOR);
         message_to_publish.insert(filename, cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg();   
     }
-    return message_to_Publish;
+    return message_to_p ublish;
 }
 
 void publish_message(image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
