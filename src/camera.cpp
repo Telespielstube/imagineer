@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     std_msgs::Header header;
     imagineer::Number int_message;
     int_message.header.stamp = ros::Time::now();  
-    ROS_INFO(int_message.header.stamp);
+    ROS_INFO("%s", int_message.header.stamp);
     int_message.digit = 2;
 
     ros::Rate loop(10);
