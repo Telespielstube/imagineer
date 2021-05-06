@@ -18,10 +18,10 @@
 std::vector<std::string> get_folder_content(std::string path)
 {
     std::vector<std::string> files;
-    std::filesystem::directory_iterator path_iterator(path);
-    for (const auto& img_file : path_iterator)
+    std::experimental::filesystem::directory_iterator path_iterator(path);
+    for (const auto& entry : path_iterator)
     {
-        files.push_back(img_file.path().string());
+        files.push_back(entry.path().string());
     }
     return files;
 }
