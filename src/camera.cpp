@@ -81,6 +81,6 @@ int main(int argc, char** argv)
     
     
     std::vector<std::string> directory_files = get_folder_content(argv[1]);
-    std:unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
+    std::unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(img_publisher, int_publisher, message_list);
 }
