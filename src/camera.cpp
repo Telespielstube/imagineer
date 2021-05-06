@@ -2,7 +2,6 @@
 #include <vector>
 #include <unordered_map>
 #include <filesystem>
-#include <sstream>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
@@ -35,7 +34,7 @@ std::unordered_map<int, sensor_msgs::ImagePtr> read_image(std::vector<std::strin
     //fills the unordered map with filename as key and image as value sensor_msgs.  
     for (std::string entry : image_files)
     {
-        filename = (int)entry.substr(16, 17);
+        filename = std::stoi(entry.substr(16, 17));
 
         cv::Mat image = cv::imread(_file, cv::IMREAD_COLOR);
         message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
@@ -81,7 +80,7 @@ int main(int argc, char** argv)
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     
-    std::string path(std::string(argv[1]));
+    std::string path = argv[1];
     std::vector<std::string> directory_files = get_folder_content(path);
     std::unordered_map<int, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(node, img_publisher, int_publisher, message_list);
