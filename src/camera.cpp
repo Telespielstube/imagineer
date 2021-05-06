@@ -52,7 +52,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
         {
             for (auto entry : message_list)
             {
-                int_publisher.publish(entry.first);
+                int_publisher.publish((int)entry.first);
                 img_publisher.publish(entry.second);
             }    
         }
@@ -80,6 +80,6 @@ int main(int argc, char** argv)
     
     std::string path(std::string(argv[1]));
     std::vector<std::string> directory_files = get_folder_content(path);
-    std::unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
+    std::unordered_map<std::string, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(node, img_publisher, int_publisher, message_list);
 }
