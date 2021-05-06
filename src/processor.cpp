@@ -10,6 +10,7 @@ class Processor
     public:
         Processor()
         {
+            ros::NodeHandle node;
             image_transport::ImageTransport transport(node);
             subscriber = transport.subscribe("camera/image", 1, callback);
             publisher = transport.advertise("processor/image", 1);
@@ -45,7 +46,7 @@ class Processor
         }
 
     private:
-        ros::NodeHandle node;
+        
         image_transport::Subscriber subscriber;
         image_transport::Publisher publisher;
 
