@@ -10,6 +10,7 @@ class Processor
     public:
         Processor()
         {
+            image_transport::ImageTransport transport(node);
             subscriber = transport.subscribe("camera/image", 1, callback);
             publisher = transport.advertise("processor/image", 1);
         }
@@ -45,7 +46,6 @@ class Processor
 
     private:
         ros::NodeHandle node;
-        image_transport::ImageTransport transport(node);
         image_transport::Subscriber subscriber;
         image_transport::Publisher publisher;
 
@@ -60,5 +60,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "processor");
     ROS_INFO("Processor node is running");
     
+    Processor processor;
+
     ros::spin();
 }
