@@ -27,17 +27,16 @@ int main(int argc, char** argv)
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
     std_msgs::Header header;
-    imagineer::Number int_message;
-    //int_message.header.stamp = ros::Time::now();  
+    imagineer::Number int_message; 
     int_message.digit = 2;
 
-    ros::Rate loop(10);
+    ros::Rate loop(20);
     // as long as the node is running send the image and integer messages.
     while (node.ok()) 
     {
         img_publisher.publish(img_message);
         int_publisher.publish(int_message);
-        ROS_INFO("Image and integer sent.");
+
         ros::spinOnce();
         loop.sleep();
     }

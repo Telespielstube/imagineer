@@ -30,13 +30,10 @@ class Processor
         */
         void callback(const sensor_msgs::ImageConstPtr& message)
         {
-            ROS_INFO("Image rerceived.");
-            cv::Mat img_message = cv_bridge::toCvCopy(message)->image; // Converts the cv_bridge back to a ros image.
             try
             {
-                cv::Mat processed_image = process_image(img_message);
+                cv::Mat processed_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
                 publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg());
-                // publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg());
                 ROS_INFO("Image is published from processor node.");
             }
             catch (cv_bridge::Exception& e)
