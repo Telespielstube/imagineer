@@ -2,6 +2,7 @@
 #include <iterator>
 #include <vector>
 #include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
 #include <message_filters/subscriber.h>
 #include <boost/bind.hpp>
 #include <message_filters/time_synchronizer.h>
@@ -44,7 +45,7 @@ class Controller
         */ 
         Controller() 
         {
-            img_subscriber.subscribe(node, "processor/image", 1);
+            img_subscriber.subscribe(node, "camera/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
             cv::namedWindow("view");
             sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10));
@@ -86,6 +87,7 @@ class Controller
         */
         void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
         {
+            ROS_INFO("Image received");
             try
             {
                 cv::imshow("view", cv_bridge::toCvCopy(image)->image);
