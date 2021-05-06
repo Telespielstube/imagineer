@@ -19,10 +19,9 @@ std::vector<std::string> get_folder_content(char** path)
 {
     std::vector<std::string> files;
     const std::string _path(std::string(path));
-    const std::string img_file;
-    for (const auto &img_file : std::filesystem::directory_iterator(_path))
+    for (const std::string img_file : std::filesystem::directory_iterator(_path))
     {
-        files.push_back(file);
+        files.push_back(img_file);
     }
     return files;
 }
