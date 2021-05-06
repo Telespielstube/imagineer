@@ -26,7 +26,9 @@ int main(int argc, char** argv)
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
-    imagineer::Number int_message;  
+    std_msgs::Header header;
+    imagineer::Number int_message;
+    int_message.header.stamp = ros::Time::now();  
     int_message.digit = 2;
 
     ros::Rate loop(10);
