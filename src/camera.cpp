@@ -37,7 +37,7 @@ std::unordered_map<int, sensor_msgs::ImagePtr> read_image(std::vector<std::strin
         filename = std::stoi(entry.substr(16, 17));
 
         cv::Mat image = cv::imread(entry, cv::IMREAD_COLOR);
-        message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
+        message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg(); // adds filename as key and cv_bridge Image as value  
     }
     return message_to_publish;
 }
