@@ -62,5 +62,6 @@ target_link_libraries(processor ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} )
 add_dependencies(processor imagineer_generate_messages_cpp)
 
 add_executable(controller src/controller/main.cpp)
+add_executable(controller src/controller/controller.cpp)
 target_link_libraries(controller ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} )
 add_dependencies(controller imagineer_generate_messages_cpp)
