@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <vector>
 #include <unordered_map>
-#include <fstream>
+#include <filesystem>
 #include <sstream>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -15,7 +15,7 @@
     
 // };
 
-std::vector<std::string> get_folder_content(std::string path)
+std::vector<std::string> get_folder_content(const std::string path)
 {
     std::vector<std::string> files;
     // const std::string _path(std::string(path));
@@ -51,7 +51,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     {
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
-            for (cv::Mat image : messagel_list->second)
+            for (cv::Mat image : message_list->second)
             {
                 int_publisher.publish((int)message_list->first));
                 img_publisher.publish(message_list->second);
