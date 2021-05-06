@@ -2,7 +2,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
@@ -19,7 +19,7 @@ std::vector<std::string> get_folder_content(char** path)
 {
     std::vector<std::string> files;
     const std::string _path(std::string(path));
-    std::filesystem::directory_iterator path_iterator(_path);
+    std::experimental::filesystem::directory_iterator path_iterator(_path);
     for (const std::string img_file : path_iterstor)
     {
         files.push_back(img_file);
