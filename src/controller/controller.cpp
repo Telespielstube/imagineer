@@ -4,7 +4,7 @@
 * @image             message to be send to the neural network node.
 * @ack_service       Service message object.
 */
-void Contrroller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
+void Controller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
 {     
     sensor_msgs::Image ai_message = *image; // passes ImageConstPtr to sensor_msg format
     ack_service.request.image = ai_message;
