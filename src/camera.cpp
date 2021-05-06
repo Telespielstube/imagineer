@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <vector>
 #include <unordered_map>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
@@ -17,7 +17,7 @@
 std::vector<std::string> get_folder_content(std::string path)
 {
     std::vector<std::string> files;
-    std::filesystem::directory_iterator path_iterator(path);
+    std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& entry : path_iterator)
     {
         files.push_back(entry.path().string());
