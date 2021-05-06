@@ -29,17 +29,18 @@ std::vector<std::string> get_folder_content(char** path)
 
 /* Reads the content of the given file and saves content and filename as unorrdered map.
 */
-std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<char**> image_files)
+std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
 {
-    std::unordered_map<char, sensor_msgs::ImagePtr> = message_to_publish;
-    //fills the unordered map with filename as key and image as value sensor_msgs.
-    for (cv::Mat img : sensor_msgs::ImagePtr)
+    std::unordered_map<char, sensor_msgs::ImagePtr> message_to_publish;
+    std::string filename = "";
+    //fills the unordered map with filename as key and image as value sensor_msgs.  
+    for (const std::string _file : image_files)
     {
-        char filename = image_files.substr(0, 1);
-        cv::Mat image = cv::imread(image_files, cv::IMREAD_COLOR);
+        filename = _file.substr(0, 1);
+        cv::Mat image = cv::imread(_file, cv::IMREAD_COLOR);
         message_to_publish.insert(filename, cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg();   
     }
-    return message_to_p ublish;
+    return message_to_publish;
 }
 
 void publish_message(image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
@@ -77,23 +78,9 @@ int main(int argc, char** argv)
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
+    
+    
     std::vector<std::string> directory_files = get_folder_content(argv[1]);
     std:unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(img_publisher, int_publisher, message_list);
- 
-    // as long as the node is running and at least one node
-    // subscribes to the two topics the camera node sends both messages.
-    // while (node.ok()) 
-    // {
-    //     if (img_publisher.getNumSubscriber() > 0 && int_publisher.getNumSubscriber() > 0)
-    //     {
-    //         img_publisher.publish(img_message);
-    //         int_publisher.publish(int_message);
-    //     }
-    //     else{ 
-    //         continue;
-    //     }
-    //     ros::spinOnce();
-    //     loop.sleep();
-    // }
 }
