@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include "controller.h"
 
 /* Entry point for the software program.
 * @argc    command line passed argument count and that the number of parameters passed
