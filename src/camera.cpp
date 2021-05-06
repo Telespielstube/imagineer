@@ -48,7 +48,7 @@ void publish_message(image_transport::Publisher img_publisher, ros::Publisher in
     ros::Rate loop(50);
     while (node.ok()) 
     {
-        if (img_publisher.getNumSubscriber() > 0 && int_publisher.getNumSubscriber() > 0)
+        if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
             for (image : image_list)
             {
