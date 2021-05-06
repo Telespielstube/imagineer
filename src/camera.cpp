@@ -14,6 +14,10 @@
     
 // };
 
+/* Reads all available files from the directory.
+* @path    Path to directory as an argument from the command line.
+* @return  list of all files.
+*/
 std::vector<std::string> get_folder_content(std::string path)
 {
     std::vector<std::string> files;
@@ -26,6 +30,8 @@ std::vector<std::string> get_folder_content(std::string path)
 }
 
 /* Reads the content of the given file and saves content and filename as unorrdered map.
+* @image_files    a list of all files from the given command line path.
+* @return         a (key, value) data structure that hold the filename(key) and the image(value).
 */
 std::unordered_map<int, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
 {
@@ -42,6 +48,12 @@ std::unordered_map<int, sensor_msgs::ImagePtr> read_image(std::vector<std::strin
     return message_to_publish;
 }
 
+/* Publishes the key, value pair as std_msgs and imagineer::Number messages to all subscribers.
+* @node            Node object.
+* @img_publisher   image transport publisher object.
+* @int_message     integer publisher object.
+# @message_list    a (key, value) data structure that hold the filename(key) and the image(value).
+*/
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     std::unordered_map<int, sensor_msgs::ImagePtr> message_list)
 {
@@ -67,6 +79,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     }
     
 }
+
 /* Entry point for the software program.
 * @argc    command line passed argument count and that the number of parameters passed
 * @argv    command line passed argument values. This contains the images passed from the command line 
