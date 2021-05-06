@@ -28,7 +28,7 @@ std::vector<std::string> get_folder_content(std::string path)
 
 /* Reads the content of the given file and saves content and filename as unorrdered map.
 */
-std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
+std::unordered_map<std::string, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
 {
     std::unordered_map<std::string, sensor_msgs::ImagePtr> message_to_publish;
     std::string filename = "";
