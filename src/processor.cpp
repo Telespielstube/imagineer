@@ -49,7 +49,7 @@ class Procesor
 
     private:
         image_transport::Subscriber subscriber;
-        image_transport::Publisher publisher
+        image_transport::Publisher publisher;
 
 };
 /* Callback function which is called when the node rerceives a new message from subscrribed topics.
