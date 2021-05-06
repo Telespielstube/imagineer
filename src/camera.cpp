@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     int_message.header.stamp = ros::Time::now();  
     int_message.digit = 2;
 
-    ros::Rate loop(200);
+    ros::Rate loop(10);
     // as long as the node is running send the image and integer messages.
     while (node.ok()) 
     {
