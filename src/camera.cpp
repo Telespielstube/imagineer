@@ -30,13 +30,19 @@ int main(int argc, char** argv)
     imagineer::Number int_message; 
     int_message.digit = 2;
 
-    ros::Rate loop(20);
-    // as long as the node is running send the image and integer messages.
+    ros::Rate loop(50);
+    // as long as the node is running and at least one node
+    // subscribes to the two topics the camera node sends both messages.
     while (node.ok()) 
     {
-        img_publisher.publish(img_message);
-        int_publisher.publish(int_message);
-
+        if (img_publisher.getNumSubscriber() > 0 && int_publisher.getNumSubscriber() > 0)
+        {
+            img_publisher.publish(img_message);
+            int_publisher.publish(int_message);
+        }
+        else{ 
+            continue;
+        }
         ros::spinOnce();
         loop.sleep();
     }
