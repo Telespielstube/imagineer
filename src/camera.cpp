@@ -18,9 +18,9 @@
 std::vector<std::string> get_folder_content(char** path)
 {
     std::vector<std::string> files;
-    const std::string path(path);
-    const std::string file;
-    for (file : std::filesystem::directory_iterator(path))
+    const std::string _path(path);
+    const std::string img_file;
+    for (img_file : std::filesystem::directory_iterator(_path))
     {
         files.push_back(file);
     }
@@ -56,7 +56,8 @@ void publish_message(image_transport::Publisher img_publisher, ros::Publisher in
                 img_publisher.publish(message_list->second);
             }    
         }
-        else{ 
+        else
+        { 
             continue;
         }
         ros::spinOnce();
