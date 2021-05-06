@@ -51,7 +51,7 @@ void publish_message(image_transport::Publisher img_publisher, ros::Publisher in
     {
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
-            for (image : image_list)
+            for (image : messagel_list->second)
             {
                 int_publisher.publish((int)message_list->first));
                 img_publisher.publish(message_list->second);
