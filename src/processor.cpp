@@ -34,10 +34,10 @@ class Procesor
         */
         void callback(const sensor_msgs::ImageConstPtr& message)
         {
-            cv::Mat original_msg = cv_bridge::toCvCopy(message)->image; // Converts the cv_bridge back to a ros image.
+            cv::Mat img_message = cv_bridge::toCvCopy(message)->image; // Converts the cv_bridge back to a ros image.
             try
             {
-                cv::Mat processed_image = process_image(original_msg);
+                cv::Mat processed_image = process_image(img_message);
                 publisher.publish(img_message);
                 ROS_INFO("Image is published.");
             }
