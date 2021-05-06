@@ -40,6 +40,6 @@ int main(int argc, char** argv)
         img_publisher.publish(img_message);
         int_publisher.publish(int_message);
         ros::spinOnce();
-        loop_rate.sleep();
+        loop.sleep();
     }
 }
