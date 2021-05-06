@@ -15,11 +15,11 @@
     
 // };
 
-std::vector<std::string> get_folder_content(char** path)
+std::vector<std::string> get_folder_content(std::string path)
 {
     std::vector<std::string> files;
-    const std::string _path(std::string(path));
-    std::experimental::filesystem::directory_iterator path_iterator(_path);
+    // const std::string _path(std::string(path));
+    std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& img_file : path_iterator)
     {
         files.push_back(img_file.path().string());
@@ -51,7 +51,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     {
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
-            for (image : messagel_list->second)
+            for (cv::Mat image : messagel_list->second)
             {
                 int_publisher.publish((int)message_list->first));
                 img_publisher.publish(message_list->second);
@@ -79,7 +79,8 @@ int main(int argc, char** argv)
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     
-    std::vector<std::string> directory_files = get_folder_content(argv[1]);
+    const std::string path(std::string(argv[1]));
+    std::vector<std::string> directory_files = get_folder_content(path);
     std::unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(node, img_publisher, int_publisher, message_list);
 }
