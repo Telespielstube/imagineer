@@ -10,7 +10,7 @@ class Processor
     public:
         Processor() : transport(node)
         {
-            subscriber = transport.subscribe("camera/image", 1, &Processor::callback);
+            subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
             publisher = transport.advertise("processor/image", 1);
         }
 
