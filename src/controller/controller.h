@@ -2,13 +2,13 @@
 #include <iterator>
 #include <vector>
 #include <cv_bridge/cv_bridge.h>
-#include <boost/bind.hpp>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
+#include <opencv2/highgui/highgui.hpp>
 #include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
-#include <opencv2/highgui/highgui.hpp>
+#include "number_and_picture.h"
 
 class Controller
 {
