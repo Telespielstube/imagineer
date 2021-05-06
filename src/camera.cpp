@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
-    sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
+    sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(Header(), "bgr8", image).toImageMsg();
     imagineer::Number int_message;  
     int_message.digit = 2;
 
