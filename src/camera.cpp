@@ -28,24 +28,25 @@ std::vector<std::string> get_folder_content(std::string path)
 
 /* Reads the content of the given file and saves content and filename as unorrdered map.
 */
-std::unordered_map<imagineer::Number, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
+std::unordered_map<int, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
 {
-    std::unordered_map<imagineer::Number, sensor_msgs::ImagePtr> message_to_publish;
-    imagineer::Number filename;
+    std::unordered_map<int, sensor_msgs::ImagePtr> message_to_publish;
+    int filename = 0;
     //fills the unordered map with filename as key and image as value sensor_msgs.  
     for (std::string _file : image_files)
     {
         filename = _file.substr(16, 17);
 
         cv::Mat image = cv::imread(_file, cv::IMREAD_COLOR);
-        message_to_publish[filename.digit] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
+        message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
     }
     return message_to_publish;
 }
 
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
-                    std::unordered_map<imagineer::Number, sensor_msgs::ImagePtr> message_list)
+                    std::unordered_map<int, sensor_msgs::ImagePtr> message_list)
 {
+    imagineerr::Number message;
     ros::Rate loop(50);
     while (node.ok()) 
     {
@@ -53,8 +54,8 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
         {
             for (auto entry : message_list)
             {
-                
-                int_publisher.publish(entry.first);
+                message = entry.first;
+                int_publisher.publish(message.digit);
                 img_publisher.publish(entry.second);
             }    
         }
@@ -82,6 +83,6 @@ int main(int argc, char** argv)
     
     std::string path(std::string(argv[1]));
     std::vector<std::string> directory_files = get_folder_content(path);
-    std::unordered_map<imagineer::Number, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
+    std::unordered_map<int, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
     publish_message(node, img_publisher, int_publisher, message_list);
 }
