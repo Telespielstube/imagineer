@@ -5,15 +5,11 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-
-
-class Procesor
+class Processor
 {
     public:
         Processor()
         {
-            ros::NodeHandle node;
-            image_transport::ImageTransport transport(node);
             subscriber = transport.subscribe("camera/image", 1, callback);
             publisher = transport.advertise("processor/image", 1);
         }
@@ -48,6 +44,8 @@ class Procesor
         }
 
     private:
+        ros::NodeHandle node;
+        image_transport::ImageTransport transport(node);
         image_transport::Subscriber subscriber;
         image_transport::Publisher publisher;
 
