@@ -50,9 +50,9 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     {
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
-            for (auto entry : message_list->second)
+            for (auto entry : message_list)
             {
-                int_publisher.publish(entry.first));
+                int_publisher.publish(entry.first);
                 img_publisher.publish(entry.second);
             }    
         }
