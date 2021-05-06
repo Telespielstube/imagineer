@@ -87,7 +87,7 @@ class Controller
         */
         void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
         {
-            ROS_INFO("Image  and number %d received", digit);
+            ROS_INFO("Image  and number  received", digit);
             try
             {
                 cv::imshow("view", cv_bridge::toCvCopy(image)->image);
