@@ -35,7 +35,7 @@ std::unordered_map<imagineer::Number, sensor_msgs::ImagePtr> read_image(std::vec
     //fills the unordered map with filename as key and image as value sensor_msgs.  
     for (std::string _file : image_files)
     {
-        filename = _file.substr(16, 17).digit;
+        filename = _file.substr(16, 17);
 
         cv::Mat image = cv::imread(_file, cv::IMREAD_COLOR);
         message_to_publish[filename.digit] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
