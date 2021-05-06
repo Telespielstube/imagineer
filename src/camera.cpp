@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include <filesystem>
 #include <image_transport/image_transport.h>
@@ -14,7 +15,7 @@
     
 // };
 
-std::vector<std::strirng> get_folder_content(char** path)
+std::vector<std::string> get_folder_content(char** path)
 {
     std::vector<char*> files;
     string path = path;
@@ -25,35 +26,23 @@ std::vector<std::strirng> get_folder_content(char** path)
     return files;
 }
 
-/* Reduces the filename to one character.
-* file_list    list of all files in the given direrctory.
-* filenames    one character long filename 
+/* Reads the content of the given file and saves content and filename as unorrdered map.
 */
-std::vector<std::string> get_filename(std::vector<charr**> file_list)
+std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<char**> image_files)
 {
-    std::vector<char> filenames;
-    for (file : file_list)
+    std:unordered_map<char, sensor_msgs::ImagePtr> = message_to_publish;
+    //fills the unordered map with filename and image as sensor_msgs.
+    for (cv::Mat img : sensor_msgs::ImagePtr)
     {
-        filenames.push_back(file.substr(0, 1);
-    }
-    return filenames;
-}
-
-/* Reads the content ideally image content of the given file.
-*/
-std::vector<cv::Mat> read_image(std::vector<char**> image_files)
-{
-    std::vector<cv::Mat> images;
-    for (cv::Mat img : img_files)
-    {
+        char filename = image_files.substr(0, 1);
         cv::Mat image = cv::imread(image_dir, cv::IMREAD_COLOR);
-        images.push_back(cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+        message_to_publish.insert(filename, cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg();   
     }
-    return images;
-    //sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+    return message_to_Publish;
 }
 
-void publish_message(std::vector<cv::Mat> image_list, std::vector<std::string> filename_list)
+void publish_message(image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
+                    std:unordered_map<char, sensor_msgs::ImagePtr> message_list)
 {
     ros::Rate loop(50);
     while (node.ok()) 
@@ -62,8 +51,8 @@ void publish_message(std::vector<cv::Mat> image_list, std::vector<std::string> f
         {
             for (image : image_list)
             {
-                img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg());
-                int_publisher.publish((int)filename_list));
+                int_publisher.publish((int)message_list->first));
+                img_publisher.publish(message_list->second);
             }    
         }
         else{ 
@@ -87,28 +76,22 @@ int main(int argc, char** argv)
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     std::vector<std::string> directory_files = get_folder_content(argv[1]);
-    std::vector<std::string> filenames = get_filename(directory_files); 
-    std::vector<cv::Mat> images = read_image(directory_files);
-    publish_message(filenames, images);
-    std_msgs::Header header;
-    imagineer::Number int_message; 
-    int_message.digit = 2;
-    publish_message(img_publisher, int_publisher )
-
-    
+    std:unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
+    publish_message(img_publisher, int_publisher, message_list);
+ 
     // as long as the node is running and at least one node
     // subscribes to the two topics the camera node sends both messages.
-    while (node.ok()) 
-    {
-        if (img_publisher.getNumSubscriber() > 0 && int_publisher.getNumSubscriber() > 0)
-        {
-            img_publisher.publish(img_message);
-            int_publisher.publish(int_message);
-        }
-        else{ 
-            continue;
-        }
-        ros::spinOnce();
-        loop.sleep();
-    }
+    // while (node.ok()) 
+    // {
+    //     if (img_publisher.getNumSubscriber() > 0 && int_publisher.getNumSubscriber() > 0)
+    //     {
+    //         img_publisher.publish(img_message);
+    //         int_publisher.publish(int_message);
+    //     }
+    //     else{ 
+    //         continue;
+    //     }
+    //     ros::spinOnce();
+    //     loop.sleep();
+    // }
 }
