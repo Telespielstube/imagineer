@@ -30,14 +30,14 @@ std::vector<std::string> get_folder_content(std::string path)
 */
 std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<std::string> image_files)
 {
-    std::unordered_map<char, sensor_msgs::ImagePtr> message_to_publish;
+    std::unordered_map<std::string, sensor_msgs::ImagePtr> message_to_publish;
     const std::string filename = "";
     //fills the unordered map with filename as key and image as value sensor_msgs.  
     for (const std::string _file : image_files)
     {
         filename = _file.substr(0, 1);
         cv::Mat image = cv::imread(_file, cv::IMREAD_COLOR);
-        message_to_publish.insert(filename, cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg();   
+        message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image)).toImageMsg(); // adds filename as key and cv_bridge Image as value  
     }
     return message_to_publish;
 }
@@ -50,10 +50,10 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     {
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
-            for (cv::Mat image : message_list->second)
+            for (auto entry : message_list->second)
             {
-                int_publisher.publish((int)message_list->first));
-                img_publisher.publish(message_list->second);
+                int_publisher.publish(entry.first));
+                img_publisher.publish(entry.second);
             }    
         }
         else
