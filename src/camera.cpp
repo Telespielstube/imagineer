@@ -42,8 +42,8 @@ std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<std::stri
     return message_to_publish;
 }
 
-void publish_message(image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
-                    std:unordered_map<char, sensor_msgs::ImagePtr> message_list)
+void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
+                    std::unordered_map<char, sensor_msgs::ImagePtr> message_list)
 {
     ros::Rate loop(50);
     while (node.ok()) 
@@ -80,5 +80,5 @@ int main(int argc, char** argv)
     
     std::vector<std::string> directory_files = get_folder_content(argv[1]);
     std::unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
-    publish_message(img_publisher, int_publisher, message_list);
+    publish_message(node, img_publisher, int_publisher, message_list);
 }
