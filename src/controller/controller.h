@@ -12,7 +12,9 @@
 
 class Controller
 {
-    public:     
+    public:    
+        /* Contructor
+        */ 
         Controller() 
         {
             img_subscriber.subscribe(node, "processor/image", 1);
@@ -25,7 +27,7 @@ class Controller
     
     /* Sends the saved image as service to the neural network engine.
     */
-    void Contrroller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service);
+    void send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service);
 
     /* adds the subscribed messages as key value pairs to a map.
     * @image_message    contains the image received from the subcribed camera/image topic   
@@ -37,7 +39,7 @@ class Controller
     * @image    contains the image received from the subcribed camera/image topic.   
     * @digit    contains the number received from the subcribed camera/integer topic.   
     */
-    void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit);
+    void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit);
 
     private:
         ros::NodeHandle node;
