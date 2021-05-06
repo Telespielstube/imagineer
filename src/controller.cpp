@@ -87,7 +87,7 @@ class Controller
         */
         void callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
         {
-            ROS_INFO("Image  and number  received");
+
             try
             {
                 cv::imshow("view", cv_bridge::toCvCopy(image)->image);
@@ -95,7 +95,7 @@ class Controller
                 imagineer::ImageAck ack_service;
                 add_to_list(digit, image);
                 ROS_INFO("Int and image are saved");
-                send_image(image, ack_service);
+               // send_image(image, ack_service);
                 ROS_INFO("Image sent");
             }
             catch (cv_bridge::Exception& e)

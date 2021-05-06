@@ -28,8 +28,7 @@ int main(int argc, char** argv)
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
     std_msgs::Header header;
     imagineer::Number int_message;
-    int_message.header.stamp = ros::Time::now();  
-    ROS_INFO("%s", int_message.header.stamp);
+    //int_message.header.stamp = ros::Time::now();  
     int_message.digit = 2;
 
     ros::Rate loop(10);
