@@ -20,7 +20,7 @@ std::vector<std::string> get_folder_content(char** path)
     std::vector<std::string> files;
     const std::string path = path;
     const std::string file;
-    for (file : directory_iterator(path))
+    for (file : std::filesystem::directory_iterator(path))
     {
         files.push_back(file);
     }
@@ -32,7 +32,7 @@ std::vector<std::string> get_folder_content(char** path)
 std::unordered_map<char, sensor_msgs::ImagePtr> read_image(std::vector<char**> image_files)
 {
     std:unordered_map<char, sensor_msgs::ImagePtr> = message_to_publish;
-    //fills the unordered map with filename and image as sensor_msgs.
+    //fills the unordered map with filename as key and image as value sensor_msgs.
     for (cv::Mat img : sensor_msgs::ImagePtr)
     {
         char filename = image_files.substr(0, 1);
