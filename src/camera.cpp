@@ -18,7 +18,7 @@
 std::vector<std::string> get_folder_content(char** path)
 {
     std::vector<std::string> files;
-    const std::string _path.assign(path);
+    const std::string _path(std::string(path));
     const std::string img_file;
     for (img_file : std::filesystem::directory_iterator(_path))
     {
@@ -78,7 +78,6 @@ int main(int argc, char** argv)
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
-    
     
     std::vector<std::string> directory_files = get_folder_content(argv[1]);
     std::unordered_map<char, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
