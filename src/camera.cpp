@@ -5,6 +5,11 @@
 #include <std_msgs/Int32.h>
 #include "imagineer/Number.h"
 
+// class Camera
+// {
+//     public:
+    
+// };
 /* Callback function which is called when the node rerceives a new message from subscrribed topics.
 * @image_message    contains the image received from the subcribed camera/image topic   
 * @int_message
@@ -23,12 +28,11 @@ int main(int argc, char** argv)
     std_msgs::Header header;
     header.stamp = ros::Time::now();
     sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(header, "bgr8", image).toImageMsg();
-    ROS_INFO("CV image message - created");
     imagineer::Number int_message;
-    int_message.header.stamp = ros::Time::now();
-    ros::Rate loop_rate(1);
+    int_message.header.stamp = ros::Time::now();  
     int_message.digit = 2;
 
+    ros::Rate loop(20);
     // as long as the node is running send the image and integer messages.
     while (node.ok()) 
     {
