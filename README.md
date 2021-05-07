@@ -8,8 +8,8 @@
 - [ROS introduction](#ros-introduction)
 
 ### Abrivations
-[ROS](#ros).................................................................................Robot Operationg System
-[RPC](#rpc).................................................................................Remote Procedcure Call
+[ROS](#ros) .................................................................................Robot Operationg System
+[RPC](#rpc) .................................................................................Remote Procedcure Call
 </br>
 </br>
 </br>
@@ -21,7 +21,7 @@ The application is distributed over several nodes, with each node taking on a sp
 </br>
 ### ROS introduction
 ROS  is an open-source operating system for robots.  It offers a framework, libraries and tools to program the lossperipherals for robots. The communication between the lossely coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure, RPC-like services and actions. 
-<\br>
+</br>
 ### 2. Implementation
 
 #### Roslaunch
