@@ -7,6 +7,11 @@
 - [Project description](#project-description)
 - [ROS introduction](#ros-introduction)
 - [Implementation](#implementation) 
+- [roslaunch](#roslaunch)
+- [Camera node](#camera-node)
+- [Processor node](#processor-node)
+- [Controller node](#controller-node)
+- [Neural network node](#neural-network-node)
 
 ### Abrivations
 [ROS](#ros) .................................................................................Robot Operationg System
@@ -71,6 +76,8 @@ void callback(const sensor_msgs::ImageConstPtr& message)
 ```      
 Finally, the photo is converted back to the ROS Image message format and published as grayscale to the controller node.
 
+#### Controller node
+The controller node subscribes to all two topics, stores them and publishes the image to the neural network node.
 
 
 
