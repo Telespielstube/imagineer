@@ -26,9 +26,8 @@ ROS  is an open-source operating system for robots.  It offers a framework, libr
 ## Implementation
 
 ### Nodes
-</br>
 
-#### Roslaunch
+#### roslaunch
 roslaunch is a tool which allows to defines a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple nodes. Each nodes integrated in the system is defined by a tag and attributes.
 ```xml 
 <launch>
@@ -36,7 +35,6 @@ roslaunch is a tool which allows to defines a set of rules how multiple ROS node
   ...
 </launch>
 ```
-</br>
 #### Camera node
 The camera node reads in all images in a folder and publishes them to all subscribing nodes.</br>
 The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as an ```std::unordered_map``` datan structure which stores data as key value pairs. The file name corresponds to the key and the associated image is assigned as a value.</br>
