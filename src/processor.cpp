@@ -20,9 +20,9 @@ class Processor
         cv::Mat process_image(cv::Mat& message)
         {
             cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
-            cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
-            cv::Mat processed_image = message;
-            return processed_image;
+            //cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
+            cv::Mat resized_image = message;
+            return resized_image;
         }
 
         /* Callback function which is called when the node rerceives a new message from subscrribed topics.
@@ -32,8 +32,8 @@ class Processor
         {
             try
             {
-                cv::Mat processed_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
-                publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg());
+                cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
+                publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
                 ROS_INFO("Image is published from processor node.");
             }
             catch (cv_bridge::Exception& e)
