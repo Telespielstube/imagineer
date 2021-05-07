@@ -2,7 +2,7 @@
 </br></br>
 
 ## Table of Content
-- [Abbrivations](#abbrrivations)
+- [Abbrivations](#abbrivations)
 - [Introduction](#introduction)
 - [Project description](#project-description)
 - [ROS introduction](#ros-introduction)
@@ -14,10 +14,10 @@ RPC.............................................................................
 </br>
 </br>
 ### Introduction
-This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. It describes the implementation of a ROS application, which processes a stream of images and makes use of a fully connected neural network as backend to predict handwritten digits on a piece of paper.
+This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. It describes the implementation of a (#ros) application, which processes a stream of images and makes use of a fully connected neural network as backend to predict handwritten digits on a piece of paper.
 </br>
 ### Project description
-The application is distributed over several nodes, with each node taking on a specific task, each node has a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The neural network node predicts the handwritten number depticted on the received image by requesting a trained neural network model.
+The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The neural network node predicts the handwritten number depticted on the received image by requesting a trained neural network model.
 </br>
 ### ROS introduction
 ROS  is an open-source operating system for robots.  It offers a framework, libraries and tools to program the lossperipherals for robots. The communication between the lossely coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure, RPC-like services and actions. 
