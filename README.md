@@ -32,12 +32,17 @@ roslaunch is a file in .xml format which defines a set of rules how multiple ROS
 ### Nodes
 #### Camera node
 The camera node reads in all images in a folder and publishes them to all subscribing nodes.</br>
-The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as an ```std::unordered_map``` datastrructure which storers data as key value pairs. The file name corresponds to the key and the associated image is assigned as a value.
-``` code example ```
-The publish function receives the key, value pairs and publishes the image. to a specific topic and the corrresponding filename to another topic.
+The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as an ```std::unordered_map``` datastrructure which storers data as key value pairs. The file name corresponds to the key and the associated image is assigned as a value.</br>
+``` code example ```</br>
+The publish function receives the key, value pairs and publishes the image to a specific topic and the corresponding filename to another topic.
 </br>
 #### Processor node
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
-After sucessfully initializing the node, the subscriber function is called and subscribes to the image topic. If an image is received the corresponding callback function is called.
-```cpp```
+After sucessfully initializing the node via the roslaunch file, the subscriber function is called and subscribes to the image topic. If an image is received, the corresponding callback function is called.</br>
+```cpp```</br>
+the ```process_image``` function call converts the received ROS image message to a manipulable OpenCV image format.  
+````c++
+process_image(cv_bridge::toCvCopy(message)->image);
+```
+
 
