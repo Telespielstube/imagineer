@@ -78,7 +78,7 @@ Finally, the photo is converted back to the ROS Image message format and publish
 
 #### Controller node
 The controller node subscribes to all two topics, stores them and publishes the image to the neural network node.
-After the node has been initialized, the controller subscribes to the number topic published by the camera node and the topic set up by the processor node. 
+After the node has been initialized, the controller object subscribes to the number topic published by the camera node and the topic set up by the processor node. Both topics get synchronized based on their set time stamp at publishing time. 
 
 ```c++
 controller.cpp
@@ -86,7 +86,10 @@ controller.cpp
 Controller() {
     img_subscriber.subscribe(node, "processor/image", 1);
     int_subscriber.subscribe(node, "camera/integer", 1); 
+    sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10));
+
 }
 ```
+As soon as both messages are received and syncronized the callback function is called.
 
 ## Sources
