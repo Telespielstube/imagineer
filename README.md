@@ -2,14 +2,14 @@
 </br></br>
 
 ## Table of Content
-[Introduction](#introduction)
+- [Introduction](#introduction)
 
 ## Abrivations
 ROS...............................................................Robot Operationg System
 RPC................................................................Remote Procedcure Call
 </br></br></br>
 
-<a name="introduction"/>
+
 ### 1. Introduction
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. It describes the implementation of a ROS application, which processes a video stream (the frames as images) and makes use of a fully connected neural network to predict handwritten digits.
 </br>
