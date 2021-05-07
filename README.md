@@ -8,7 +8,7 @@
 - [ROS introduction](#ros-introduction)
 
 ### Abrivations
-ROS<p align="center">Robot Operationg System</p>
+<p align="left">ROS</p><p align="right">Robot Operationg System</p>
 RPC.................................................................................Remote Procedcure Call
 </br>
 </br>
