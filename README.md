@@ -3,17 +3,20 @@
 
 ## Table of Content
 - [Introduction](#introduction)
+- [Project description](#project-description)
 
 ## Abrivations
 ROS...............................................................Robot Operationg System
 RPC................................................................Remote Procedcure Call
-</br></br></br>
+</br>
+</br>
+</br>
 
 
 ### Introduction
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. It describes the implementation of a ROS application, which processes a video stream (the frames as images) and makes use of a fully connected neural network to predict handwritten digits.
 </br>
-### 1.1.  Project description
+### Project description
 The application is distributed over several nodes, with each node taking on a specific task, each node has a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The neural network node predicts the handwritten number depticted on the received image by requesting a trained neural network model.
 </br>
 ### 1.2 ROS introduction
