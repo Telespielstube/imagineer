@@ -17,12 +17,9 @@ class Processor
         /* Does all the image processing like resizeing and grayscaling the original image.
         * @message    contains a reference to the original image.
         */
-        cv::Mat process_image(cv::Mat& message)
+        inline cv::Mat process_image(cv::Mat& message)
         {
-            cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
-            //cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
-            cv::Mat resized_image = message;
-            return resized_image;
+            return cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
         }
 
         /* Callback function which is called when the node rerceives a new message from subscrribed topics.
