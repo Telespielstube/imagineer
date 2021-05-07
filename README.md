@@ -78,14 +78,14 @@ Finally, the photo is converted back to the ROS Image message format and publish
 
 #### Controller node
 The controller node subscribes to all two topics, stores them and publishes the image to the neural network node.
+After the node has been initialized, the controller subscribes to the number topic published by the camera node and the topic set up by the processor node. 
 
+```c++
+controller.cpp
 
-
-
-
-
-
-
+img_subscriber.subscribe(node, "processor/image", 1);
+int_subscriber.subscribe(node, "camera/integer", 1); 
+```
 
 
 ## Sources
