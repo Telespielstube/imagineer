@@ -25,6 +25,8 @@ roslaunch is a file in .xml format which defines a set of rules how multiple ROS
 #### 2.1.1. Camera node
 The camera node reads in all images in a folder and publishes them to all subscribing nodes.
 The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. 
-All images are read in and stored in a the data structure ```std::unordered_map``` as a keys, value pairs. The file name is stored as key and the associated image is assigned to the value. 
+All images are read in and stored as an ```std::unordered_map``` datastrructure which storers data as keys value pairs. The file name corresponds to the key and the associated image is assigned as a value.
 ``` code example ```
 The publish function receives the key, value pairs and publishes the image. to a specific topic and the corrresponding filename to another topic.
+
+#### 2.1.2. Prrocessor node
