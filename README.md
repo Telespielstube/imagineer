@@ -83,9 +83,10 @@ After the node has been initialized, the controller subscribes to the number top
 ```c++
 controller.cpp
 
-img_subscriber.subscribe(node, "processor/image", 1);
-int_subscriber.subscribe(node, "camera/integer", 1); 
+Controller() {
+    img_subscriber.subscribe(node, "processor/image", 1);
+    int_subscriber.subscribe(node, "camera/integer", 1); 
+}
 ```
-
 
 ## Sources
