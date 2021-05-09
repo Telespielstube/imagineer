@@ -110,5 +110,5 @@ The service for requesting the predicted number is also initialized in the const
 ```c++
 storage.push_back(NumberAndPicture(digit, saved_image));
 ```
-Once the object has been saved, the image is sent as a service to the artificial intelligence node and the callback awaits the response from the requested node.
+Once the object has been saved, the image is sent as a service to the artificial intelligence node and the callback awaits the response from the requested service node.
 ## Sources
