@@ -38,7 +38,7 @@ ROS  is an open-source operating system for robots. It offers a framework, libra
 
 ### roslaunch
 roslaunch is a tool which allows to defines a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple nodes. Each nodes integrated in the system is defined by a tag and attributes.
-```
+```xml
 <launch>
   <node name="ai_service" pgk="imagineer" type="ai_service" />
   ...
