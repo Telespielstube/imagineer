@@ -2,7 +2,7 @@
 </br></br>
 
 ## Table of Content
-- [Abbrivations](#abbrivations)
+- [Abbrevations](#abbrevations)
 - [Introduction](#introduction)
 - [Project description](#project-description)
 - [ROS introduction](#ros-introduction)
@@ -14,7 +14,7 @@
 - [Controller node](#controller-node)
 - [Neural network node](#neural-network-node)
 
-### Abrivations
+### Abbrevations
 [ROS](#ros) .................................................................................Robot Operationg System
 [RPC](#rpc) ..................................................................................Remote Procedcure Call
 </br>
