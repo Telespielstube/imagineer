@@ -15,7 +15,7 @@
 - [Neural network node](#neural-network-node)
 
 ### Abbrevations
-[ROS](#ros) .................................................................................Robot Operationg System
+[ROS](#ros) .................................................................................Robot Operationg System</br>
 [RPC](#rpc) ..................................................................................Remote Procedcure Call
 </br>
 </br>
