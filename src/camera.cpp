@@ -21,7 +21,7 @@ class Image
     private:
         int name;
         cv::Mat img;
-}
+};
  
 /* Reads all available files from the directory.
 * @path    Path to directory as an argument from the command line.
@@ -105,6 +105,7 @@ int main(int argc, char** argv)
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
     ros::Rate loop(5000);
+
     while (node.ok)
     {    
         std::vector<std::string> image_file = pick_file(directory_files);
