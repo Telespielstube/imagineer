@@ -42,7 +42,7 @@ std::vector<std::string> get_files(std::string path)
 *  @files     list of all files in the given directory.
 *  @return    the randomly choosen file from the vector.
 */
-std::string<std::string> pick_file(std::vector<std::string> files)
+std::string pick_file(std::vector<std::string> files)
 {
     int random_file = 5 + (std::rand() % (9 -  + 1));
     std::string pick = "";
