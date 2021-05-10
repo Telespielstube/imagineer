@@ -14,7 +14,7 @@ class Image
         Image() {}
         Image(int filename, cv::Mat content) 
         {
-            name = filename;
+            number = filename;
             img = content;
         }
     
@@ -38,9 +38,13 @@ std::vector<std::string> get_files(std::string path)
     return file;
 }
 
+/* Function to pick a file from the files vector. This file gets published.
+*  @files     list of all files in the given directory.
+*  @return    the randomly choosen file from the vector.
+*/
 std::string<std::string> pick_file(std::vector<std::string> files)
 {
-    int random_file = 5 + (std::rand() % (9 - 0 + 1));
+    int random_file = 5 + (std::rand() % (9 -  + 1));
     std::string pick = "";
     for (entry : files)
     {
@@ -49,21 +53,18 @@ std::string<std::string> pick_file(std::vector<std::string> files)
     return pick;
 }
 
-/* Reads the content of the given file and saves content and filename as unorrdered map.
+/* Reads the content of the given file and saves content and filename as an unordered map.
 * @image_files    a list of all files from the given command line path.
 * @return         a (key, value) data structure that hold the filename(key) and the image(value).
 */
-Image read_image(std::vector<std::string> image_files)
+Image read_image(std::string image_file)
 {
     Image image_to_publish;
     int filename = 0;
-    //fills the unordered map with filename as key and image as value sensor_msgs.  
-    for (std::string entry : image_files)
-    {
-        filename = std::stoi(entry.substr(16, 17));
-        cv::Mat image = cv::imread(entry, cv::IMREAD_COLOR);
-        image_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg(); // adds filename as key and cv_bridge Image as value  
-    }
+    filename = std::stoi(entry.substr(16, 17));
+    cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
+    image_to_publish.number = filename;
+    image_to_publish.img = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();  
     return image_to_publish;
 }
 
@@ -106,8 +107,8 @@ int main(int argc, char** argv)
     ros::Rate loop(5000);
     while (node.ok)
     {    
-        std::vector<std::string> img_file = pick_file(directory_files);
-        Image image_to_publish = read_image(img_file);
+        std::vector<std::string> image_file = pick_file(directory_files);
+        Image image_to_publish = read_image(image_file);
         publish_message(node, img_publisher, int_publisher, image_to_publish);
         ros::spinOnce();
         loop.sleep();

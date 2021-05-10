@@ -51,20 +51,8 @@ ROS nodes communicate via the known publish subscrber model. Nodes publish conte
 A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply.
 
 ### Camera node
-The camera node reads in all images in a folder and publishes them to all subscribing nodes.</br>
-The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as an ```std::unordered_map``` datan structure which stores data as key value pairs. The file name corresponds to the key and the associated image is assigned as a value.</br>
+The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as ```std::vector``` entries. The file name corresponds to the key and the associated image is assigned as a value.</br>
 
-```cpp
-camera.cpp
-
-for (std::string entry : image_files)
-    {
-        filename = std::stoi(entry.substr(16, 17));
-        cv::Mat image = cv::imread(entry, cv::IMREAD_COLOR);
-        message_to_publish[filename] = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg(); // adds filename as key and cv_bridge Image as value  
-    }
-    return message_to_publish; 
-```
 
 The publish function receives the key, value pairs and publishes the color image to a specific topic and the corresponding filename to another topic.
 </br>
