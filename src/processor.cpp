@@ -19,7 +19,9 @@ class Processor
         */
         inline cv::Mat process_image(cv::Mat& message)
         {
-            return cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
+            cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
+            cv::Mat processed_image = message;
+            return processed_image;
         }
 
         /* Callback function which is called when the node rerceives a new message from subscrribed topics.
