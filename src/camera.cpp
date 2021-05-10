@@ -35,7 +35,7 @@ std::vector<std::string> get_files(std::string path)
     {
         files.push_back(entry.path().string());
     }
-    return file;
+    return files;
 }
 
 /* Function to pick a file from the files vector. This file gets published.
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 
     while (node.ok)
     {    
-        std::vector<std::string> image_file = pick_file(directory_files);
+        std::string image_file = pick_file(directory_files);
         Image image_to_publish = read_image(image_file);
         publish_message(node, img_publisher, int_publisher, image_to_publish);
         ros::spinOnce();
