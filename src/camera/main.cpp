@@ -7,6 +7,7 @@
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
 #include "imagineer/Number.h"
+#include "camera.h" 
 
 /* Entry point for the software program.
 * @argc    command line passed argument count and that the number of parameters passed
@@ -24,5 +25,5 @@ int main(int argc, char** argv)
     std::string path = argv[1];
     std::vector<std::string> directory_files = Camera::get_folder_content(path);
     std::unordered_map<int, sensor_msgs::ImagePtr> message_list = Camera::read_image(directory_files);
-    publish_message(node, img_publisher, int_publisher, message_list);
+    Camera::publish_message(node, img_publisher, int_publisher, message_list);
 }
