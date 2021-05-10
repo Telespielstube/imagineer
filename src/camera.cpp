@@ -19,7 +19,7 @@ class Image
         }
     
     private:
-        int name;
+        int number;
         cv::Mat img;
 };
  
@@ -46,7 +46,7 @@ std::string<std::string> pick_file(std::vector<std::string> files)
 {
     int random_file = 5 + (std::rand() % (9 -  + 1));
     std::string pick = "";
-    for (entry : files)
+    for (std::string entry : files)
     {
         pick = entry.at(random_file);
     }
@@ -61,7 +61,7 @@ Image read_image(std::string image_file)
 {
     Image image_to_publish;
     int filename = 0;
-    filename = std::stoi(entry.substr(16, 17));
+    filename = std::stoi(image_file.substr(16, 17));
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     image_to_publish.number = filename;
     image_to_publish.img = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();  
