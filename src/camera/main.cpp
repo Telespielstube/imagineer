@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
     
     std::string path = argv[1];
-    std::vector<std::string> directory_files = get_folder_content(path);
-    std::unordered_map<int, sensor_msgs::ImagePtr> message_list = read_image(directory_files);
+    std::vector<std::string> directory_files = Camera::get_folder_content(path);
+    std::unordered_map<int, sensor_msgs::ImagePtr> message_list = Camera::read_image(directory_files);
     publish_message(node, img_publisher, int_publisher, message_list);
 }

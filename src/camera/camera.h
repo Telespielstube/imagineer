@@ -48,8 +48,7 @@ class Camera
         ros::NodeHandle node;
         image_transport::ImageTransport transport;
         image_transport::Publisher img_publisher;
-        ros::Publisher int_publisher;
-        
+        ros::Publisher int_publisher;  
         std::string path;
         std::vector<std::string> directory_files;
         std::unordered_map<int, sensor_msgs::ImagePtr> message_list;
