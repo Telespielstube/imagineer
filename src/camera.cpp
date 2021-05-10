@@ -1,6 +1,5 @@
 #include <ros/ros.h>
 #include <vector>
-#include <unordered_map>
 #include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -28,7 +27,27 @@ class Image
             image = other.image;
             return *this;
         }
+        int get_name() 
+        {
+            return name;
+        }
 
+        void set_name(int integer)
+        {
+            name = integer;
+        }
+
+         int get_image() 
+        {
+            return image;
+        }
+
+        void set_image(cv::Mat img)
+        {
+            image = img;
+        }
+
+    private:
         int name;
         cv::Mat image;
 };
@@ -72,8 +91,8 @@ Image read_image(std::string image_file)
     Image message;
     int filename = std::stoi(image_file.substr(16, 17));
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
-    message.name = filename;
-    message.image = image;  
+    message.set_name(filename);
+    message.set_image(image);
     return message;
 }
 
@@ -87,9 +106,9 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
                     Image message_to_publish)
 {
         imagineer::Number message;
-        message.digit = message_to_publish.name;
+        message.digit = message_to_publish.get_name();
         int_publisher.publish(message.digit);
-        img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.image).toImageMsg());       
+        img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());       
     
 }
 
