@@ -77,17 +77,12 @@ Image read_image(std::string image_file)
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_list)
 {
-    if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
-    {
+    
         imagineer::Number message;
         message.digit = entry.first;
         int_publisher.publish(message);
         img_publisher.publish(entry.second);       
-    }
-    else
-    { 
-        continue;
-    }
+    
 }
 
 /* Entry point for the software program.
@@ -106,11 +101,18 @@ int main(int argc, char** argv)
     std::vector<std::string> directory_files = get_files(path);
     ros::Rate loop(5000);
 
-    while (node.ok)
+    while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
         Image image_to_publish = read_image(image_file);
-        publish_message(node, img_publisher, int_publisher, image_to_publish);
+        if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
+        {
+            publish_message(node, img_publisher, int_publisher, image_to_publish);
+        }
+        else
+        { 
+            continue;
+        }
         ros::spinOnce();
         loop.sleep();
     }
