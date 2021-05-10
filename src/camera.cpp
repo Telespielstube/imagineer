@@ -29,7 +29,7 @@ class Image
             return *this;
         }
 
-        int name;
+        const int name;
         cv::Mat image;
 };
  
