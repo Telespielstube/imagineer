@@ -75,13 +75,13 @@ Image read_image(std::string image_file)
 # @Image           Image object with filename and image as attributes.
 */
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
-                    Image message_list)
+                    Image message_to_publish)
 {
     
         imagineer::Number message;
-        message.digit = entry.first;
+        message.digit = message_to_publish.number;
         int_publisher.publish(message);
-        img_publisher.publish(entry.second);       
+        img_publisher.publish(message_to_publish.img);       
     
 }
 
