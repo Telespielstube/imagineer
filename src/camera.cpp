@@ -14,13 +14,24 @@ class Image
         Image() {}
         Image(int filename, cv::Mat content) 
         {
-            number = filename;
-            img = content;
+            name = filename;
+            image = content;
         }
-    
+        
+        /* operator overloading function which takes argument &other and copies it to a memeber variable.
+        * @other        reference to a parameter to be copied to a member variable .
+        * @return       object reference.
+        */ 
+        Image& operator= (const Image &other)
+        {
+            name = other.filename;
+            image = other.content;
+            return *this;
+        }
+
     private:
-        int number;
-        cv::Mat img;
+        int name;
+        cv::Mat image;
 };
  
 /* Reads all available files from the directory.
@@ -44,9 +55,9 @@ std::vector<std::string> get_files(std::string path)
 */
 std::string pick_file(std::vector<std::string> files)
 {
-    int random_file = 5 + (std::rand() % (9 -  + 1));
+    int random_file = 5 + (std::rand() % (9 - 1 + 2));
     std::string pick = "";
-    for (std::string entry : files)
+    for (const auto& entry : files)
     {
         pick = entry.at(random_file);
     }
@@ -55,17 +66,16 @@ std::string pick_file(std::vector<std::string> files)
 
 /* Reads the content of the given file and saves content and filename as an unordered map.
 * @image_files    a list of all files from the given command line path.
-* @return         a (key, value) data structure that hold the filename(key) and the image(value).
+* @return         an Image object that hold the filename and the image as attributes.
 */
 Image read_image(std::string image_file)
 {
-    Image image_to_publish;
-    int filename = 0;
-    filename = std::stoi(image_file.substr(16, 17));
+    Image message;
+    int filename = std::stoi(image_file.substr(16, 17));
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
-    image_to_publish.number = filename;
-    image_to_publish.img = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();  
-    return image_to_publish;
+    message.name = filename;
+    message.image = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();  
+    return message;
 }
 
 /* Publishes the key, value pair as std_msgs and imagineer::Number messages to all subscribers.
@@ -77,7 +87,6 @@ Image read_image(std::string image_file)
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)
 {
-    
         imagineer::Number message;
         message.digit = message_to_publish.number;
         int_publisher.publish(message);
