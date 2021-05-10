@@ -11,7 +11,7 @@ class Image
 {
     public: 
         Image() {}
-        Image(int filename, cv::Mat content) 
+        Image(const int filename, cv::Mat content) 
         {
             name = filename;
             image = content;
@@ -48,7 +48,7 @@ class Image
         }
 
     private:
-        int name;
+        const int name;
         cv::Mat image;
 };
  
@@ -89,7 +89,7 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file)
 {
     Image message;
-    int filename = std::stoi(image_file.substr(16, 17));
+    const int filename = std::stoi(image_file.substr(16, 17));
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_name(filename);
     message.set_image(image);
