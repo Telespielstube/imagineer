@@ -24,8 +24,8 @@ class Image
         */ 
         Image& operator= (const Image &other)
         {
-            name = other.filename;
-            image = other.content;
+            name = other.name;
+            image = other.image;
             return *this;
         }
 
