@@ -86,8 +86,7 @@ Image read_image(std::string image_file)
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)
 {
-        const imagineer::Number message;
-        message.digit = message_to_publish.name;
+        const imagineer::Number message.digit = message_to_publish.name;
         int_publisher.publish(message.digit);
         img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.image).toImageMsg());       
     
