@@ -27,6 +27,7 @@ class Image
             image = other.image;
             return *this;
         }
+
         int get_name() 
         {
             return name;
@@ -105,11 +106,11 @@ Image read_image(std::string image_file)
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)
 {
-        imagineer::Number message;
-        message.digit = message_to_publish.get_name();
-        int_publisher.publish(message.digit);
-        img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());       
-    
+    imagineer::Number message;
+    message.digit = message_to_publish.get_name();
+    int_publisher.publish(message.digit);
+    img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());       
+
 }
 
 /* Entry point for the software program.
@@ -124,10 +125,10 @@ int main(int argc, char** argv)
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
+    
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
     ros::Rate loop(5000);
-
     while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
