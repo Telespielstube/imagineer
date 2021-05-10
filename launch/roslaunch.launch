@@ -2,5 +2,5 @@
   <node name="ai_service" pgk="imagineer" type="ai_service" />
   <node name="controller" pgk="imagineer" type="controller" />
   <node name="processor" pgk="imagineer" type="processor" />
-  <node name="camera" pkg="imagineer" type="camera" args="/home/marta/img.png/>
+  <node name="camera" pkg="imagineer" type="camera" args="/home/marta/img.png"/>
 </launch>
