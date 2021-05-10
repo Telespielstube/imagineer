@@ -37,7 +37,7 @@ class Image
             name = integer;
         }
 
-         int get_image() 
+        cv::Mat get_image() 
         {
             return image;
         }
