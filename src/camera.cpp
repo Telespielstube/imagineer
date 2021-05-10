@@ -89,7 +89,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
         imagineer::Number message;
         message.digit = message_to_publish.name;
         int_publisher.publish(message.digit);
-        img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.image).toImageMsg();       
+        img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.image).toImageMsg());       
     
 }
 
