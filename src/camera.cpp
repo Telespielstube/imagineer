@@ -18,18 +18,6 @@ class Image
             image = content;
         }
         
-        /* operator overloading function which takes argument &other and copies it to a memeber variable.
-        * @other        reference to a parameter to be copied to a member variable .
-        * @return       object reference.
-        */ 
-        Image& operator= (const Image &other)
-        {
-            name = other.filename;
-            image = other.content;
-            return *this;
-        }
-
-    private:
         int name;
         cv::Mat image;
 };
@@ -88,9 +76,9 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
                     Image message_to_publish)
 {
         imagineer::Number message;
-        message.digit = message_to_publish.number;
-        int_publisher.publish(message);
-        img_publisher.publish(message_to_publish.img);       
+        message.digit = message_to_publish.name;
+        int_publisher.publish(message.digit);
+        img_publisher.publish(message_to_publish.image);       
     
 }
 
