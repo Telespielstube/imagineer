@@ -25,7 +25,7 @@ class Processor
         }
 
         /* Callback function which is called when the node rerceives a new message from subscrribed topics.
-        * @message    contains an image referrence to the received image;   
+        * @message    contains an image reference to the received image;   
         */
         void callback(const sensor_msgs::ImageConstPtr& message)
         {
