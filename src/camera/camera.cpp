@@ -6,53 +6,8 @@
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
 #include "imagineer/Number.h"
+#include "image.h"
 
-class Image
-{
-    public: 
-        Image() {}
-        Image(int filename, cv::Mat content) 
-        {
-            name = filename;
-            image = content;
-        }
-        
-        /* operator overloading function which takes argument &other and copies it to a memeber variable.
-        * @other        reference to a parameter to be copied to a member variable .
-        * @return       object reference.
-        */ 
-        Image& operator= (const Image &other)
-        {
-            name = other.name;
-            image = other.image;
-            return *this;
-        }
-
-        int get_name() 
-        {
-            return name;
-        }
-
-        void set_name(int integer)
-        {
-            name = integer;
-        }
-
-        cv::Mat get_image() 
-        {
-            return image;
-        }
-
-        void set_image(cv::Mat img)
-        {
-            image = img;
-        }
-
-    private:
-        int name;
-        cv::Mat image;
-};
- 
 /* Reads all available files from the directory.
 * @path    Path to directory as an argument from the command line.
 * @return  list of all files.
