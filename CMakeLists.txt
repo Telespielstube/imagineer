@@ -53,11 +53,11 @@ catkin_install_python(PROGRAMS scripts/ai_service.py
 include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-add_executable(camera src/camera/camera.cpp src/camera/image.cpp)
+add_executable(camera src/camera/main.cpp src/camera/image.cpp)
 target_link_libraries(camera ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} stdc++fs)
 add_dependencies(camera imagineer_generate_messages_cpp)
 
-add_executable(processor src/processor.cpp)
+add_executable(processor src/processor/main.cpp src/processor/processor.cpp)
 target_link_libraries(processor ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} )
 add_dependencies(processor imagineer_generate_messages_cpp)
 
