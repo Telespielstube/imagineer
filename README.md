@@ -37,7 +37,7 @@ ROS  is an open-source operating system for robots. It offers a framework, libra
 </br>
 
 ### roslaunch
-roslaunch is a tool which allows to defines a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple nodes. Each nodes integrated in the system is defined by a tag and attributes.
+roslaunch is a tool which allows to defines rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple nodes. Each nodes integrated in the system is defined by a tag and attributes.
 ```xml
 <launch>
   <node name="ai_service" pgk="imagineer" type="ai_service" />
@@ -46,15 +46,18 @@ roslaunch is a tool which allows to defines a set of rules how multiple ROS node
 ```
 </br>
 
+
 ### Messages and services
-ROS nodes communicate via the known publish subscrber model. Nodes publish content as messages to topis anf other nodes can subscrbe to those topics. </br>
-A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply.
+ROS nodes communicate via the known publish subscrber model. Nodes publish content as messages to topis and other nodes can subscrbe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
+A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
 
 ### Camera node
-The node is launched via ``code`` from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. This allows a dynamic path change without changing the code every time. All images are read in and stored as ```std::vector``` entries. The file name corresponds to the key and the associated image is assigned as a value.</br>
-
-
-The publish function receives the key, value pairs and publishes the color image to a specific topic and the corresponding filename to another topic.
+The node is launched from the ```roslaunch.xml``` file, the argument specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored a random number is calculated from the number range of the vector size. If a number is calculated the file on the specific position is picked the ```std::string``` is converted to a OpenCV image format and the corresponding number is sliced from the path at the exact position. 
+```cpp
+int filename = std::stoi(image_file.substr(16, 17));
+cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
+```
+Both variables are passed to the image object. The publish function puts the object attributes in two different topics an sends them to all available subscribers.
 </br>
 
 #### Processor node
@@ -70,9 +73,8 @@ void callback(const sensor_msgs::ImageConstPtr& message)
 {
     try
     {
-        cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
+        cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); 
         publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
-        ROS_INFO("Image is published from processor node.");
     }
 ```      
 Finally, the photo is converted back to the ROS Image message format and published as grayscale to the controller node.

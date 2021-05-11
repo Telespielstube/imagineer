@@ -8,6 +8,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 # @image    the received image. 
 def callback(request):
     print('Got image')
+    #calculate the number by using ai magic.
     number = '2'
     return ImageAckResponse(number)
 
@@ -15,13 +16,9 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node started')
-    #rospy.Subscriber('saved/image', Image, callback)
     service = rospy.Service('image_ack', ImageAck, callback)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
 if __name__ == 'main':
-    try:
-        main()
-    except rospy.ROSInterruptException as error:
-        print('Neural network node could not be started: ', error)
+    main()
