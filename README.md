@@ -47,7 +47,7 @@ roslaunch is a tool which allows to define a set of  rules how multiple ROS node
   ...
 </launch>
 ```
-In order to launch all nodes with ```roslaunch``` only one command is necessary now.
+In order to launch all nodes with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
 ### Camera node
@@ -59,7 +59,7 @@ cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
 Both variables are passed to the image object. The publish function puts the object attributes in two different topics an sends them to all available subscribers.
 </br>
 
-#### Processor node
+### Processor node
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
 After sucessfully initializing the node via the roslaunch file, the subscriber function is called and subscribes to the image topic. If an image is received, the corresponding callback function is called.</br>
 
