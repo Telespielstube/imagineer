@@ -31,7 +31,8 @@ The application is distributed over several nodes, with each node taking on a sp
 ROS  is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
 </br>
 ### Neural network overview
-
+</br>
+</br>
 ## Implementation
 
 ### Messages and services
@@ -45,6 +46,7 @@ roslaunch is a tool which allows to define a set of  rules how multiple ROS node
   <node name="ai_service" pgk="imagineer" type="ai_service" />
   ...
 </launch>
+```
 In order to launch all nodes with ```roslaunch``` only one command is necessary now.
 ```roslaunch imagineer startup.launch```
 
