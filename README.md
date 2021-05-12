@@ -32,7 +32,8 @@ ROS  is an open-source operating system for robots. It offers a framework, libra
 </br>
 ### Neural network overview
 </br>
-</br>
+
+
 ## Implementation
 
 ### Messages and services
