@@ -3,12 +3,13 @@ import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from imagineer.srv import ImageAck, ImageAckResponse
+from scripts.ai_service.number_cruncher import NumberCruncher
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request):
     print('Got image')
-    #calculate the number by using ai magic.
+    NumberCruncher(request)
     number = '2'
     return ImageAckResponse(number)
 
@@ -16,7 +17,7 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node started')
-    service = rospy.Service('image_ack', ImageAck, callback)
+    rospy.Service('image_ack', ImageAck, callback)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
