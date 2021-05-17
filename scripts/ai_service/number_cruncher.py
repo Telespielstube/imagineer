@@ -12,6 +12,6 @@ class NumberCruncher:
     # Constructor
     # @self    this object every object function has to have self.
     def __init__(self):
-        training_data = datasets.FashionMNIST(root="data", train=True, download=True, transform=ToTensor(),
-)
+        super(NumberCruncher, self).__init()
+
         
