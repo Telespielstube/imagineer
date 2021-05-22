@@ -29,7 +29,7 @@ std::vector<std::string> get_files(std::string path)
 */
 std::string pick_file(std::vector<std::string> files)
 {
-    int random_file = 5 + (std::rand() % (9 - 1 + 2));
+    int random_file = (std::rand() % (9 - 1 + 2));
     std::string pick = "";
     for (const auto& entry : files)
     {
@@ -42,7 +42,7 @@ std::string pick_file(std::vector<std::string> files)
 * @image_files    a list of all files from the given command line path.
 * @return         an Image object that hold the filename and the image as attributes.
 */
-Image read_image(std::string image_file)
+Image read_image(std::string image_file) 
 {
     Image message;
     int filename = std::stoi(image_file.substr(0, 1));
