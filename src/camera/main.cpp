@@ -18,7 +18,7 @@ std::vector<std::string> get_files(std::string path)
     std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& entry : path_iterator)
     {
-        std::string file_as_string = entry.path().string()
+        std::string file_as_string = entry.path().string();
         files.push_back(file_as_string.substr(46, 47));
     }
     return files;
