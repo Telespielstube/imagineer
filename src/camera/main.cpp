@@ -18,7 +18,6 @@ std::vector<std::string> get_files(std::string path)
     std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& entry : path_iterator)
     {
-        ROS_INFO("get_files: %s", entry.path().string().c_str());
         files.push_back(entry.path().string().substr(46, 47));
     }
     return files;
@@ -61,7 +60,8 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     imagineer::Number message;
     message.digit = message_to_publish.get_name();
     int_publisher.publish(message);
-    img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());       
+    img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg()); 
+    ROS_INFO("Messges published")      
 
 }
 
