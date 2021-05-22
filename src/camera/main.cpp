@@ -29,7 +29,7 @@ std::vector<std::string> get_files(std::string path)
 */
 std::string pick_file(std::vector<std::string> files)
 {
-    int random_file = (std::rand() % (9 - 1 + 2));
+    int random_file = (std::rand() % (9 - 1));
     std::string pick = "";
     for (const auto& entry : files)
     {
