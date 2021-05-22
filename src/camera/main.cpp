@@ -89,7 +89,7 @@ int main(int argc, char** argv)
     while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
-        ROS_INFO(image_file)
+        ROS_INFO(image_file);
         Image image_to_publish = read_image(image_file);
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
