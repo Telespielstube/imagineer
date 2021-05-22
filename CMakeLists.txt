@@ -45,7 +45,7 @@ catkin_package(
 )
 
 # Build the neural_network service.
-catkin_install_python(PROGRAMS scripts/ai_service/ai_service.py
+catkin_install_python(PROGRAMS scripts/ai_service/ai_service.py scripts/ai_service/number_cruncher.py  
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

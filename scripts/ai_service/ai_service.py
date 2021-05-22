@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 # @image    the received image. 
 def callback(request, args):
     print('Got image')
-    NumberCruncher(request, args[0], args[1])
+   # NumberCruncher(request, args[0], args[1])
     number = '2'
     return ImageAckResponse(number)
 
