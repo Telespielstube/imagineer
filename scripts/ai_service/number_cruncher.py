@@ -12,6 +12,6 @@ class NumberCruncher:
     # Constructor
     # @self    this object every object function has to have self.
     def __init__(self):
-        super(NumberCruncher, self).__init()
+        super(NumberCruncher, self).__init__()
 
         

@@ -3,5 +3,5 @@
   <node name="controller" pkg="imagineer" type="controller" />
   <node name="processor" pkg="imagineer" type="processor" />
   <node name="camera" pkg="imagineer" type="camera" args="/home/marta/my_images/"/>
-  <node name="camera" pkg="imagineer" type="camera" args="/home/marta/catkin_ws/src/imagineer/mnist_images"/>
+  <node name="camera" pkg="imagineer" type="camera" args="/home/marta/catkin_ws/src/imagineer/my_images"/>
 </launch>
