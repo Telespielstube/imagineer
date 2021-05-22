@@ -45,7 +45,6 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file) 
 {
     Image message;
-    ROSINFO(image_file);
     std::string sliced_str = image_file.substr(46, 47);
     int filename = std::stoi(sliced_str);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
@@ -90,6 +89,7 @@ int main(int argc, char** argv)
     while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
+        ROSINFO(image_file)
         Image image_to_publish = read_image(image_file);
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
