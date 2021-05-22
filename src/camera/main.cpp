@@ -18,7 +18,8 @@ std::vector<std::string> get_files(std::string path)
     std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& entry : path_iterator)
     {
-        files.push_back(entry.path().string());
+        std::string file_as_string = entry.path().string()
+        files.push_back(file_as_string.substr(46, 47));
     }
     return files;
 }
@@ -45,8 +46,8 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file) 
 {
     Image message;
-    std::string sliced_str = image_file.substr(46, 47);
-    int filename = std::stoi(sliced_str);
+   // std::string sliced_str = image_file.substr(0, 1);
+    int filename = std::stoi(image_file);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_name(filename);
     message.set_image(image);
@@ -89,7 +90,6 @@ int main(int argc, char** argv)
     while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
-        ROS_INFO(image_file);
         Image image_to_publish = read_image(image_file);
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
