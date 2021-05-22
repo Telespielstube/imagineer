@@ -45,7 +45,8 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file) 
 {
     Image message;
-    int filename = std::stoi(image_file.substr(0, 1));
+    std::string sliced_str = image_file.substr(46, 47);
+    int filename = std::stoi(sliced_str);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_name(filename);
     message.set_image(image);
