@@ -30,13 +30,9 @@ std::vector<std::string> get_files(std::string path)
 */
 std::string pick_file(std::vector<std::string> files)
 {
-    int random_file = (std::rand() % (9 - 1));
-    std::string pick = "";
-    for (const auto& entry : files)
-    {
-        pick = entry.at(random_file);
-    }
-    return pick;
+    int random_file = (std::rand() % 10);
+       
+    return files.at(random_file);
 }
 
 /* Reads the content of the given file and saves content and filename as an unordered map.
