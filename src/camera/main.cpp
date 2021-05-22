@@ -8,9 +8,9 @@
 #include "imagineer/Number.h"
 #include "image.h"
 
-/* Reads all available files from the directory.
+/* Reads all available files from the directory into a list (vector).
 * @path    Path to directory as an argument from the command line.
-* @return  list of all files.
+* @return  list (vector) of all files.
 */
 std::vector<std::string> get_files(std::string path)
 {
@@ -23,7 +23,7 @@ std::vector<std::string> get_files(std::string path)
     return files;
 }
 
-/* Function to pick a file from the files vector. This file gets published.
+/* Function to pick a file randomly from the files list(vector). The picked file gets published.
 *  @files     list of all files in the given directory.
 *  @return    the randomly choosen file from the vector.
 */
@@ -45,7 +45,7 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file)
 {
     Image message;
-    int filename = std::stoi(image_file.substr(16, 17));
+    int filename = std::stoi(image_file.substr(46, 47));
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_name(filename);
     message.set_image(image);
