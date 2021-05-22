@@ -3,7 +3,7 @@ import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from imagineer.srv import ImageAck, ImageAckResponse
-from scripts.number_cruncher import NumberCruncher
+import NumberCruncher
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
