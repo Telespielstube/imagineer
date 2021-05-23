@@ -61,8 +61,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     imagineer::Number message;
     message.digit = message_to_publish.get_name();
     int_publisher.publish(message);
-    img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg()); 
-    ROS_INFO("Message %s published", message_to_publish->encoding.c_str());     
+    img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());      
 }
 
 /* Entry point for the software program.
