@@ -18,6 +18,8 @@ class NumberCruncher:
             super(NumberCruncher, self).__init__()
             self.flatten = nn.Flatten()
 
+
+
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request, args):
@@ -31,12 +33,12 @@ def callback(request, args):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
-    batch_size = 64
-    mnist_training_data = datasets.MNIST(root='./mnist_data', train=True, download=True, transform=None)
-    mnist_test_data = datasets.MNIST(root='./mnist_data', train=False, download=True, transform=None)
-    train_dataloader = DataLoader(mnist_training_data, batch_size=batch_size)
-    test_dataloader = DataLoader(mnist_test_data, batch_size=batch_size)
-    rospy.Service('image_ack', ImageAck, callback, (train_dataloader, test_dataloader))
+    # batch_size = 64
+    # mnist_training_data = datasets.MNIST(root='./mnist_data', train=True, download=True, transform=None)
+    # mnist_test_data = datasets.MNIST(root='./mnist_data', train=False, download=True, transform=None)
+    # train_dataloader = DataLoader(mnist_training_data, batch_size=batch_size)
+    # test_dataloader = DataLoader(mnist_test_data, batch_size=batch_size)
+    rospy.Service('image_ack', ImageAck, callback) #(train_dataloader, test_dataloader))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
