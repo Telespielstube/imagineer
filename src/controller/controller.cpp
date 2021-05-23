@@ -6,7 +6,7 @@ void Controller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::
     ack_service.request.image = ai_message;
     if (service_client.call(ack_service))
     {
-        ROS_INFO("Received number: %i", ack_service.response.number);
+        ROS_INFO("Received number: %i", (int)ack_service.response.number);
     }
     else
     {
