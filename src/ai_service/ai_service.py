@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+
 import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
@@ -25,9 +26,9 @@ from imagineer.srv import ImageAck, ImageAckResponse
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request, args):
-    print(request.number)
+    print('Got image')
    # NumberCruncher(request, args[0], args[1])
-    number = request.number
+    number = '2'
     return ImageAckResponse(number)
 
 # Function to handle all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
@@ -44,5 +45,5 @@ def main():
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
