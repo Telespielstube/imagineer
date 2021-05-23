@@ -19,6 +19,7 @@ std::vector<std::string> get_files(std::string path)
     for (const auto& entry : path_iterator)
     {
         files.push_back(entry.path().string().substr(46, 51));
+        ROS_INFO("File: %s", entry.path().string().substr(46, 51);
     }
     return files;
 }
@@ -61,7 +62,7 @@ void publish_message(ros::NodeHandle node, image_transport::Publisher img_publis
     message.digit = message_to_publish.get_name();
     int_publisher.publish(message);
     img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg()); 
-    ROS_INFO("Messages published");      
+    ROS_INFO("Message %s published", message_to_publish->encoding.c_str());     
 }
 
 /* Entry point for the software program.
