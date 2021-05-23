@@ -1,7 +1,8 @@
 <launch>
-  <node name="ai_service" pkg="imagineer" type="ai_service" />
+
   <node name="camera" pkg="imagineer" type="camera" args="/home/marta/catkin_ws/src/imagineer/my_images"/>
   <node name="controller" pkg="imagineer" type="controller" />
   <node name="processor" pkg="imagineer" type="processor" />
+  <node name="ai_service" pkg="imagineer" type="ai_service" />
  
 </launch>

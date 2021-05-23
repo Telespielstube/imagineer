@@ -3,20 +3,20 @@ import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from imagineer.srv import ImageAck, ImageAckResponse
-#from imagineer.number_cruncher import NumberCruncher
+from imagineer.number_cruncher import NumberCruncher
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor, Lambda, Compose
 import matplotlib.pyplot as plt
 
-class NumberCruncher:
+# class NumberCruncher:
     
-    # Constructor
-    # @self    this object every object function has to have self.
-        def __init__(self):
-            super(NumberCruncher, self).__init__()
-            self.flatten = nn.Flatten()
+#     # Constructor
+#     # @self    this object every object function has to have self.
+#         def __init__(self):
+#             super(NumberCruncher, self).__init__()
+#             self.flatten = nn.Flatten()
 
 
 
