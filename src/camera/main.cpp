@@ -19,7 +19,7 @@ std::vector<std::string> get_files(std::string path)
     for (const auto& entry : path_iterator)
     {
         files.push_back(entry.path().string();
-        ROS_INFO("File: %s", entry.path().string());
+        ROS_INFO("File: %s", entry.path().string().c_str());
     }
     return files;
 }
