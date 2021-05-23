@@ -19,6 +19,8 @@ def callback(request, args):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
+    #wait the service to be advertised, otherwise the service use will fail
+    rospy.wait_for_service('service_example')
     service = rospy.Service('image_ack', ImageAck, callback) #(train_dataloader, test_dataloader))
     rospy.spin()
 
