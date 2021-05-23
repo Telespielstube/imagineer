@@ -4,7 +4,7 @@ void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
 {     
     imagineer::ImageAck ack_service;
     sensor_msgs::Image ai_image = *image; // passes ImageConstPtr to sensor_msg format
-    ack_service.request.image = ai_image;
+    ack_service.request.data = ai_image;
     // int numb = 4;
     // ack_service.request.num = numb;
     if (service_client.call(ack_service))
