@@ -30,7 +30,7 @@ def callback(request, args):
 # for trainig and test environment.
 def main():
     rospy.init_node('ai_service')
-    rospy.loginfo('Neural network node started')
+    rospy.loginfo('Neural network node is running')
     batch_size = 64
     mnist_training_data = datasets.MNIST(root='./mnist_data', train=True, download=True, transform=None)
     mnist_test_data = datasets.MNIST(root='./mnist_data', train=False, download=True, transform=None)

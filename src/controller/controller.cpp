@@ -26,8 +26,8 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 
     try
     {
-        //cv::imshow("view", cv_bridge::toCvCopy(image)->image);
-        //cv::waitKey(30);
+        cv::imshow("view", cv_bridge::toCvCopy(image)->image);
+        cv::waitKey(30);
         imagineer::ImageAck ack_service;
         add_to_list(digit, image);
         send_image(image, ack_service);
