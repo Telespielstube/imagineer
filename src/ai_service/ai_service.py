@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
+#from __future__ import print_function
 
 import rospy, cv2
 from sensor_msgs.msg import Image
@@ -12,7 +12,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 def callback(request, args):
     print('Got image')
     request.number = 2
-    return ImageAckResponse(request.number)
+    return ImageAckResponse(request)
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
 # for trainig and test environment.

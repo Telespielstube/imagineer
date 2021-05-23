@@ -3,12 +3,12 @@
 void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
 {     
     imagineer::ImageAck ack_service;
-    // sensor_msgs::Image ai_message; // passes ImageConstPtr to sensor_msg format
-    // ai_message = *image;
+    // sensor_msgs::Image ai_message = *image; // passes ImageConstPtr to sensor_msg format
     ack_service.request.image = *image;
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.number);
+        
     }
     else
     {
