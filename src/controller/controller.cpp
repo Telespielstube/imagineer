@@ -3,13 +3,13 @@
 void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
 {     
     imagineer::ImageAck ack_service;
-    sensor_msgs::Image ai_message = *image; // passes ImageConstPtr to sensor_msg format
-    ack_service.request.image = *image;
+    cv::Mat ai_message = *image; // passes ImageConstPtr to sensor_msg format
+    //ack_service.request.image = *image;
     // int numb = 4;
     // ack_service.request.num = numb;
-    if (service_client.call(ack_service))
+    if (service_client.call(cv_bridge::CvImage(std_msgs::Header(), "mono8", ack_service).toImageMsg()))
     {
-        ROS_INFO("Received number: %i", (int)ack_service.response.number);
+        ROS_INFO("Received number: %i", (int)ack_service.response.result);
 
     }
     else

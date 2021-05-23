@@ -11,7 +11,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 # @image    the received image. 
 def callback(request, args):
     print('Got image')
-    request.number = 2
+    request.result = 2
     return ImageAckResponse(request)
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
