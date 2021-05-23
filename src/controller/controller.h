@@ -30,7 +30,7 @@ class Controller
         * @image             message to be send to the neural network node.
         * @ack_service       Service message object.
         */
-        void send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service);
+        void send_image(const sensor_msgs::ImageConstPtr& image);
 
         /* adds the subscribed messages as key value pairs to a map.
         * @image_message    contains the image received from the subcribed camera/image topic   
