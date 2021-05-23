@@ -31,7 +31,7 @@ def callback(request, args):
     number = '2'
     return ImageAckResponse(number)
 
-# Function to handle all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
+# Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
 # for trainig and test environment.
 def main():
     rospy.init_node('ai_service')

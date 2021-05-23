@@ -1,7 +1,8 @@
 #include "controller.h"
 
-void Controller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
+void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
 {     
+    imagineer::ImageAck ack_service;
     sensor_msgs::Image ai_message = *image; // passes ImageConstPtr to sensor_msg format
     ack_service.request.image = ai_message;
     if (service_client.call(ack_service))
@@ -24,12 +25,11 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 {
     try
     {
-        cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30);
-        imagineer::ImageAck ack_service;
+        
         add_to_list(digit, image);
-        send_image(image, ack_service);
+        send_image(image);
     }
     catch (cv_bridge::Exception& e)
     {

@@ -84,11 +84,12 @@ int main(int argc, char** argv)
     ros::Rate loop(10000);
     while (node.ok())
     {    
-        std::string image_file = pick_file(directory_files);
-        Image image_to_publish = read_image(image_file);
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
         {
+            std::string image_file = pick_file(directory_files);
+            Image image_to_publish = read_image(image_file);
             publish_message(node, img_publisher, int_publisher, image_to_publish);
+            loop.sleep();
         }
         else
         { 
