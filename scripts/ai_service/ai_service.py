@@ -10,6 +10,14 @@ from torchvision import datasets
 from torchvision.transforms import ToTensor, Lambda, Compose
 import matplotlib.pyplot as plt
 
+class NumberCruncher:
+    
+    # Constructor
+    # @self    this object every object function has to have self.
+        def __init__(self):
+            super(NumberCruncher, self).__init__()
+            self.flatten = nn.Flatten()
+
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request, args):
