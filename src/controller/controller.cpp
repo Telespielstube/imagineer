@@ -25,7 +25,7 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 {
     try
     {
-        cv::namedWindow("view", cv::WINDOW_NORMAL)
+        cv::namedWindow("view", cv::WINDOW_NORMAL);
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
         add_to_list(digit, image);
