@@ -1,3 +1,5 @@
+#include <ros/ros.h>
+
 class NumberAndPicture
 {
     public:

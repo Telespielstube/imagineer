@@ -9,6 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "imagineer/Number.h"
 #include "imagineer/ImageAck.h"
+#include "number_and_picture.h"
 
 class Controller
 {

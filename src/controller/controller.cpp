@@ -1,6 +1,5 @@
 #include "controller.h"
-#include "number_and_picture.h"
-
+//#include "number_and_picture.h"
 
 void Controller::send_image(const sensor_msgs::ImageConstPtr& image, imagineer::ImageAck ack_service)
 {     
