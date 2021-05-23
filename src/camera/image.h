@@ -25,12 +25,12 @@ class Image
         /* Getter function for image filename.
         * @return     filename of Image object.
         */
-        int get_name();
+        int get_filename();
 
         /* Setter function for image filename.
         * @integer    sets the filename for the corresponding image
         */
-        void set_name(int integer);
+        void set_filename(int integer);
 
         /* Getter function for image content.
         * @return     content of Image object.
