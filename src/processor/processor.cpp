@@ -2,9 +2,9 @@
 
 cv::Mat Processor::process_image(cv::Mat& message)
 {
-    cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
-    cv::Mat processed_image = message;
-    return processed_image;
+    return cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
+    // cv::Mat processed_image = message;
+    // return processed_image;
 }
 
 void Processor::callback(const sensor_msgs::ImageConstPtr& message)
