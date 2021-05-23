@@ -7,7 +7,7 @@ void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
     ack_service.request.image = ai_image;
     // int numb = 4;
     // ack_service.request.num = numb;
-    if (service_client.call(cv_bridge::CvImage(std_msgs::Header(), "mono8", ack_service).toImageMsg()))
+    if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
 
