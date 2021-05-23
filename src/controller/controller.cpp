@@ -24,6 +24,7 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 {
     try
     {
+        cv::namedWindow("view", WINDOW_AUTOSIZE);
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30);
         imagineer::ImageAck ack_service;

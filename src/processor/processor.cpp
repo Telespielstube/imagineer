@@ -2,7 +2,7 @@
 
 cv::Mat Processor::process_image(cv::Mat& message)
 {
-    cv::resize(message, message, cv::Size(), 0.25, 0.25);
+    cv::resize(message, message, cv::Size(), 0.25, 0.25, INTER_AREA);
     cv::Mat processed_image = message;
     return processed_image;
 }
