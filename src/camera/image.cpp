@@ -1,11 +1,11 @@
 #include "image.h"
 
-int Image::get_name() 
+int Image::get_filename() 
 {
     return name;
 }
 
-void Image::set_name(int integer)
+void Image::set_filename(int integer)
 {
     name = integer;
 }

@@ -44,7 +44,7 @@ Image read_image(std::string image_file)
     int filename = std::stoi(image_file.substr(46, 47));
     ROS_INFO("File: %i", filename);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
-    message.set_name(filename);
+    message.set_filename(filename);
     message.set_image(image);
     return message;
 }
@@ -58,10 +58,10 @@ Image read_image(std::string image_file)
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)
 {
-    imagineer::Number message;
-    message.digit = message_to_publish.get_name();
-    ROS_INFO("Integer sent: %i", message_to_publish.get_name());
-    int_publisher.publish(message);
+    imagineer::Number int_message;
+    int_message.digit = message_to_publish.get_filename();
+    //ROS_INFO("Integer sent: %i", message_to_publish.get_name());
+    int_publisher.publish(int_message);
     img_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", message_to_publish.get_image()).toImageMsg());      
 }
 
