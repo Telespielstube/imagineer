@@ -18,8 +18,8 @@ std::vector<std::string> get_files(std::string path)
     std::experimental::filesystem::directory_iterator path_iterator(path);
     for (const auto& entry : path_iterator)
     {
-        files.push_back(entry.path().string().substr(46, 47));
-        ROS_INFO("File: %s", entry.path().string().substr(46, 47));
+        files.push_back(entry.path().string();
+        ROS_INFO("File: %s", entry.path().string());
     }
     return files;
 }
