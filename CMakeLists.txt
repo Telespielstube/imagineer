@@ -44,6 +44,9 @@ catkin_package(
     CATKIN_DEPENDS message_runtime std_msgs sensor_msgs
 )
 
+## Uncomment if the package has a setup.py
+catkin_python_setup()
+
 # Build the neural_network service.
 catkin_install_python(
     PROGRAMS src/ai_service/ai_service.py 
