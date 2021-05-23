@@ -20,7 +20,7 @@ void Controller::send_image(const sensor_msgs::ImageConstPtr& image)
 
 void Controller::add_to_list(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image)
 {
-    sensor_msgs::Image saved_image = *image;
+    sensor_msgs::Image save_image = *image;
     storage.push_back(NumberAndPicture(digit, save_image));
 }
 
