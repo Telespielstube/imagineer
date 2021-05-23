@@ -96,6 +96,5 @@ int main(int argc, char** argv)
             continue;
         }
         ros::spinOnce();
-        loop.sleep();
     }
 }

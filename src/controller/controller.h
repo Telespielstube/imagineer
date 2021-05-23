@@ -20,7 +20,7 @@ class Controller
         {
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
-            cv::namedWindow("view");
+            cv::namedWindow("view", cv::WINDOW_NORMAL);
             sync.reset(new message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>(img_subscriber, int_subscriber, 10));
             service_client = node.serviceClient<imagineer::ImageAck>("ImageAck", true);
             sync->registerCallback(&Controller::callback, this);   
