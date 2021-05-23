@@ -19,7 +19,6 @@ void Controller::add_to_list(const imagineer::Number digit, const sensor_msgs::I
 {
     sensor_msgs::Image saved_image = *image;
     storage.push_back(NumberAndPicture(digit, saved_image));
-    ROS_INFO("Saved digit:  %s", digit.c_str());
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
