@@ -22,7 +22,7 @@ class Processor
         */
         cv::Mat process_image(cv::Mat& message);
 
-        /* Callback function which is called when the node rerceives a new message from subscrribed topics.
+        /* Callback function which is called when the node receives a new message from subscrribed topics.
         * @message    contains an image reference to the received image;   
         */
         void callback(const sensor_msgs::ImageConstPtr& message);
