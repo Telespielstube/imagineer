@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     // the actual camera work is done here.
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
-    ros::Rate loop(5000);
+    ros::Rate loop(10000);
     while (node.ok())
     {    
         std::string image_file = pick_file(directory_files);
