@@ -19,7 +19,7 @@ std::vector<std::string> get_files(std::string path)
     for (const auto& entry : path_iterator)
     {
         files.push_back(entry.path().string());
-        ROS_INFO("File: %s", entry.path().string().c_str());
+        //ROS_INFO("File: %s", entry.path().string().c_str());
     }
     return files;
 }
@@ -42,7 +42,8 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file) 
 {
     Image message;
-    int filename = std::stoi(image_file.substr(0, 1));
+    int filename = std::stoi(image_file.substr(46, 47));
+    ROS_INFO("File: %i", filename);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_name(filename);
     message.set_image(image);
