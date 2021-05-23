@@ -12,8 +12,9 @@ void Processor::callback(const sensor_msgs::ImageConstPtr& message)
     try
     {
         //cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
-        cv::resize(message, message, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
-        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", message).toImageMsg()); 
+        cv::Mat cv_image = cv_bridge::toCvCopy(message)->image;
+        cv::resize(cv_image, cv_image, cv::Size(), 0.5, 0.5, CV_INTER_AREA);
+        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", cv_image).toImageMsg()); 
         ROS_INFO("Image is published from processor node.");
     }
     catch (cv_bridge::Exception& e)
