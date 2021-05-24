@@ -47,7 +47,7 @@ class Controller
         private:
             ros::NodeHandle node;
             ros::ServiceClient service_client;
-            std::vector<NumberAndPicture> storage;
+            std::vector<NumberAndPicture*> storage;
             message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
             message_filters::Subscriber<imagineer::Number> int_subscriber;
             boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;

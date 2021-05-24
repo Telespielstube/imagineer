@@ -30,7 +30,7 @@ class NumberAndPicture
         
         /* Sets the number to the associated image.
         */
-        void set_number();
+        void set_number(int number);
 
         /* Returns the image object.
         * @return    image object.
@@ -39,7 +39,7 @@ class NumberAndPicture
 
         /* Sets the image object.
         */
-        void set_image();
+        void set_image(sensor_msgs::Image image);
        
     private:
         imagineer::Number num;

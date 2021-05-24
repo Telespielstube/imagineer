@@ -1,4 +1,5 @@
 #include "number_and_picture.h"
+#include <sensor_msgs/Image.h>
 
 int NumberAndPicture::get_number()
 {

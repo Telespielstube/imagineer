@@ -3,8 +3,7 @@
 void Controller::send_image()
 {     
     imagineer::ImageAck ack_service;
-    //sensor_msgs::Image ai_image = *image; // passes ImageConstPtr to sensor_msg format
-    ack_service.request.image = storage.back().get_number();
+    ack_service.request.image = storage.back().get_image();
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
@@ -19,7 +18,7 @@ void Controller::send_image()
 void Controller::add_to_list(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image)
 {
     sensor_msgs::Image save_image = *image;
-    storage.push_back(NumberAndPicture(digit, save_image));
+    storage.push_back(new NumberAndPicture(digit, save_image));
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
