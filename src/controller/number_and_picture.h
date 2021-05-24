@@ -22,6 +22,24 @@ class NumberAndPicture
             return *this;
         }
 
+        /* Returns the number associated to the image.
+        * @return    number
+        */
+        int get_number();
+        
+        /* Sets the number to the associated image.
+        */
+        void set_number();
+
+        /* Returns the image object.
+        * @return    image object.
+        */
+        sensor_msgs::Image get_image();
+
+        /* Sets the image object.
+        */
+        void set_image();
+       
     private:
         imagineer::Number num;
         sensor_msgs::Image img;
