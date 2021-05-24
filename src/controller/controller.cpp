@@ -4,7 +4,7 @@ void Controller::send_image()
 {     
     imagineer::ImageAck ack_service;
     //sensor_msgs::Image ai_image = *image; // passes ImageConstPtr to sensor_msg format
-    ack_service.request.image = storage.back().get_image();
+    ack_service.request.image = storage.back().get_number();
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
