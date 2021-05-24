@@ -7,7 +7,7 @@ int NumberAndPicture::get_number()
 
 void NumberAndPicture::set_number(int number)
 {
-    num = niumber;
+    num = number;
 }
 
 sensor_msgs::Image NumberAndPicture::get_image()
