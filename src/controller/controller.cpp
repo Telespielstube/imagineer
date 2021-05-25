@@ -17,7 +17,7 @@ void Controller::send_image()
 
 void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
-    storage.push_back(NumberAndPicture(digit, image);
+    storage.push_back(NumberAndPicture(digit, image));
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
