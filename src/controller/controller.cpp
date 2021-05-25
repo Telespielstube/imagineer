@@ -7,10 +7,12 @@ void Controller::send_image()
     if (!storage.empty())
     {
         ack_service.request.image = storage.back().get_number();
+        ROS_INFO("Reqest: %i", ack_service.request.image);
         corr_number = storage.back().get_number();
     }
     if (service_client.call(ack_service))
     {
+        
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
         // compare_result();
     }
