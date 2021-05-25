@@ -27,7 +27,7 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
     {
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
-        add_to_list(digit, image);
+        add_to_list(digit.digit, image);
         send_image();
     }
     catch (cv_bridge::Exception& e)
