@@ -6,7 +6,7 @@ class NumberAndPicture
     public:
         // two contructors, first one is the default constructor, second one expects 2 arguments.
         NumberAndPicture() {} 
-        NumberAndPicture(const imagineer::Number digit, )
+        NumberAndPicture(const imagineer::Number digit, const sensor_msgs::Image image)
         {
             num = digit;
             img = image;
