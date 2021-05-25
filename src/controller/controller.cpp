@@ -4,7 +4,7 @@ void Controller::send_image()
 {     
     imagineer::ImageAck ack_service;
     int corr_number = 0;
-    if !storage.empty()
+    if (!storage.empty())
     {
         ack_service.request.image = storage.back().get_number;
         corr_number = storage.back().get_number();
