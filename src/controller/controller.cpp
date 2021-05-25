@@ -17,7 +17,6 @@ void Controller::send_image()
 
 void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
-    sensor_msgs::Image save_image = *image;
     storage.push_back(NumberAndPicture(digit, image));
 }
 
@@ -28,7 +27,8 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
         int number = digit.digit;
-        add_to_list(number, image);
+        sensor_msgs::Image save_image = *image;
+        add_to_list(number, save_image);
         send_image();
     }
     catch (cv_bridge::Exception& e)
