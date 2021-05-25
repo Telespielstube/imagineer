@@ -15,7 +15,7 @@ sensor_msgs::Image NumberAndPicture::get_image()
     return img;
 }
 
-void NumberAndPicture::set_image(sensor_msgs::Image image)
+void NumberAndPicture::set_image(sensor_msgs::Image& image)
 {
     img = image;
 }
