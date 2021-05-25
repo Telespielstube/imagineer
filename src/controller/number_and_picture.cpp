@@ -11,12 +11,12 @@ void NumberAndPicture::set_number(int number)
     num = number;
 }
 
-sensor_msgs::Image NumberAndPicture::get_image()
+sensor_msgs::ImageConstPtr NumberAndPicture::get_image()
 {
     return img;
 }
 
-void NumberAndPicture::set_image(sensor_msgs::Image image)
+void NumberAndPicture::set_image(sensor_msgs::ImageConstPtr& image)
 {
     img = image;
 }
