@@ -7,7 +7,7 @@ void Controller::send_image()
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
-
+        // compare_result();
     }
     else
     {
