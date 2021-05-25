@@ -3,7 +3,7 @@
 void Controller::send_image()
 {     
     imagineer::ImageAck ack_service;
-    ack_service.request.image = storage.back()->get_image();
+    ack_service.request.image = storage.back().get_image();
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
@@ -27,7 +27,8 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
     {
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
-        add_to_list(digit.digit, image);
+        int number = digit.digit;
+        add_to_list(number, image);
         send_image();
     }
     catch (cv_bridge::Exception& e)
