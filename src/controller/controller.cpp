@@ -3,10 +3,9 @@
 void Controller::send_image(imagineer::ImageAck service)
 {       
     int corr_number = 0;
-    int num1 = 8;
     if (!storage.empty())
     {
-        service.request.image = num1; //storage.back().get_image();
+        service.request.image = storage.back().get_image();
         corr_number = storage.back().get_number();
     }
     if (service_client.call(service))
@@ -30,7 +29,6 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 {
     try
     {
-        imagineer::ImageAck service;
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
         int number = digit.digit; // passes the ImageAck filed digit 
