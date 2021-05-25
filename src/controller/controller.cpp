@@ -9,7 +9,7 @@ void Controller::send_image()
         service.request.image = storage.back().get_image();
         corr_number = storage.back().get_number();
     }
-    if (service_client.call(ack_service))
+    if (service_client.call(service))
     {
         
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
