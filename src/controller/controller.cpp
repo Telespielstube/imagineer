@@ -15,9 +15,9 @@ void Controller::send_image()
     }
 }
 
-void Controller::add_to_list(int digit, const sensor_msgs::Image& image)
+void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
-    //sensor_msgs::Image save_image = *image;
+    sensor_msgs::Image save_image = *image;
     storage.push_back(NumberAndPicture(digit, image));
 }
 
