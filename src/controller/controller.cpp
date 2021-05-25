@@ -3,7 +3,7 @@
 void Controller::send_image()
 {     
     imagineer::ImageAck ack_service;
-    ack_service.request.image = storage.back().get_image();
+    ack_service.request.image = storage.back()->get_image();
     if (service_client.call(ack_service))
     {
         ROS_INFO("Received number: %i", (int)ack_service.response.result);
