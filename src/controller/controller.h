@@ -18,7 +18,6 @@ class Controller
         */ 
         Controller() 
         {
-
             img_subscriber.subscribe(node, "processor/image", 1);
             int_subscriber.subscribe(node, "camera/integer", 1); 
             cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
@@ -27,15 +26,13 @@ class Controller
             sync->registerCallback(&Controller::callback, this);   
         }
 
-        /* Sends the image as servide message to the neural network node.
-        * @image             message to be send to the neural network node.
-        * @ack_service       Service message object.
+        /* Sends the image as service request to the neural network node.
         */
         void send_image();
 
-        /* adds the subscribed messages as key value pairs to a map.
-        * @image_message    contains the image received from the subcribed camera/image topic   
-        * @int_message      contains the number received from the subcribed camera/integer topic.   
+        /* Takes the two received messages and creates an object which is stored in a contiguous list(vector).
+        * @digit     contains the number received from the subcribed camera/integer topic.   
+        * @image     contains the image received from the subcribed camera/image topic.   
         */
         void add_to_list(int digit, sensor_msgs::Image& image);
 
