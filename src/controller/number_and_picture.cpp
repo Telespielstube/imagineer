@@ -2,12 +2,12 @@
 
 int NumberAndPicture::get_number()
 {
-    return num.digit;
+    return num;
 }
 
 void NumberAndPicture::set_number(int number)
 {
-    num.digit = number;
+    num = number;
 }
 
 sensor_msgs::Image NumberAndPicture::get_image()

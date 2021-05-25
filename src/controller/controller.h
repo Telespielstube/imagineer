@@ -36,7 +36,7 @@ class Controller
         * @image_message    contains the image received from the subcribed camera/image topic   
         * @int_message      contains the number received from the subcribed camera/integer topic.   
         */
-        void add_to_list(const imagineer::Number digit, const sensor_msgs::ImageConstPtr image);
+        void add_to_list(const imagineer::Number digit, const sensor_msgs::Image& image);
 
         /* Callback function which is called when the node receives a new message from subscribed topics.
         * @image    contains the image received from the subcribed camera/image topic.   

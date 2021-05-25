@@ -9,7 +9,7 @@ class NumberAndPicture
         NumberAndPicture() {} 
         NumberAndPicture(const imagineer::Number digit, const sensor_msgs::Image& image)
         {
-            num = digit;
+            num = digit.digit;
             img = image;
         }
         
@@ -43,6 +43,6 @@ class NumberAndPicture
         void set_image(sensor_msgs::Image& image);
        
     private:
-        imagineer::Number num;
+        int num;
         sensor_msgs::Image img;
 };
