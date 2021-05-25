@@ -6,7 +6,7 @@ void Controller::send_image()
     int corr_number = 0;
     if (!storage.empty())
     {
-        ack_service.request.image = storage.back().get_image().toImageMsg();
+        ack_service.request.image = storage.back().get_image();
         corr_number = storage.back().get_number();
     }
     if (service_client.call(ack_service))
