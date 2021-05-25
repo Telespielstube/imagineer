@@ -1,7 +1,8 @@
 #include "controller.h"
 
-void Controller::send_image(imagineer::ImageAck service)
+void Controller::send_image()
 {       
+    imagineer::ImageAck service
     int corr_number = 0;
     if (!storage.empty())
     {

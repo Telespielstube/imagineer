@@ -31,7 +31,7 @@ class Controller
         * @image             message to be send to the neural network node.
         * @ack_service       Service message object.
         */
-        void send_image(imagineer::ImageAck service);
+        void send_image();
 
         /* adds the subscribed messages as key value pairs to a map.
         * @image_message    contains the image received from the subcribed camera/image topic   
@@ -49,7 +49,6 @@ class Controller
             ros::NodeHandle node;
             ros::ServiceClient service_client;
             std::vector<NumberAndPicture> storage;
-            imagineer::ImageAck service;
             message_filters::Subscriber<sensor_msgs::Image> img_subscriber; 
             message_filters::Subscriber<imagineer::Number> int_subscriber;
             boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
