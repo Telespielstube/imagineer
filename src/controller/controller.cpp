@@ -7,7 +7,6 @@ void Controller::send_image()
     if (!storage.empty())
     {
         ack_service.request.image = storage.back().get_image()->toImageMsg();
-        ROS_INFO("Reqest: %i", ack_service.request.image);
         corr_number = storage.back().get_number();
     }
     if (service_client.call(ack_service))
