@@ -2,11 +2,11 @@
 
 void Controller::send_image()
 {     
-    imagineer::ImageAck ack_service;
+    imagineer::ImageAck service;
     int corr_number = 0;
     if (!storage.empty())
     {
-        ack_service.request.image = storage.back().get_image();
+        service.request.image = storage.back().get_image();
         corr_number = storage.back().get_number();
     }
     if (service_client.call(ack_service))
