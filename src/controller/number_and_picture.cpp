@@ -1,5 +1,4 @@
 #include "number_and_picture.h"
-#include <sensor_msgs/Image.h>
 
 int NumberAndPicture::get_number()
 {
@@ -11,12 +10,12 @@ void NumberAndPicture::set_number(int number)
     num = number;
 }
 
-sensor_msgs::Image_ NumberAndPicture::get_image()
+sensor_msgs::Image NumberAndPicture::get_image()
 {
     return img;
 }
 
-void NumberAndPicture::set_image(sensor_msgs::Image_& image)
+void NumberAndPicture::set_image(sensor_msgs::Image image)
 {
     img = image;
 }
