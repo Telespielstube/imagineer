@@ -1,3 +1,3 @@
-int32 image
+sensor_msgs::Image image
 ---
 int32 result
