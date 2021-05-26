@@ -4,11 +4,12 @@
 void Controller::send_image()
 {       
     imagineer::ImageAck service
-    int number = 0;
+   // int number = 0;
     if (!storage.empty())
     {
         service.request.image = storage.back().get_image();
-        number = storage.back().get_number();
+      //  number = storage.back().get_number();
+        return 1;
     }
     if (service_client.call(service))
     {
