@@ -10,10 +10,11 @@ from imagineer.srv import ImageAck, ImageAckResponse
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request):
+    response = ImageAckResponse()
     print('Got image')
-    number = 2
-    request.result = number
-    return ImageAckResponse(request)
+    ok ='OK'
+    response.result = ok
+    return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
 # for trainig and test environment.
