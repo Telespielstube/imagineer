@@ -25,10 +25,7 @@ void Controller::send_image()
 void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
-    for (auto i : storage)
-    {
-        std::cout << storage.at(i.get_image()) << std::endl;
-    }
+    ROS_INFO("Object added");
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
