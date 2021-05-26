@@ -12,7 +12,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 def callback(request):
     response = ImageAckResponse()
     print('Got image')
-    ok ='OK'
+    ok = 1
     response.result = ok
     return response
 
