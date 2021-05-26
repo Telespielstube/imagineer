@@ -1,5 +1,5 @@
 <launch> 
-  <node name="ai_service" pkg="imagineer" type="ai_service" args="call -- wait /image_ack" /> 
+  <node name="ai_service" pkg="imagineer" type="ai_service.py" args="call -- wait /image_ack" /> 
   <node name="camera" pkg="imagineer" type="camera" args="/home/marta/catkin_ws/src/imagineer/my_images"/>
   <node name="controller" pkg="imagineer" type="controller" />
   <node name="processor" pkg="imagineer" type="processor" />
