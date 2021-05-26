@@ -1,13 +1,14 @@
 #include "controller.h"
+#include <iostream>
 
 void Controller::send_image()
 {       
     imagineer::ImageAck service
-    int corr_number = 0;
+    int number = 0;
     if (!storage.empty())
     {
         service.request.image = storage.back().get_image();
-        corr_number = storage.back().get_number();
+        number = storage.back().get_number();
     }
     if (service_client.call(service))
     {
@@ -24,18 +25,22 @@ void Controller::send_image()
 void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
+    for (auto i : storage)
+    {
+        std::cout << i << std::endl;
+    }
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
 {
-    try
+    try 
     {
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
         int number = digit.digit; // passes the ImageAck filed digit 
         sensor_msgs::Image save_image = *image;
         add_to_list(number, save_image);
-        send_image(service);
+        send_image();
     }
     catch (cv_bridge::Exception& e)
     {

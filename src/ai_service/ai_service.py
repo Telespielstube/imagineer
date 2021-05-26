@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#from __future__ import print_function
+from __future__ import print_function
 
 import rospy, cv2
 from sensor_msgs.msg import Image
