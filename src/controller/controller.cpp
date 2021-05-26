@@ -27,7 +27,7 @@ void Controller::add_to_list(int digit, sensor_msgs::Image& image)
     storage.push_back(NumberAndPicture(digit, image));
     for (auto i : storage)
     {
-        std::cout << storarge.at(i) << std::endl;
+        std::cout << storage.at(i) << std::endl;
     }
 }
 
