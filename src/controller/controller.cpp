@@ -1,18 +1,16 @@
 #include "controller.h"
-#include <iostream>
 
 void Controller::send_image()
 {       
     imagineer::ImageAck service;
-   // int number = 0;
+    int number = 0;
     if (!storage.empty())
     {
         service.request.image = storage.back().get_image();
-      //  number = storage.back().get_number();
+        number = storage.back().get_number();
     }
     if (service_client.call(service))
-    {
-        
+    {    
         ROS_INFO("Received number: %i", (int)service.response.result);
         // compare_result();
     }
@@ -22,10 +20,9 @@ void Controller::send_image()
     }
 }
 
-void Controller::add_to_list(int digit, sensor_msgs::Image& image)
+inline void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
-    ROS_INFO("Object added");
 }
 
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)

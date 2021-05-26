@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     // the actual camera work is done here.
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
-    ros::Rate loop(10000);
+    ros::Rate loop(0.1);
     while (node.ok())
     {    
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
@@ -89,12 +89,12 @@ int main(int argc, char** argv)
             std::string image_file = pick_file(directory_files);
             Image image_to_publish = read_image(image_file);
             publish_message(node, img_publisher, int_publisher, image_to_publish);
-            loop.sleep();
         }
         else
         { 
             continue;
         }
+        loop.sleep();
         ros::spinOnce();
     }
 }
