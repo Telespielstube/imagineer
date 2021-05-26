@@ -27,7 +27,7 @@ def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
     num_machine = NumberMachine()
-    training_data = mnist_trainset = datasets.MNIST(root='./data', train=True, download=True, transform=None)
+    training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
     test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
     rospy.Service('image_ack', ImageAck, callback, num_machine, training_data, test_data)
     rospy.spin()
