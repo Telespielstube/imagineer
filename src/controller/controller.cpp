@@ -9,7 +9,6 @@ void Controller::send_image()
     {
         service.request.image = storage.back().get_image();
       //  number = storage.back().get_number();
-        return 1;
     }
     if (service_client.call(service))
     {
