@@ -1,15 +1,20 @@
 #!/usr/bin/env python
-
 from __future__ import print_function
 
-import rospy, cv2
+import rospy, cv2, torch
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from number_machine import NumberMachine
 from imagineer.srv import ImageAck, ImageAckResponse
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets
+from torchvision.transforms import ToTensor, Lambda, Compose
+import matplotlib.pyplot as plt
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
-def callback(request):
+def callback(request, args):
     response = ImageAckResponse()
     print('Got image')
     ok = 1
@@ -21,8 +26,10 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
-    #wait the service to be advertised, otherwise the service use will fail
-    rospy.Service('image_ack', ImageAck, callback) #(train_dataloader, test_dataloader))
+    num_machine = NumberMachine()
+    training_data = mnist_trainset = datasets.MNIST(root='./data', train=True, download=True, transform=None)
+    test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
+    rospy.Service('image_ack', ImageAck, callback, num_machine, training_data, test_data)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
