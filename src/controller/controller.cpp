@@ -3,7 +3,7 @@
 
 void Controller::send_image()
 {       
-    imagineer::ImageAck service
+    imagineer::ImageAck service;
    // int number = 0;
     if (!storage.empty())
     {
