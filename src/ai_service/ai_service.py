@@ -14,7 +14,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
-def callback(request, args):
+def callback(request):
     response = ImageAckResponse()
     print('Got image')
     ok = 1
