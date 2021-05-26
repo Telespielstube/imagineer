@@ -4,7 +4,7 @@ from __future__ import print_function
 import rospy, cv2, torch
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from number_machine import NumberMachine
+#from number_machine import NumberMachine
 from imagineer.srv import ImageAck, ImageAckResponse
 from torch import nn
 from torch.utils.data import DataLoader
@@ -26,10 +26,10 @@ def callback(request, args):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
-    num_machine = NumberMachine()
+   # num_machine = NumberMachine()
     training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
     test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
-    rospy.Service('image_ack', ImageAck, callback, num_machine, training_data, test_data)
+    rospy.Service('image_ack', ImageAck, callback, training_data, test_data)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
