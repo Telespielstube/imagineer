@@ -7,6 +7,7 @@ from cv_bridge import CvBridge
 #from number_machine import NumberMachine
 from imagineer.srv import ImageAck, ImageAckResponse
 from torch import nn
+from mlxtend.data import loadlocal_mnist
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 #from mlxtend.data import loadlocal_mnist
@@ -21,11 +22,10 @@ class NumberMachine(nn.Module):
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
-def callback(request):
+def callback(request, args):
     response = ImageAckResponse()
     print('Got image')
-    ok = 1
-    response.result = ok
+    response.result = 1
     return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
@@ -34,9 +34,9 @@ def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
     num_machine = NumberMachine()
-   # training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
-   # test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
-    rospy.Service('image_ack', ImageAck, callback) # training_data, test_data)
+    training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
+    test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
+    rospy.Service('image_ack', ImageAck, callback, num_machine, training_data, test_data)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
