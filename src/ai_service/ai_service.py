@@ -9,7 +9,7 @@ from imagineer.srv import ImageAck, ImageAckResponse
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from mlxtend.data import loadlocal_mnist
+#from mlxtend.data import loadlocal_mnist
 from torchvision.transforms import ToTensor, Lambda, Compose
 
 class NumberMachine(nn.Module):
