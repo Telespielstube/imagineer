@@ -23,13 +23,12 @@ class NumberMachine():
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
-def callback(request, args):
+def callback(request):
     response = ImageAckResponse()
-    num_machine = args[0]
+    num_machine = NumberMachine()
     # training_data = args[1]
     # test_data = args[2]
-    ok = 1
-    response.result = ok
+    response.result = num_machine.send_ok()
     return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
@@ -37,10 +36,10 @@ def callback(request, args):
 def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
-    num_machine = NumberMachine()
+    
     # training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
     # test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
-    rospy.Service('image_ack', ImageAck, callback, (num_machine)) # training_data, test_data))
+    rospy.Service('image_ack', ImageAck, callback) # training_data, test_data))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
