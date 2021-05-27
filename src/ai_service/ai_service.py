@@ -4,13 +4,19 @@ from __future__ import print_function
 import rospy, cv2, torch
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from number_machine import NumberMachine
+#from number_machine import NumberMachine
 from imagineer.srv import ImageAck, ImageAckResponse
 #from torch import nn
 #from torch.utils.data import DataLoader
 #from torchvision import datasets
 #from torchvision.transforms import ToTensor, Lambda, Compose
 
+class NumberMachine(nn.Module):
+
+    def __init__(self):
+        super(NumberMachine, self).__init__()
+        print('Number machine is running')
+        self.flatten = nn.Flatten()
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
