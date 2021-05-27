@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Lambda, Compose
 
-class NumberMachine(nn.Module):
+class NumberMachine():
 
     def __init__(self):
         print('running')
@@ -28,7 +28,8 @@ def callback(request, args):
     num_machine = args[0]
     # training_data = args[1]
     # test_data = args[2]
-    response.result = num_machine.send_ok()
+    ok = 1
+    response.result = ok
     return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
