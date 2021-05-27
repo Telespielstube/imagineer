@@ -13,8 +13,9 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 class NumberMachine(nn.Module):
 
     def __init__(self):
-        super(NumberMachine, self).__init__()
-        self.flatten = nn.Flatten()
+        print('running')
+        #super(NumberMachine, self).__init__()
+       # self.flatten = nn.Flatten()
     
     def send_ok(self):
         ok = 5
