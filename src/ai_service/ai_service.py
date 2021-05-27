@@ -14,15 +14,20 @@ class NumberMachine(nn.Module):
 
     def __init__(self):
         super(NumberMachine, self).__init__()
-        print('Number machine is running')
         self.flatten = nn.Flatten()
+    
+    def send_ok(self):
+        ok = 5
+        return ok 
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
 def callback(request, args):
     response = ImageAckResponse()
-    print('Got image')
-    ok = 9
+    num_machine = args[0]
+    training_data = args[1]
+    test_data = args[2]
+    ok = num_machine.send_ok()
     response.result = ok
     return response
 
@@ -32,9 +37,9 @@ def main():
     rospy.init_node('ai_service')
     rospy.loginfo('Neural network node is running')
     num_machine = NumberMachine()
-    training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
-    test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
-    rospy.Service('image_ack', ImageAck, callback, num_machine, training_data, test_data)
+    #training_data = datasets.MNIST(root='./data', train=True, download=True, transform=None)
+    #test_data = datasets.MNIST(root='./data', train=False, download=True, transform=None)
+    rospy.Service('image_ack', ImageAck, callback, (num_machine , training_data, test_data))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
