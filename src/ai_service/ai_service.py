@@ -22,7 +22,8 @@ class NumberMachine(nn.Module):
 def callback(request, args):
     response = ImageAckResponse()
     print('Got image')
-    response.result = 1
+    ok = 9
+    response.result = ok
     return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
