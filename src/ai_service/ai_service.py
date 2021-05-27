@@ -4,13 +4,10 @@ from __future__ import print_function
 import rospy, cv2, torch, os, platform
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-#from number_machine import NumberMachine
 from imagineer.srv import ImageAck, ImageAckResponse
 from torch import nn
-from mlxtend.data import loadlocal_mnist
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-#from mlxtend.data import loadlocal_mnist
 from torchvision.transforms import ToTensor, Lambda, Compose
 
 class NumberMachine(nn.Module):
