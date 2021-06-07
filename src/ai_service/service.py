@@ -66,6 +66,7 @@ class Service():
         print('Model is saved')
 
     def load_model(self):
+        model = None
         try:
             model = torch.load('./my_trained_mnist_model.pt')
         except IOError:
