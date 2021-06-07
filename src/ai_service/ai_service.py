@@ -28,7 +28,7 @@ def callback(request, arg):
 def main():
     rospy.init_node('ai_service')
     model = NumberMachine(batch_size=200, epochs=10, learning_rate=0.01, log_interval=10)
-    rospy.Service('image_ack', ImageAck, callback, model)
+    rospy.Service('image_ack', ImageAck, callback)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
