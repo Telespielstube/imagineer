@@ -73,6 +73,6 @@ class NumberMachine(nn.Module):
         torch.save(model, './my_trained_mnist_model.pt')
         print('Model is saved')
 
-    def forward(self, x):
-        x = self.flatten(x)
-        return self.output_layer(x)
+    # def forward(self, x):
+    #     x = self.flatten(x)
+    #     return self.output_layer(x)
