@@ -41,7 +41,7 @@ class NumberMachine(nn.Module):
         return transforms.ToTensor()(image_to_numpy)
 
     # Core training of the MNIST dataset.
-    def train_model(self, model):
+    def training_phase(self, model):
         print("Training is running")
         criterion = nn.NLLLoss()
         optimizer = torch.optim.SGD(self.image, self.learning_rate)
