@@ -14,12 +14,13 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
 # @args       arguments passed to callback function.
-def callback(request):
+def callback(request, arg):
+    model = arg
+    model.set_image(request.image)
+    model.training_phase() 
+    print("Model added")
     response = ImageAckResponse()
-    #model = arg
-    #print(model)
-    #model.set_image(request.image)
-    #model.training_phase() 
+    
     response.result = 5 ## later the predicted number is passed to response.result
     return response
 
@@ -28,7 +29,7 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     model = NumberMachine(batch_size=200, epochs=10, learning_rate=0.01, log_interval=10)
-    rospy.Service('image_ack', ImageAck, callback)
+    rospy.Service('image_ack', ImageAck, callback, model)
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
