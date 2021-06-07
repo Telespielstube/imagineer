@@ -1,16 +1,10 @@
-#!/usr/bin/env python
-from __future__ import print_function
-
-import rospy, cv2, torch, os, platform
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
-from imagineer.srv import ImageAck, ImageAckResponse
+import torch
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor, Lambda, Compose
+from torchvision.transforms import ToTensor, Compose
 
 class Service():
 
