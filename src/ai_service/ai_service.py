@@ -14,9 +14,9 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
 # @args       arguments passed to callback function.
-def callback(request, args):
+def callback(request, arg):
     response = ImageAckResponse()
-    model = args[0]
+    model = arg
     print(model)
     #model.set_image(request.image)
     model.training_phase() 
