@@ -44,7 +44,7 @@ class NumberMachine(nn.Module):
     def training_phase(self, model):
         print("Training is running")
         criterion = nn.NLLLoss()
-        optimizer = torch.optim.SGD(self.image, self.learning_rate)
+        optimizer = torch.optim.SGD(model.parameters(), self.learning_rate)
         time0 = time()
         for e in range(self.epochs):
             running_loss = 0

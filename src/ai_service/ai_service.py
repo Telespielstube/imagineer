@@ -25,7 +25,7 @@ def main():
     rospy.init_node('ai_service')
     model = NumberMachine(batch_size=200, epochs=10, learning_rate=0.01, log_interval=10)
     #model.set_image(request.image)
-    model.training_phase() 
+    model.training_phase(model) 
     rospy.Service('image_ack', ImageAck, callback)
     rospy.spin()
 
