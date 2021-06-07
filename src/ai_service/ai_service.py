@@ -5,22 +5,11 @@ import rospy, cv2, torch, os, platform
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from imagineer.srv import ImageAck, ImageAckResponse
-from number_machine import NumberMachine
+from ai_service.number_machine import NumberMachine
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Lambda, Compose
-
-class NumberMachine():
-
-    def __init__(self):
-        print('running')
-        super().__init__()
-        # self.flatten = nn.Flatten()
-    
-    def send_ok(self):
-        ok = 5
-        return ok 
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @image    the received image. 
