@@ -1,11 +1,7 @@
-from __future__ import print_function
-
-import rospy, cv2, torch, os, platform
+import rospy
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.service import Service
-
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
