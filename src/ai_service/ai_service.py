@@ -20,7 +20,7 @@ def callback(request, args):
     model.set_image(request.image)
     model.training_phase()
     model.save_model(model)
-   # response.result = model.send_ok() ## later the predicted number is passed to response.result
+    response.result = 5 ## later the predicted number is passed to response.result
     return response
 
 # Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 

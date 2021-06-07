@@ -70,5 +70,5 @@ class NumberMachine(nn.Module):
 
     def forward(self, x):
         x = self.flatten(x)
-        logits = self.linear_relu_stack(x)
-        return logits
+        predicted_number = self.output_layer(x)
+        return predicted_number
