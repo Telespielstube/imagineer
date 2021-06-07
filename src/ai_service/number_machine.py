@@ -11,6 +11,7 @@ class NumberMachine(nn.Module):
     def __init__(self, batch_size, epochs, learning_rate, log_interval):
         super(NumberMachine, self).__init__()
         print('Number machine is running')
+        self.flatten = nn.Flatten()
         self.batch_size = batch_size
         self.epochs = epochs
         self.learning_rate = learning_rate
@@ -73,6 +74,6 @@ class NumberMachine(nn.Module):
         torch.save(model, './my_trained_mnist_model.pt')
         print('Model is saved')
 
-    # def forward(self, x):
-    #     x = self.flatten(x)
-    #     return self.output_layer(x)
+    def forward(self, x):
+        x = self.flatten(x)
+        return self.output_layer(x)
