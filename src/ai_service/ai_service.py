@@ -17,9 +17,9 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 def callback(request, args):
     response = ImageAckResponse()
     model = args[0]
-    model.set_image(request.image)
-    model.training_phase()
-   # model.save_model(model)
+    print(model)
+    #model.set_image(request.image)
+    model.training_phase() 
     response.result = 5 ## later the predicted number is passed to response.result
     return response
 
@@ -27,7 +27,6 @@ def callback(request, args):
 # for trainig and test environment.
 def main():
     rospy.init_node('ai_service')
-    rospy.loginfo('Neural network node is running')
     model = NumberMachine(batch_size=200, epochs=10, learning_rate=0.01, log_interval=10)
     rospy.Service('image_ack', ImageAck, callback, (model))
     rospy.spin()

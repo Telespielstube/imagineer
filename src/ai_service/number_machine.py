@@ -1,5 +1,6 @@
 import os, torch
 import torch.nn.functional as F
+import numpy
 from time import time
 from torch import nn
 from torchvision import datasets, transforms
@@ -34,6 +35,10 @@ class NumberMachine(nn.Module):
     # @image        image sent from the controller node. 
     def set_image(self, image):
         self.image = image
+
+    def image_to_tensor(self):
+        image_to_numpy = numpy.asarray(self.image)
+        return transforms.ToTensor()(image_to_numpy)
 
     # Core training of the MNIST dataset.
     def train_model(self, model):
