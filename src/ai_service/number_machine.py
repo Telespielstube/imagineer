@@ -75,5 +75,4 @@ class NumberMachine(nn.Module):
 
     def forward(self, x):
         x = self.flatten(x)
-        predicted_number = self.output_layer(x)
-        return predicted_number
+        return self.output_layer(x)
