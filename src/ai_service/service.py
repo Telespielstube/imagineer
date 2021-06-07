@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import rospy, cv2, torch, os, platform
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+from imagineer.srv import ImageAck, ImageAckResponse
+from time import time
+from ai_service.neural_network import NeuralNetwork
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+from torchvision.transforms import ToTensor, Lambda, Compose
+
+class Service():
+
+    def __init__(self):
+        self.batch_size = 200
+        self.epoch = 20
+        self.learning_rate = 0.01
+        self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
+                                    transform=transforms.Compose([transforms.ToTensor(),
+                                    transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
+        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, 
+                                transform=transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
+        self.model = NeuralNetwork(batch_size=200, epochs=10, learning_rate=0.01)
+
+    #model.set_image(request.image)
+    #model.training_phase(model) 
+    def training_phase(self):
+        print("Training is running")
+        criterion = nn.CrossEntropyLoss()
+        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
+        time0 = time()
+        for epoch in range(10):
+            running_loss = 0
+            for images, labels in self.training_data:
+                # Flatten MNIST images into a 784 long vector
+                images = images.view(images.shape[0], -1)
+            
+                # Training pass
+                optimizer.zero_grad()
+                
+                output = self.model(images)
+                loss = criterion(output, labels)
+                
+                #This is where the model learns by backpropagating
+                loss.backward()
+                
+                #And optimizes its weights here
+                optimizer.step()
+                
+                running_loss += loss.item()
+            else:
+                print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
+        print("\nTraining Time (in minutes) =",(time()-time0)/60)
+
+         # Sets the image property attribute.
+    # @image        image sent from the controller node. 
+    # def set_image(self, image):
+    #     self.image = image
+
+    # def image_to_tensor(self):
+    #     image_to_numpy = numpy.asarray(self.image)
+    #     return transforms.ToTensor()(image_to_numpy)
+
+    # Saves the trained model to a specific path in the root folder of the application.
+    # @model    trained model
+    def save_model(self):
+        torch.save(self.model, './my_trained_mnist_model.pt')
+        print('Model is saved')
+
+    def load_model(self):
+        try:
+            model = torch.load('./my_trained_mnist_model.pt')
+        except IOError:
+            print('Model does not exist!')
+        return model.eval()
