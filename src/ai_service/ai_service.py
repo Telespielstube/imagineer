@@ -15,11 +15,12 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 # @request    the received image. 
 # @args       arguments passed to callback function.
 def callback(request, arg):
-    model = arg
-    model.set_image(request.image)
-    model.training_phase() 
-    print("Model added")
     response = ImageAckResponse()
+    model = arg
+    # model.set_image(request.image)
+    # model.training_phase() 
+    print("Model added")
+    
     
     response.result = 5 ## later the predicted number is passed to response.result
     return response
