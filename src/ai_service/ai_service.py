@@ -19,7 +19,7 @@ def callback(request, args):
     model = args[0]
     model.set_image(request.image)
     model.training_phase()
-    model.save_model(model)
+   # model.save_model(model)
     response.result = 5 ## later the predicted number is passed to response.result
     return response
 
