@@ -16,12 +16,11 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    if not service.load_model():
-        service.training_phase()
-        service.save_model()
-    else:
-        rospy.Service('image_ack', ImageAck, callback)
-        rospy.spin()
+    service.training_phase()
+    service.save_model()
+
+    rospy.Service('image_ack', ImageAck, callback)
+    rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
 if __name__ == '__main__':
