@@ -9,7 +9,7 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 class NumberMachine(nn.Module):
 
     def __init__(self, batch_size, epochs, learning_rate, log_interval):
-        super(NumberMachine, self).__init__()
+        super().__init__()
         print('Number machine is running')
         self.flatten = nn.Flatten()
         self.batch_size = batch_size
@@ -28,26 +28,26 @@ class NumberMachine(nn.Module):
         
         # Setup all layers                       
         self.input_layer = nn.Sequential(nn.Linear(28*28, 512), nn.ReLU()) #first layer has 784 input values, and 512 output values
-        self.hidden_layer1 = nn.Linear(512, 128), nn.ReLU()
-        self.hidden_layer2 = nn.Linear(128, 10), nn.ReLU()#output size is 10, because we expect a number from 0 to 9.
+        self.hidden_layer1 = nn.Linear(512, 128)
+        self.hidden_layer2 = nn.Linear(128, 10)#output size is 10, because we expect a number from 0 to 9.
         self.output_layer = nn.LogSoftmax(1)
   
     # Sets the image property attribute.
     # @image        image sent from the controller node. 
-    def set_image(self, image):
-        self.image = image
+    # def set_image(self, image):
+    #     self.image = image
 
-    def image_to_tensor(self):
-        image_to_numpy = numpy.asarray(self.image)
-        return transforms.ToTensor()(image_to_numpy)
+    # def image_to_tensor(self):
+    #     image_to_numpy = numpy.asarray(self.image)
+    #     return transforms.ToTensor()(image_to_numpy)
 
     # Core training of the MNIST dataset.
     def training_phase(self, model):
         print("Training is running")
-        criterion = nn.NLLLoss()
+        criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(model.parameters(), self.learning_rate)
         time0 = time()
-        for e in range(self.epochs):
+        for epoch in range(self.epochs):
             running_loss = 0
             for images, labels in self.training_data:
                 # Flatten MNIST images into a 784 long vector
@@ -56,6 +56,7 @@ class NumberMachine(nn.Module):
                 # Training pass
                 optimizer.zero_grad()
                 
+
                 output = model(images)
                 loss = criterion(output, labels)
                 
@@ -67,13 +68,17 @@ class NumberMachine(nn.Module):
                 
                 running_loss += loss.item()
             else:
-                print("Epoch {} - Training loss: {}".format(e, running_loss/len(self.training_data)))
+                print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
-    def save_model(self, model):
-        torch.save(model, './my_trained_mnist_model.pt')
-        print('Model is saved')
+    # def save_model(self, model):
+    #     torch.save(model, './my_trained_mnist_model.pt')
+    #     print('Model is saved')
 
     def forward(self, x):
         x = self.flatten(x)
-        return self.output_layer(x)
+        x = self.input_layer(x)
+        x = self.hidden_layer1(x)
+        x = self.hidden_layer2(x)
+        x = self.output_layer(x)
+        return x
