@@ -21,7 +21,7 @@ find_package(
 )
 
 ## Uncomment if the package has a setup.py
-catkin_python_setup()
+# catkin_python_setup()
 
 ## Declare ROS messages and services
 add_message_files(
