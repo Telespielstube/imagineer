@@ -16,10 +16,10 @@ from torchvision.transforms import ToTensor, Lambda, Compose
 # @args       arguments passed to callback function.
 def callback(request, arg):
     response = ImageAckResponse()
-    model = arg
-    print(model)
-    model.set_image(request.image)
-    model.training_phase() 
+    #model = arg
+    #print(model)
+    #model.set_image(request.image)
+    #model.training_phase() 
     response.result = 5 ## later the predicted number is passed to response.result
     return response
 
