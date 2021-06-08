@@ -22,7 +22,7 @@ class Service():
 
     #model.set_image(request.image)
     #model.training_phase(model) 
-    def training_phase(self):
+    def training_phase_without_cuda(self):
         print("Training is running")
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
@@ -37,6 +37,34 @@ class Service():
                 optimizer.zero_grad()
                 
                 output = self.model(images)
+                loss = criterion(output, labels.cuda)
+                
+                #This is where the model learns by backpropagating
+                loss.backward()
+                
+                #And optimizes its weights here
+                optimizer.step()
+                
+                running_loss += loss.item()
+            else:
+                print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
+        print("\nTraining Time (in minutes) =",(time()-time0)/60)
+
+    def training_phase_with_cuda(self):
+        print("Training is running")
+        criterion = nn.CrossEntropyLoss()
+        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
+        time0 = time()
+        for epoch in range(10):
+            running_loss = 0
+            for images, labels in self.training_data:
+                # Flatten MNIST images into a 784 long vector
+                images = images.view(images.shape[0], -1)
+            
+                # Training pass
+                optimizer.zero_grad()
+                
+                output = self.model(images.cuda)
                 loss = criterion(output, labels)
                 
                 #This is where the model learns by backpropagating
@@ -50,15 +78,6 @@ class Service():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
-         # Sets the image property attribute.
-    # @image        image sent from the controller node. 
-    # def set_image(self, image):
-    #     self.image = image
-
-    # def image_to_tensor(self):
-    #     image_to_numpy = numpy.asarray(self.image)
-    #     return transforms.ToTensor()(image_to_numpy)
-
     # Saves the trained model to a specific path in the root folder of the application.
     # @model    trained model
     def save_model(self):
@@ -68,3 +87,13 @@ class Service():
     def load_model(self):
         model = torch.load('./my_trained_mnist_model.pt')
         return model.eval()
+
+
+      # Sets the image property attribute.
+    # @image        image sent from the controller node. 
+    # def set_image(self, image):
+    #     self.image = image
+
+    # def image_to_tensor(self):
+    #     image_to_numpy = numpy.asarray(self.image)
+    #     return transforms.ToTensor()(image_to_numpy)

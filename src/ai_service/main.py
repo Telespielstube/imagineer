@@ -1,4 +1,4 @@
-import rospy
+import rospy, torch
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.service import Service
@@ -16,8 +16,14 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    service.training_phase()
-    service.save_model()
+    if not torch.cuda.is_available():
+        torch.cuda.device('cpu')
+        service.training_phase_without_cuda()
+        service.save_model()
+    else:
+        torch.cuda.device('gpu')
+        service.training_phase_with_cuda()
+        service.save_model()
 
     rospy.Service('image_ack', ImageAck, callback)
     rospy.spin()
