@@ -19,6 +19,7 @@ def main():
     service = Service()
     file = pathlib.Path('./my_trained_mnist_model.pt')
     if not file.exists():
+        print('Does not exist')
         # checks if Nvidia cuda support is available. 
         if torch.cuda.is_available():
             torch.device('gpu')
@@ -31,6 +32,7 @@ def main():
             service.training_phase_without_cuda()
             service.save_model()
     else:
+        print('does exist')
         service.load_model()
         rospy.Service('image_ack', ImageAck, callback)
         rospy.spin()
