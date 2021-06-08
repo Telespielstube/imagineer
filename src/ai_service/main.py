@@ -1,5 +1,7 @@
 import rospy
 import torch
+import os.path
+from os import path
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.service import Service
@@ -16,7 +18,7 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    if not service.load_model():
+    if not path.exists('./my_trained_mnist_model.pt'):
         # checks if Nvidia cuda support is available. 
         if torch.cuda.is_available():
             torch.device('gpu')
@@ -29,6 +31,7 @@ def main():
             service.training_phase_without_cuda()
             service.save_model()
     else:
+        service.load_model()
         rospy.Service('image_ack', ImageAck, callback)
         rospy.spin()
 
