@@ -18,7 +18,7 @@ class Service():
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
-        self.model = NeuralNetwork(batch_size=200, epochs=10, learning_rate=0.01)
+        self.model = NeuralNetwork()
 
     #model.set_image(request.image)
     #model.training_phase(model) 
