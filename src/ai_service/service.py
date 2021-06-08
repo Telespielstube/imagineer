@@ -26,26 +26,20 @@ class Service():
         print("Training is running")
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
-        time0 = time()
+        start_time = time()
         for epoch in range(self.epochs):
             running_loss = 0
             for images, labels in self.training_data:
                 images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
-                optimizer.zero_grad() # Training pass
-                
+                optimizer.zero_grad() # Training pass         
                 output = self.model(images)
                 loss = criterion(output, labels)
-                
-                #This is where the model learns by backpropagating
-                loss.backward()
-                
-                #And optimizes its weights here
-                optimizer.step()
-                
+                loss.backward() #This is where the model learns by backpropagating
+                optimizer.step() #And optimizes its weights
                 running_loss += loss.item()
             else:
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
-        print("\nTraining Time (in minutes) =",(time() - time0) / 60)
+        print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
     def training_phase_with_cuda(self):
         print("Training is running")
@@ -56,20 +50,15 @@ class Service():
             running_loss = 0
             for images, labels in self.training_data:
                 # Flatten MNIST images into a 784 long vector
-                images = images.view(images.shape[0], -1)
-            
+                images = images.view(images.shape[0], -1)           
                 # Training pass
-                optimizer.zero_grad()
-                
+                optimizer.zero_grad()               
                 output = self.model(images.cuda)
-                loss = criterion(output, labels.cuda)
-                
+                loss = criterion(output, labels.cuda)                
                 #This is where the model learns by backpropagating
-                loss.backward()
-                
+                loss.backward()              
                 #And optimizes its weights here
                 optimizer.step()
-                
                 running_loss += loss.item()
             else:
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
