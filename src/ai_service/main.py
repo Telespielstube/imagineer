@@ -5,23 +5,26 @@ from ai_service.service import Service
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
-# @args       arguments passed to callback function.
 def callback(request):
     response = ImageAckResponse()
     response.result = 5 ## later the predicted number is passed to response.result
     return response
 
-# Handles all the basics like initializing node, receiving images through cv_bridge, initializing pytorch datasaets 
-# for trainig and test environment.
+# Handles all the basics like initializing node, receiving images through cv_bridge 
+# and checking if Nvidias cuda is available
 def main():
     rospy.init_node('ai_service')
     service = Service()
     if not torch.cuda.is_available():
         torch.cuda.device('cpu')
-        service.training_phase_without_cuda()
-        service.save_model()
+        if not service.load_model():
+            service.training_phase_without_cuda()
+            service.save_model()
+        else:
+            return
     else:
         torch.cuda.device('gpu')
+        
         service.training_phase_with_cuda()
         service.save_model()
 

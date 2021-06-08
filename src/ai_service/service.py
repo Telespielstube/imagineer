@@ -37,7 +37,7 @@ class Service():
                 optimizer.zero_grad()
                 
                 output = self.model(images)
-                loss = criterion(output, labels.cuda)
+                loss = criterion(output, labels)
                 
                 #This is where the model learns by backpropagating
                 loss.backward()
@@ -65,7 +65,7 @@ class Service():
                 optimizer.zero_grad()
                 
                 output = self.model(images.cuda)
-                loss = criterion(output, labels)
+                loss = criterion(output, labels.cuda)
                 
                 #This is where the model learns by backpropagating
                 loss.backward()
@@ -78,15 +78,16 @@ class Service():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
-    # Saves the trained model to a specific path in the root folder of the application.
+    # Saves the trained model to a specific path.
     # @model    trained model
     def save_model(self):
-        torch.save(self.model, './my_trained_mnist_model.pt')
+        torch.save(self.model, './saved_mnist_model/my_trained_mnist_model.pt')
         print('Model is saved')
-
+    
+    # Loads a saved model.
     def load_model(self):
-        model = torch.load('./my_trained_mnist_model.pt')
-        return model.eval()
+        self.model = torch.load('./saved_mnist_mode/lmy_trained_mnist_model.pt')
+        return self.model.eval()
 
 
       # Sets the image property attribute.
