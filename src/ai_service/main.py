@@ -18,7 +18,7 @@ def main():
     rospy.init_node('ai_service')
     service = Service()
     file = pathlib.Path('./my_trained_mnist_model.pt')
-    if file.exists():
+    if not file.exists():
         # checks if Nvidia cuda support is available. 
         if torch.cuda.is_available():
             torch.device('gpu')
