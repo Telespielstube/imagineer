@@ -6,8 +6,8 @@ void Controller::send_image()
     int number = 0;
     if (!storage.empty())
     {
-        service.request.image = storage.back().get_image();
-        number = storage.back().get_number();
+        service.request.image = storage.back().get_image(); // image gets passed to the service request image attribute.
+        number = storage.back().get_number(); // the corresponding label(number) gets passed to an integer. 
     }
     if (service_client.call(service))
     {    
@@ -41,6 +41,3 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
         ROS_ERROR("Error: %s", e.what());
     }
 }
-
-
-

@@ -10,8 +10,8 @@ class Service():
 
     def __init__(self, save_path):
         self.batch_size = 200
-        self.epochs = 5
-        self.learning_rate = 0.01
+        self.epochs = 15
+        self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                     transform=transforms.Compose([transforms.ToTensor(),
                                     transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
@@ -21,10 +21,8 @@ class Service():
         self.model = NeuralNetwork()
         self.path = save_path
 
-    #model.set_image(request.image)
-    #model.training_phase(model) 
     def training_phase_without_cuda(self):
-        print("Training is running")
+        print("Training phase")
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
         start_time = time()
@@ -43,7 +41,7 @@ class Service():
         print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
     def training_phase_with_cuda(self):
-        print("Training is running")
+        print("Training phase")
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
         time0 = time()
@@ -77,8 +75,10 @@ class Service():
         print('Model loaded')
         return self.model.eval()
 
-
-      # Sets the image property attribute.
+    #model.set_image(request.image)
+    #model.training_phase(model) 
+    
+    # Sets the image property attribute.
     # @image        image sent from the controller node. 
     # def set_image(self, image):
     #     self.image = image
