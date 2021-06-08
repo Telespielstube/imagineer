@@ -18,10 +18,12 @@ def main():
 
     if torch.cuda.is_available():
         torch.device('gpu')
+        print('Using the gpu')
         service.training_phase_with_cuda()
         service.save_model()
     else:
         torch.device('cpu')
+        print('Using the cpu. Get youself a cup of coffee it will take time :-D')
         service.training_phase_without_cuda()
         service.save_model()
 

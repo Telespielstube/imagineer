@@ -86,7 +86,7 @@ class Service():
     
     # Loads entire saved model.
     def load_model(self):
-        self.model = torch.load('./saved_mnist_mode/lmy_trained_mnist_model.pt')
+        self.model = torch.load('./saved_mnist_model/lmy_trained_mnist_model.pt')
         return self.model.eval()
 
 
