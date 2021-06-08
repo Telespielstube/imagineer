@@ -10,7 +10,7 @@ class Service():
 
     def __init__(self):
         self.batch_size = 200
-        self.epoch = 20
+        self.epoch = 2
         self.learning_rate = 0.01
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                     transform=transforms.Compose([transforms.ToTensor(),
@@ -24,17 +24,14 @@ class Service():
     #model.training_phase(model) 
     def training_phase_without_cuda(self):
         print("Training is running")
-        criterion = nn.CrossEntropyLoss()
+        criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
         time0 = time()
-        for epoch in range(10):
+        for epoch in range(self.epochs):
             running_loss = 0
             for images, labels in self.training_data:
-                # Flatten MNIST images into a 784 long vector
-                images = images.view(images.shape[0], -1)
-            
-                # Training pass
-                optimizer.zero_grad()
+                images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
+                optimizer.zero_grad() # Training pass
                 
                 output = self.model(images)
                 loss = criterion(output, labels)
@@ -48,7 +45,7 @@ class Service():
                 running_loss += loss.item()
             else:
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
-        print("\nTraining Time (in minutes) =",(time()-time0)/60)
+        print("\nTraining Time (in minutes) =",(time() - time0) / 60)
 
     def training_phase_with_cuda(self):
         print("Training is running")
@@ -81,12 +78,12 @@ class Service():
     # Saves the entire trained model to a specific path.
     # @model    trained model
     def save_model(self):
-        torch.save(self.model, './saved_mnist_model/my_trained_mnist_model.pt')
+        torch.save(self.model, './my_trained_mnist_model.pt')
         print('Model is saved')
     
     # Loads entire saved model.
     def load_model(self):
-        self.model = torch.load('./saved_mnist_model/lmy_trained_mnist_model.pt')
+        self.model = torch.load('./my_trained_mnist_model.pt')
         return self.model.eval()
 
 
