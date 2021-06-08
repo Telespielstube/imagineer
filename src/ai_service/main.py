@@ -15,13 +15,13 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    
+
     if torch.cuda.is_available():
-        torch.cuda.device('gpu')
+        torch.device('gpu')
         service.training_phase_with_cuda()
         service.save_model()
     else:
-        torch.cuda.device('cpu')
+        torch.device('cpu')
         service.training_phase_without_cuda()
         service.save_model()
 
