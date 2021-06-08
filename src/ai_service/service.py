@@ -67,12 +67,13 @@ class Service():
     # Saves the entire trained model to a specific path.
     # @model    trained model
     def save_model(self):
-        torch.save(self.model, './my_trained_mnist_model.pt')
+        torch.save(self.model, './src/imagineer/my_trained_mnist_model.pt')
         print('Model is saved')
     
     # Loads entire saved model.
     def load_model(self):
-        self.model = torch.load('./my_trained_mnist_model.pt')
+        self.model = torch.load('./src/imagineer/my_trained_mnist_model.pt')
+        print('Model loaded')
         return self.model.eval()
 
 

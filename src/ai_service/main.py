@@ -17,7 +17,7 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    file = pathlib.Path('./my_trained_mnist_model.pt')
+    file = pathlib.Path('./src/imagineer/my_trained_mnist_model.pt')
     if not file.exists():
         print('Does not exist')
         # checks if Nvidia cuda support is available. 
