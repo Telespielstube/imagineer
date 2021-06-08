@@ -8,7 +8,7 @@ from torchvision.transforms import ToTensor, Compose
 
 class Service():
 
-    def __init__(self):
+    def __init__(self, save_path):
         self.batch_size = 200
         self.epochs = 5
         self.learning_rate = 0.01
@@ -19,6 +19,7 @@ class Service():
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.model = NeuralNetwork()
+        self.path = save_path
 
     #model.set_image(request.image)
     #model.training_phase(model) 
@@ -67,12 +68,12 @@ class Service():
     # Saves the entire trained model to a specific path.
     # @model    trained model
     def save_model(self):
-        torch.save(self.model, './src/imagineer/my_trained_mnist_model.pt')
+        torch.save(self.model, self.path)
         print('Model is saved')
     
     # Loads entire saved model.
     def load_model(self):
-        self.model = torch.load('./src/imagineer/my_trained_mnist_model.pt')
+        self.model = torch.load(self.path)
         print('Model loaded')
         return self.model.eval()
 
