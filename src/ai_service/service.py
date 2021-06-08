@@ -78,13 +78,13 @@ class Service():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
-    # Saves the trained model to a specific path.
+    # Saves the entire trained model to a specific path.
     # @model    trained model
     def save_model(self):
         torch.save(self.model, './saved_mnist_model/my_trained_mnist_model.pt')
         print('Model is saved')
     
-    # Loads a saved model.
+    # Loads entire saved model.
     def load_model(self):
         self.model = torch.load('./saved_mnist_mode/lmy_trained_mnist_model.pt')
         return self.model.eval()

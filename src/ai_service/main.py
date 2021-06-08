@@ -15,17 +15,14 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     service = Service()
-    if not torch.cuda.is_available():
-        torch.cuda.device('cpu')
-        if not service.load_model():
-            service.training_phase_without_cuda()
-            service.save_model()
-        else:
-            return
-    else:
+    
+    if torch.cuda.is_available():
         torch.cuda.device('gpu')
-        
         service.training_phase_with_cuda()
+        service.save_model()
+    else:
+        torch.cuda.device('cpu')
+        service.training_phase_without_cuda()
         service.save_model()
 
     rospy.Service('image_ack', ImageAck, callback)
