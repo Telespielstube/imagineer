@@ -48,7 +48,7 @@ class AiService():
 
     def validation_phase(self):
         self.model.eval()
-        for images, labels in self.validation_data:
+        images, labels = next(iter(self.validation_data))
             img = images[0].view(1, 784)
             with torch.no_grad():
                 logps = self.model(img)
