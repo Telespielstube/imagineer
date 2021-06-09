@@ -1,5 +1,6 @@
 # import torch.nn.functional as F
 from torch import nn
+import torch.nn.functional as F
 
 class NeuralNetwork(nn.Module):
 
@@ -15,7 +16,7 @@ class NeuralNetwork(nn.Module):
     def forward(self, x):
         x = self.flatten(x)
         x = self.input_layer(x)
-        x = self.hidden_layer1(x)
-        x = self.hidden_layer2(x)
+        x = F.relu(self.hidden_layer1(x))
+        x = F.relu(self.hidden_layer2(x))
         x = self.output_layer(x)
         return x
