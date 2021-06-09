@@ -70,10 +70,9 @@ class AiService():
     def load_model(self):
         return torch.load(self.path)
         
-    def show(self, img):
-        img_np_arr = img.numpy()   # transfer the pytorch tensor(img_tensor) to numpy array
+    def show(self, img):   # transfer the pytorch tensor(img_tensor) to numpy array
         npimg = img.numpy()
-        plt.imshow(np.transpose(npimg, (1, 2, 0)), interpolation='nearest')
+        plt.imshow(np.transpose(npimg), interpolation='nearest')
         plt.show()
 
 
