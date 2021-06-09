@@ -54,7 +54,7 @@ class AiService():
             with torch.no_grad():
                 logps = self.model(img)
             ps = torch.exp(logps)
-            show_image(img[0][0])
+            img.view(1, 28, 28)
             probab = list(ps.numpy()[0])
             print("Predicted Digit =", probab.index(max(probab)))
 
