@@ -54,7 +54,7 @@ class AiService():
         
             target = self.model(images)
             loss = criterion(target,labels)
-            valid_loss = loss.item() * data.size(0)
+            valid_loss = loss.item() * images.size(0)
 
             if min_valid_loss > valid_loss:
                 print(f'Validation Loss Decreased({min_valid_loss:.6f}--->{valid_loss:.6f}) \t Saving The Model')

@@ -19,10 +19,12 @@ def main():
     service = AiService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
+        print('No model found. Training in progrress')
         service.training_phase_with_cuda()
         service.save_model()
     else:
         service.load_model()
+        print('Model found and loaded. Validation in progress')
         service.validation_phase()
         rospy.Service('image_ack', ImageAck, callback, service)
     rospy.spin()
