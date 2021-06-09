@@ -16,7 +16,7 @@ def callback(request, arg):
 def main():
     rospy.init_node('ai_service')
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
-    service = AIService(save_path)
+    service = AiService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
         print('Does not exist')
