@@ -63,6 +63,8 @@ class Service():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
+    #def validation_phase(self):
+
     # Saves the entire trained model to a specific path.
     # @model    trained model
     def save_model(self):
@@ -77,7 +79,7 @@ class Service():
 
     #model.set_image(request.image)
     #model.training_phase(model) 
-    
+
     # Sets the image property attribute.
     # @image        image sent from the controller node. 
     # def set_image(self, image):

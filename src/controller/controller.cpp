@@ -29,10 +29,10 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
 {
     try 
     {
-        cv::imshow("view", cv_bridge::toCvCopy(image)->image);
-        cv::waitKey(30); 
-        int number = digit.digit; // passes the ImageAck filed digit 
-        sensor_msgs::Image save_image = *image;
+       // cv::imshow("view", cv_bridge::toCvCopy(image)->image);
+       // cv::waitKey(30); 
+        int number = digit.digit; // passes the ImageAck digit to an integer
+        sensor_msgs::Image save_image = *image; 
         add_to_list(number, save_image);
         send_image();
     }
