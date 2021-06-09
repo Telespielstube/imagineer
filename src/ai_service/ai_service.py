@@ -5,7 +5,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
-
+from fastai.vision.all import show_image
 class AiService():
 
     def __init__(self, save_path):
@@ -49,26 +49,14 @@ class AiService():
 
     def validation_phase(self):
         self.model.eval()
-        criterion = nn.CrossEntropyLoss()
-        min_valid_loss = 0.0
         for images, labels in self.validation_data:
-            print('.')
-            if torch.cuda.is_available():
-                images, labels = images.cuda(), labels.cuda()
-        
-            target = self.model(images)
-            loss = criterion(target,labels)
-            valid_loss = loss.item() * images.size(0)
-
-            if min_valid_loss > valid_loss:
-                print(f'Validation Loss Decreased({min_valid_loss:.6f}--->{valid_loss:.6f}) \t Saving The Model')
-                min_valid_loss = valid_loss
-            # img = images[0].view(1, 784)
-            # with torch.no_grad():
-            #     logps = self.model(img)
-            # ps = torch.exp(logps)
-            # probab = list(ps.numpy()[0])
-            # print("Predicted Digit =", probab.index(max(probab)))
+            img = images[0].view(1, 784)
+            with torch.no_grad():
+                logps = self.model(img)
+            ps = torch.exp(logps)
+            show_image(img[0][0])
+            probab = list(ps.numpy()[0])
+            print("Predicted Digit =", probab.index(max(probab)))
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
