@@ -5,7 +5,6 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
-from fastai.vision.all import show_image
 class AiService():
 
     def __init__(self, save_path):
