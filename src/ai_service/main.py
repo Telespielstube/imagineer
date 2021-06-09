@@ -12,8 +12,7 @@ def callback(request, service):
     response = ImageAckResponse()
     cv_bridge = CvBridge()
     numpy_image = convert_to_numpy_image(cv_bridge, request.image)
-    response.result = service.validation_phase(numpy_image) ## later the predicted number is passed to response.result
-    response.result = 4
+    response.result = service.validation_phase(numpy_image) 
     return response
 
 # Converts the ROS sensor message to a PyTorch compatible numpy array. 
