@@ -75,7 +75,8 @@ class AiService():
         test_loss /= len(self.validation_data.dataset)
 
         print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-            test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset))
+            test_loss, correct, len(self.validation_data), 100. * correct / len(self.validation_data.dataset)))
+
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
