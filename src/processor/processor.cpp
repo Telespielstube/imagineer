@@ -25,12 +25,12 @@ void Processor::callback(const sensor_msgs::ImageConstPtr& message)
         cv::Mat greyscale =  color_to_grey(resized_image);
         // cv::imshow("view", greyscale);
         // cv::waitKey(30); 
-        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
+        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", resized_image).toImageMsg()); 
         ROS_INFO("Image is published.");
     }
     catch (cv_bridge::Exception& e)
     {
-        ROS_ERROR("Could not convert received image %s. Error: %s", message->encoding.c_str());
+        ROS_ERROR("Could not convert received image %s.", message->encoding.c_str());
        // ROS_ERROR("Could not convert received image %s. Detailed error message: %c", e.what());
     }
 }
