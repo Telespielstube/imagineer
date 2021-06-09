@@ -10,8 +10,8 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 200
-        self.epochs = 5
+        self.batch_size = 100
+        self.epochs = 20
         self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
@@ -27,7 +27,6 @@ class AiService():
         
     # Function to train the mnist dataset.
     def training_phase(self):
-        print("Training phase")
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
         start_time = time()
