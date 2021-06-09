@@ -9,7 +9,6 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "processor");
     ROS_INFO("Processor node is running");
-    
     Processor processor;
 
     ros::spin();
