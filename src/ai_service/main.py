@@ -20,7 +20,7 @@ def main():
     file = pathlib.Path(save_path)
     if not file.exists():
         print('No model found. Training in progrress')
-        service.training_phase_with_cuda()
+        service.training_phase()
         service.save_model()
     else:
         service.load_model()
