@@ -18,9 +18,12 @@ class AiService():
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
-        self.model = NeuralNetwork()
         self.path = save_path
-
+        self.model = NeuralNetwork()
+        if torch.cuda.is_available():
+            self.model = self.model.cuda()
+        
+    # Function to train the mnist dataset.
     def training_phase(self):
         print("Training phase")
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
@@ -49,8 +52,9 @@ class AiService():
         criterion = nn.CrossEntropyLoss()
         min_valid_loss = 0.0
         for images, labels in self.validation_data:
+            print('.')
             if torch.cuda.is_available():
-                data, labels = images.cuda(), labels.cuda()
+                images, labels = images.cuda(), labels.cuda()
         
             target = self.model(images)
             loss = criterion(target,labels)
