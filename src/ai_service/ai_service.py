@@ -52,7 +52,7 @@ class AiService():
             if torch.cuda.is_available():
                 data, labels = data.cuda(), labels.cuda()
         
-            target = self.model(data)
+            target = self.model(images)
             loss = criterion(target,labels)
             valid_loss = loss.item() * data.size(0)
 
