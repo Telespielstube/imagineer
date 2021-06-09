@@ -49,13 +49,12 @@ class AiService():
     def validation_phase(self):
         self.model.eval()
         images, labels = next(iter(self.validation_data))
-            img = images[0].view(1, 784)
-            with torch.no_grad():
-                logps = self.model(img)
-            ps = torch.exp(logps)
-            img.view(1, 28, 28)
-            probab = list(ps.numpy()[0])
-            print("Predicted Digit =", probab.index(max(probab)))
+        img = images[0].view(1, 784)
+        with torch.no_grad():
+            logps = self.model(img)
+        ps = torch.exp(logps)
+        probab = list(ps.numpy()[0])
+        print("Predicted Digit =", probab.index(max(probab)))
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
