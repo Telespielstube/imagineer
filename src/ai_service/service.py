@@ -10,7 +10,7 @@ class Service():
 
     def __init__(self, save_path):
         self.batch_size = 200
-        self.epochs = 15
+        self.epochs = 5
         self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                     transform=transforms.Compose([transforms.ToTensor(),
