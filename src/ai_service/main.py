@@ -15,8 +15,8 @@ def callback(request):
 # and checking if Nvidias cuda is available
 def main():
     rospy.init_node('ai_service')
-    service = Service(sys.argv[0])
-    file = pathlib.Path(sys.argv[0])
+    service = Service(sys.argv)
+    file = pathlib.Path(sys.argv)
     if not file.exists():
         print('Does not exist')
         # checks if Nvidia cuda support is available. 
