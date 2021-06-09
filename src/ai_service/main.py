@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import rospy, torch, pathlib, sys, numpy
+import rospy, torch, pathlib, numpy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
@@ -8,12 +8,11 @@ from ai_service.ai_service import AiService
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image as sensor message. 
-def callback(request, arg):
+def callback(request, service):
     response = ImageAckResponse()
-    #service = arg[0]
     cv_bridge = CvBridge()
-    #numpy_image = convert_to_numpy_image(cv_bridge, request.image)
-    #response.result = service.validation_phase(numpy_image) ## later the predicted number is passed to response.result
+    numpy_image = convert_to_numpy_image(cv_bridge, request.image)
+    response.result = service.validation_phase(numpy_image) ## later the predicted number is passed to response.result
     response.result = 4
     return response
 
@@ -30,7 +29,7 @@ def convert_to_numpy_image(cv_bridge, image):
 # and checking if Nvidias cuda is available
 def main():
     rospy.init_node('ai_service')
-    save_path = str(sys.argv[0])
+    save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
     ai_service = AiService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
@@ -40,7 +39,7 @@ def main():
     else:
         ai_service.load_model()
         print('Model found and loaded. Validation in progress')
-        rospy.Service('image_ack', ImageAck, callback, (ai_service))
+        rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
