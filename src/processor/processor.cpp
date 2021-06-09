@@ -16,14 +16,14 @@ void Processor::callback(const sensor_msgs::ImageConstPtr& message)
         cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
 
         cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
-        cv::imshow("view", rersized_image);
+        cv::imshow("view", resized_image);
         cv::waitKey(30); 
         publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
         ROS_INFO("Image is published.");
     }
     catch (cv_bridge::Exception& e)
     {
-        //ROS_ERROR("Could not convert received image %s. Error: %s", message->encoding.c_str());
-        ROS_ERROR("Could not convert received image %s. Detailed error message: %c", e.what());
+        ROS_ERROR("Could not convert received image %s. Error: %s", message->encoding.c_str());
+       // ROS_ERROR("Could not convert received image %s. Detailed error message: %c", e.what());
     }
 }
