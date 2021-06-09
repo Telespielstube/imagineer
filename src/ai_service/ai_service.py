@@ -56,7 +56,7 @@ class AiService():
         ps = torch.exp(logps)
         probab = list(ps.numpy()[0])
         print("Predicted Digit =", probab.index(max(probab)))
-        show(img)
+        self.show(img)
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
