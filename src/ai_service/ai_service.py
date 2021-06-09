@@ -60,7 +60,7 @@ class AiService():
         
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):
-        model.eval()
+        self.model.eval()
         criterion = nn.CrossEntropyLoss()
         test_loss = 0
         correct = 0
