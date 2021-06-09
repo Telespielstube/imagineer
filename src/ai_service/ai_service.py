@@ -51,13 +51,14 @@ class AiService():
 
     def validation_phase(self, image_to_predict):
         self.model.eval()
+        tensor_image = self.image_to_tensor(image_to_predict)
         #image = image_to_predict.view(1, 784)
         with torch.no_grad():
-            logps = self.model(image_to_predict) # model returns the vector of raw predictions that a classification model generates.         
+            logps = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
         probab = list(ps.numpy()) # a list of possible numbers
         print("Predicted Digit =", probab.index(max(probab)))
-        self.show(image_to_predict)
+        self.show(tensor_image)
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
@@ -67,12 +68,12 @@ class AiService():
     
     # Loads entire saved model.
     def load_model(self):
-        return torch.load(self.path)
+        torch.load(self.path)
         
     def show(self, img):   # transfer the pytorch tensor(img_tensor) to numpy array
         npimg = img.numpy()
         plt.imshow(np.transpose(npimg), interpolation='nearest')
 
-    # def image_to_tensor(self):
-    #     image_to_numpy = numpy.asarray(self.image)
-    #     return transforms.ToTensor()(image_to_numpy)
+    # Converts the image which is respresnted as numpy array to a PyTorch readable tensor.
+    def image_to_tensor(self, numpy_image):
+        return transforms.ToTensor()(numpy_image)

@@ -34,7 +34,7 @@ def main():
     ai_service = AiService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
-        print('No model found. Training in progrress')
+        print('No model found. Training in progress')
         ai_service.training_phase()
         ai_service.save_model()
     else:
