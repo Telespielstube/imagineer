@@ -13,7 +13,7 @@ void Controller::send_image()
     {    
         if ((int)service.response.result == number) 
         {
-            ROS_INFO("Prediction was successful %i", (int)serrvice.response.result);
+            ROS_INFO("Prediction was successful %i", (int)service.response.result);
         }
         else
         {
@@ -26,12 +26,19 @@ void Controller::send_image()
     }
 }
 
-void compare_result
+/* Adds received image and corresponding number from camera to the end of a growable list (vector).
+* @digit    corresponding image number.
+* @image    image object.
+*/
 inline void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
 }
 
+/* Function is called as soon as the node syncronized the received image and number.
+* @image
+* @digit
+*/
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
 {
     try 
