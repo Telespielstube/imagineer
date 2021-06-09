@@ -48,10 +48,10 @@ class AiService():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
-    def validation_phase(self):
+    def validation_phase(self, image_to_predict):
         self.model.eval()
-        images, labels = next(iter(self.validation_data))
-        img = images[0].view(1, 784)
+        image = image_to_predict
+        img = image[0].view(1, 784)
         with torch.no_grad():
             logps = self.model(img)
             
