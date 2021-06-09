@@ -1,4 +1,5 @@
-import torch
+import torch 
+import numpy as np
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
@@ -71,8 +72,8 @@ class AiService():
         
     def show(self, img):
         img_np_arr = img.numpy()   # transfer the pytorch tensor(img_tensor) to numpy array
-        img_np_arr.shape    # check shape before reshape if needed
-        plt.imshow(img_np_arr, cmap='gray')
+        npimg = img.numpy()
+        plt.imshow(np.transpose(npimg, (1, 2, 0)), interpolation='nearest')
         plt.show()
 
 
