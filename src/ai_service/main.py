@@ -40,7 +40,7 @@ def main():
     else:
         service.load_model()
         print('Model found and loaded. Validation in progress')
-        rospy.Service('image_ack', ImageAck, callback, service)
+        rospy.Service('image_ack', ImageAck, callback, (service))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.

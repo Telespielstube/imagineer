@@ -14,14 +14,15 @@ class AiService():
         self.epochs = 5
         self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
-                                    transform=transforms.Compose([transforms.ToTensor(),
-                                    transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
+                                transform=transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.path = save_path
         self.model = NeuralNetwork()
         if torch.cuda.is_available():
+            print('Cuda is supported')
             self.model = self.model.cuda()
         
     # Function to train the mnist dataset.
@@ -50,15 +51,13 @@ class AiService():
 
     def validation_phase(self, image_to_predict):
         self.model.eval()
-        image = image_to_predict
-        img = image[0].view(1, 784)
+        #image = image_to_predict.view(1, 784)
         with torch.no_grad():
-            logps = self.model(img)
-            
+            logps = self.model(image_to_predict) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
-        probab = list(ps.numpy()[0])
+        probab = list(ps.numpy()) # a list of possible numbers
         print("Predicted Digit =", probab.index(max(probab)))
-        self.show(img)
+        self.show(image_to_predict)
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
@@ -73,16 +72,6 @@ class AiService():
     def show(self, img):   # transfer the pytorch tensor(img_tensor) to numpy array
         npimg = img.numpy()
         plt.imshow(np.transpose(npimg), interpolation='nearest')
-        plt.show()
-
-
-    #model.set_image(request.image)
-    #model.training_phase(model) 
-
-    # Sets the image property attribute.
-    # @image        image sent from the controller node. 
-    # def set_image(self, image):
-    #     self.image = image
 
     # def image_to_tensor(self):
     #     image_to_numpy = numpy.asarray(self.image)
