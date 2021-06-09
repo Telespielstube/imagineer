@@ -10,8 +10,8 @@ class NeuralNetwork(nn.Module):
         self.flatten = nn.Flatten()                       
         self.input_layer = nn.Sequential(nn.Linear(28*28, 512), nn.ReLU()) #first layer has 784 input values, and 512 output values
         self.hidden_layer1 = nn.Linear(512, 128)
-        self.hidden_layer2 = nn.Linear(128, 10)#output size is 10, because we expect a number from 0 to 9.
-        self.output_layer = nn.LogSoftmax(1)
+        self.hidden_layer2 = nn.Linear(128, 50)
+        self.output_layer = nn.Linear(50, 10)#output size is 10, because we expect a number from 0 to 9.
 
     def forward(self, x):
         x = self.flatten(x)
@@ -19,4 +19,5 @@ class NeuralNetwork(nn.Module):
         x = F.relu(self.hidden_layer1(x))
         x = F.relu(self.hidden_layer2(x))
         x = self.output_layer(x)
-        return x
+        
+        return F.log_softmax(x, 1)

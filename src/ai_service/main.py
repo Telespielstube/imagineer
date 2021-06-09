@@ -39,7 +39,8 @@ def main():
     else:
         ai_service.load_model()
         print('Model found and loaded. Validation in progress')
-        rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
+        ai_service.mnist_validation()
+      #  rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
