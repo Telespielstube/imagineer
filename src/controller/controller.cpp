@@ -13,7 +13,7 @@ void Controller::send_image()
     {    
         if ((int)service.response.result == number) 
         {
-            ROS_INFO("Prediction was successful %i", (int)serrvice.response.result)
+            ROS_INFO("Prediction was successful %i", (int)serrvice.response.result);
         }
         else
         {
