@@ -24,8 +24,8 @@ def convert_to_numpy_image(cv_bridge, image):
     cv_image = cv_bridge.imgmsg_to_cv2(image, 'mono8')
     return numpy.asarray(cv_image)
 
-# Handles all the basics like initializing node, receiving images through cv_bridge 
-# and checking if Nvidias cuda is available
+# Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
+# or loads a stored model. 
 def main():
     rospy.init_node('ai_service')
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'

@@ -54,11 +54,21 @@ class AiService():
         tensor_image = self.image_to_tensor(image_to_predict)
         image = tensor_image.view(1, 784)
         with torch.no_grad():
-            logps = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
+            logps = self.model(image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
         probab = list(ps.numpy()) # a list of possible numbers
         print("Predicted Digit =", probab.index(max(probab)))
         return probab.index(max(probab))
+
+    # Uses the standard MNIST validation data set to test the trained model.
+    def mnist_validation(self):
+        images, labels = next(iter(self.validation_data))
+        img = images[0].view(1, 784)
+        with torch.no_grad():
+            logps = model(img)
+        ps = torch.exp(logps)
+        probab = list(ps.numpy()[0])
+        print("Predicted Digit =", probab.index(max(probab)))
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
