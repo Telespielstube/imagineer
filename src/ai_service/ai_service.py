@@ -46,12 +46,13 @@ class AiService():
 
     def validation_phase(self):
         self.model.eval()
+        criterion = nn.CrossEntropyLoss()
         min_valid_loss = 0.0
         for images, labels in self.validation_data:
             if torch.cuda.is_available():
                 data, labels = data.cuda(), labels.cuda()
         
-            target = model(data)
+            target = self.model(data)
             loss = criterion(target,labels)
             valid_loss = loss.item() * data.size(0)
 
