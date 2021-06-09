@@ -57,7 +57,7 @@ class AiService():
         ps = torch.exp(logps)
         probab = list(ps.numpy()[0])
         print("Predicted Digit =", probab.index(max(probab)))
-        print(img)
+        self.show(img)
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
@@ -73,7 +73,7 @@ class AiService():
         img_np_arr = img.numpy()   # transfer the pytorch tensor(img_tensor) to numpy array
         img_np_arr.shape    # check shape before reshape if needed
         plt.imshow(img_np_arr, cmap='gray')
-
+        plt.show()
 
 
     #model.set_image(request.image)
