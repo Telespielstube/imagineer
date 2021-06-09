@@ -21,7 +21,7 @@ class AiService():
         self.model = NeuralNetwork()
         self.path = save_path
 
-    def training_phase_without_cuda(self):
+    def training_phase(self):
         print("Training phase")
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
@@ -30,9 +30,13 @@ class AiService():
             running_loss = 0
             for images, labels in self.training_data:
                 images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
-                optimizer.zero_grad() # Training pass         
-                output = self.model(images)
-                loss = criterion(output, labels)
+                optimizer.zero_grad() # Training pass 
+                if torch.cuda.is_available():
+                    output = self.model(images.cuda)
+                    loss = criterion(output, labels.cuda)  
+                else:          
+                    output = self.model(images)
+                    loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
                 optimizer.step() #And optimizes its weights
                 running_loss += loss.item()
@@ -40,38 +44,26 @@ class AiService():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
-    def training_phase_with_cuda(self):
-        print("Training phase")
-        criterion = nn.CrossEntropyLoss()
-        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
-        time0 = time()
-        for epoch in range(10):
-            running_loss = 0
-            for images, labels in self.training_data:
-                # Flatten MNIST images into a 784 long vector
-                images = images.view(images.shape[0], -1)           
-                # Training pass
-                optimizer.zero_grad()               
-                output = self.model(images.cuda)
-                loss = criterion(output, labels.cuda)                
-                #This is where the model learns by backpropagating
-                loss.backward()              
-                #And optimizes its weights here
-                optimizer.step()
-                running_loss += loss.item()
-            else:
-                print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
-        print("\nTraining Time (in minutes) =",(time()-time0)/60)
-
     def validation_phase(self):
-        images, labels = next(iter(self.validation_data))
+        self.model.eval()
+        min_valid_loss = 0.0
+        for images, labels in self.validation_data:
+            if torch.cuda.is_available():
+                data, labels = data.cuda(), labels.cuda()
+        
+            target = model(data)
+            loss = criterion(target,labels)
+            valid_loss = loss.item() * data.size(0)
 
-        img = images[0].view(1, 784)
-        with torch.no_grad():
-            logps = self.model(img)
-        ps = torch.exp(logps)
-        probab = list(ps.numpy()[0])
-        print("Predicted Digit =", probab.index(max(probab)))
+            if min_valid_loss > valid_loss:
+                print(f'Validation Loss Decreased({min_valid_loss:.6f}--->{valid_loss:.6f}) \t Saving The Model')
+                min_valid_loss = valid_loss
+            # img = images[0].view(1, 784)
+            # with torch.no_grad():
+            #     logps = self.model(img)
+            # ps = torch.exp(logps)
+            # probab = list(ps.numpy()[0])
+            # print("Predicted Digit =", probab.index(max(probab)))
 
     # Saves the entire trained model to a specific path.
     # @model    trained model
@@ -81,9 +73,8 @@ class AiService():
     
     # Loads entire saved model.
     def load_model(self):
-        self.model = torch.load(self.path)
-        print('Model loaded')
-        return self.model.eval()
+        return torch.load(self.path)
+        
 
     #model.set_image(request.image)
     #model.training_phase(model) 
