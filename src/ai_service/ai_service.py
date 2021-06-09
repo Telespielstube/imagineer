@@ -65,7 +65,7 @@ class AiService():
         images, labels = next(iter(self.validation_data))
         img = images[0].view(1, 784)
         with torch.no_grad():
-            logps = model(img)
+            logps = self.model(img)
         ps = torch.exp(logps)
         probab = list(ps.numpy()[0])
         print("Predicted Digit =", probab.index(max(probab)))

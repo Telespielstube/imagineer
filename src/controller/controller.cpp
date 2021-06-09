@@ -17,7 +17,7 @@ void Controller::send_image()
         }
         else
         {
-            ROS_INFO("Received number: %i", (int)service.response.result);
+            ROS_INFO("Prediction was wrong. Received number: %i", (int)service.response.result);
         }
     }
     else
