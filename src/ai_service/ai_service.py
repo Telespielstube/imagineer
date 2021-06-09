@@ -21,7 +21,7 @@ class AiService():
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.path = save_path
         self.model = NeuralNetwork()
-        self.device = torch.device("cuda" if use_cuda else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
     # Function to train the mnist dataset.
     def training_phase(self):
@@ -67,7 +67,7 @@ class AiService():
         with torch.no_grad():
             for data, target in self.validation_data:
                 data, target = data.to(self.device), target.to(self.device)
-                output = model(data)
+                output = self.model(data)
                 test_loss += criterion(output, target).item()  # sum up batch loss
                 pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
                 correct += pred.eq(target.view_as(pred)).sum().item()
