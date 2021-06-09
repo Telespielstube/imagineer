@@ -31,16 +31,16 @@ def convert_to_numpy_image(cv_bridge, image):
 def main():
     rospy.init_node('ai_service')
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
-    service = AiService(save_path)
+    ai_service = AiService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
         print('No model found. Training in progrress')
-        service.training_phase()
-        service.save_model()
+        ai_service.training_phase()
+        ai_service.save_model()
     else:
-        service.load_model()
+        ai_service.load_model()
         print('Model found and loaded. Validation in progress')
-        rospy.Service('image_ack', ImageAck, callback, (service))
+        rospy.Service('image_ack', ImageAck, callback, (ai_service))
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
