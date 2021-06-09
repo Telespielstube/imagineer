@@ -99,9 +99,13 @@ The service for requesting the predicted number is also initialized in the const
 ```c++
 storage.push_back(NumberAndPicture(digit, saved_image));
 ```
-Once the object has been saved, the image is sent as a service to the artificial intelligence node and the callback awaits the response from the requested service node.
+Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node arrives.
 
 ### Neuronal network node
-If the node received the picture...
+The neural network node consists of two parts the service and the underlying neural network which is responsible for the image regogniction.
+The incomming service message contains the image as sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument support additional arguments.
+```python
+rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
+```
 ## Sources
 [https://www.cplusplus.com]

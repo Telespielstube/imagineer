@@ -52,7 +52,7 @@ class AiService():
     def validation_phase(self, image_to_predict):
         self.model.eval()
         tensor_image = self.image_to_tensor(image_to_predict)
-        #image = image_to_predict.view(1, 784)
+        image = image_to_predict.view(1, 784)
         with torch.no_grad():
             logps = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
