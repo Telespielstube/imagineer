@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
 
-class Service():
+class AiService():
 
     def __init__(self, save_path):
         self.batch_size = 200
@@ -63,7 +63,15 @@ class Service():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time()-time0)/60)
 
-    #def validation_phase(self):
+    def validation_phase(self):
+        images, labels = next(iter(self.validation_data))
+
+        img = images[0].view(1, 784)
+        with torch.no_grad():
+            logps = self.model(img)
+        ps = torch.exp(logps)
+        probab = list(ps.numpy()[0])
+        print("Predicted Digit =", probab.index(max(probab)))
 
     # Saves the entire trained model to a specific path.
     # @model    trained model

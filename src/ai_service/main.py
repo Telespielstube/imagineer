@@ -2,11 +2,11 @@
 import rospy, torch, pathlib
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
-from ai_service.service import Service
+from ai_service.ai_service import AIService
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
-def callback(request):
+def callback(request, arg):
     response = ImageAckResponse()
     response.result = 5 ## later the predicted number is passed to response.result
     return response
@@ -16,7 +16,7 @@ def callback(request):
 def main():
     rospy.init_node('ai_service')
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
-    service = Service(save_path)
+    service = AIService(save_path)
     file = pathlib.Path(save_path)
     if not file.exists():
         print('Does not exist')
@@ -34,7 +34,8 @@ def main():
     else:
         print('Model does exist')
         service.load_model()
-        rospy.Service('image_ack', ImageAck, callback)
+        service.validation_phase()
+        rospy.Service('image_ack', ImageAck, callback, service)
         rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
