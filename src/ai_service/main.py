@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import rospy, torch, pathlib, sys
+import rospy, torch, pathlib
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.service import Service
@@ -15,8 +15,9 @@ def callback(request):
 # and checking if Nvidias cuda is available
 def main():
     rospy.init_node('ai_service')
-    service = Service(sys.argv)
-    file = pathlib.Path(str(sys.argv[0]))
+    save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
+    service = Service(save_path)
+    file = pathlib.Path(save_path)
     if not file.exists():
         print('Does not exist')
         # checks if Nvidia cuda support is available. 
