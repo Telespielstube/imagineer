@@ -43,7 +43,7 @@ class AiService():
                 optimizer.step() #And optimizes its weights
                 running_loss += loss.item()
             else:
-                print("Epoch {} - Training loss: {:2f }".format(epoch, running_loss/len(self.training_data)))
+                print("Epoch {} - Training loss: {:.2f }".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
     def validation_phase(self, image_to_predict):
