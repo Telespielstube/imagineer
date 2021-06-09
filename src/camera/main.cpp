@@ -77,7 +77,7 @@ int main(int argc, char** argv)
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
     ros::Publisher int_publisher = node.advertise<imagineer::Number>("camera/integer", 1);
-    cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
+    
     // the actual camera work is done here.
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
