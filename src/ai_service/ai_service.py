@@ -50,7 +50,7 @@ class AiService():
         min_valid_loss = 0.0
         for images, labels in self.validation_data:
             if torch.cuda.is_available():
-                data, labels = data.cuda(), labels.cuda()
+                data, labels = images.cuda(), labels.cuda()
         
             target = self.model(images)
             loss = criterion(target,labels)
