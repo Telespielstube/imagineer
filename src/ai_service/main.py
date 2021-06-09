@@ -8,8 +8,9 @@ from ai_service.ai_service import AiService
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image. 
-def callback(request, service):
+def callback(request, arg):
     response = ImageAckResponse()
+    service = arg[0]
     cv_bridge = CvBridge()
     numpy_image = convert_to_numpy_image(cv_bridge, request.image)
     service.validation_phase(numpy_image)
