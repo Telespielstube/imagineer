@@ -3,6 +3,7 @@
 #include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include <opencv2/highgui/highgui.hpp>
 #include "opencv2/imgcodecs/imgcodecs.hpp"
 #include <std_msgs/Int32.h>
 #include "imagineer/Number.h"
@@ -88,7 +89,7 @@ int main(int argc, char** argv)
         {
             std::string image_file = pick_file(directory_files);
             Image image_to_publish = read_image(image_file);
-            cv::imshow("view", cv_bridge::toCvCopy(image)->image);
+            cv::imshow("view", cv_bridge::toCvCopy(image_to_publish)->image);
             cv::waitKey(30); 
             publish_message(node, img_publisher, int_publisher, image_to_publish);
         }
