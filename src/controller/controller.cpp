@@ -8,12 +8,17 @@ void Controller::send_image()
     {
         service.request.image = storage.back().get_image(); // image gets passed to the service request image attribute.
         number = storage.back().get_number(); // the corresponding label(number) gets passed to an integer. 
-        ROS_INFO("Number sent: %i", number);
     }
     if (service_client.call(service))
     {    
-        ROS_INFO("Received number: %i", (int)service.response.result);
-        // compare_result();
+        if ((int)service.response.result == number) 
+        {
+            ROS_INFO("Prediction was successful %i", (int)serrvice.response.result)
+        }
+        else
+        {
+            ROS_INFO("Received number: %i", (int)service.response.result);
+        }
     }
     else
     {
@@ -21,6 +26,7 @@ void Controller::send_image()
     }
 }
 
+void compare_result
 inline void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
