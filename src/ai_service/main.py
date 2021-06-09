@@ -12,7 +12,8 @@ def callback(request, service):
     response = ImageAckResponse()
     cv_bridge = CvBridge()
     numpy_image = convert_to_numpy_image(cv_bridge, request.image)
-    response.result = service.validation_phase(numpy_image) 
+    #response.result = service.validation_phase(numpy_image) 
+    response.result = service.mnist_validation()
     return response
 
 # Converts the ROS sensor message to a PyTorch compatible numpy array. 
