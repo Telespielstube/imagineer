@@ -10,8 +10,8 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 100
-        self.epochs = 20
+        self.batch_size = 200
+        self.epochs = 50
         self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
