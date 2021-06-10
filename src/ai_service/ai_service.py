@@ -49,11 +49,11 @@ class AiService():
     def validation_phase(self, image_to_predict):
         self.model.eval()
         tensor_image = next(iter(self.image_to_tensor(image_to_predict)))
-        image = tensor_image.view(1, 784)
+        image = tensor_image[0].view(1, 784)
         with torch.no_grad():
             logps = self.model(image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
-        probab = list(ps.numpy()) # a list of possible numbers
+        probab = list(ps.numpy()[0]) # a list of possible numbers
         print("Predicted Digit =", probab.index(max(probab)))
         return probab.index(max(probab))
        #####
