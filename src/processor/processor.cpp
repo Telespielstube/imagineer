@@ -3,9 +3,8 @@
 
 cv::Mat Processor::process_image(cv::Mat& message)
 {
-    float scale_down = 0.5;
     cv::Mat resized_message;
-    cv::resize(message, resized_message, cv::Size(message.cols * scale_down, message.rows * scale_down), 0, 0);
+    cv::resize(message, resized_message, cv::Size(28, 28));
     return resized_message;
 }
 
