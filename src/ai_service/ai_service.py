@@ -12,7 +12,7 @@ class AiService():
     def __init__(self, save_path):
         self.batch_size = 200
         self.epochs = 200
-        self.learning_rate = 0.001
+        self.learning_rate = 0.01
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
