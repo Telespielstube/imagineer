@@ -11,8 +11,8 @@ from ai_service.ai_service import AiService
 def callback(request, service):
     response = ImageAckResponse()
     cv_bridge = CvBridge()
-    numpy_image = convert_to_numpy_image(cv_bridge, request.image)
-    response.result = service.validation_phase(numpy_image) 
+    cv_image = convert_to_numpy_image(cv_bridge, request.image)
+    response.result = service.validation_phase(cv_image) 
     #response.result = service.mnist_validation()
     return response
 
@@ -22,9 +22,8 @@ def callback(request, service):
 # 
 # @return         numpy array which represents the image. 
 def convert_to_numpy_image(cv_bridge, image):
-    cv_image = cv_bridge.imgmsg_to_cv2(image, 'mono8')
-    return numpy.asarray(cv_image)
-
+    return cv_bridge.imgmsg_to_cv2(image, 'mono8')
+   
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
 # or loads a stored model. 
 def main():

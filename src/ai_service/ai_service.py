@@ -46,12 +46,12 @@ class AiService():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
         print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
 
-    def validation_phase(self, image_to_predict):
+    def validation_phase(self, cv_image):
         self.model.eval()
-        tensor_image = next(iter(self.image_to_tensor(image_to_predict)))
-        image = tensor_image[0].view(1, 28, 28)
+        tensor_image = self.image_to_tensor(cv_image)
+        #image = tensor_image[0].view(1, 28, 28)
         with torch.no_grad():
-            output = self.model(image) # model returns the vector of raw predictions that a classification model generates.         
+            output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(output)
         probab = list(ps.numpy()) # a list of possible numbers
        #  print("Predicted Digit =", probab.index(max(probab)))
