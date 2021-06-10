@@ -13,6 +13,7 @@ class NeuralNetwork(nn.Module):
         self.hidden_layer2 = nn.Linear(254, 128), nn.ReLU()#output size is 10, because we expect a number from 0 to 9.
         self.output_layer = nn.Linear(128, 10)
 
+    # Forward function
     def forward(self, x):
         x = self.flatten(x)
         x = self.input_layer(x)
