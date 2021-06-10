@@ -17,8 +17,8 @@ class NeuralNetwork(nn.Module):
     def forward(self, x):
         x = self.flatten(x)
         x = self.input_layer(x)
-        x = F.relu(self.hidden_layer1(x))
-        x = F.relu(self.hidden_layer2(x))
+        x = self.hidden_layer1(x)
+        x = self.hidden_layer2(x)
         x = self.output_layer(x)
         
         return F.log_softmax(x, 1)
