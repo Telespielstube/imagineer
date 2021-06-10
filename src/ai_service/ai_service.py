@@ -54,7 +54,7 @@ class AiService():
             logps = self.model(image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(logps)
         probab = list(ps.numpy()) # a list of possible numbers
-       #  print("Predicted Digit =", probab.index(max(probab)))
+        print("Predicted Digit =", probab.index(max(probab)))
         return probab.index(max(probab))
        #####
         
