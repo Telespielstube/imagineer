@@ -32,16 +32,16 @@ def main():
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
     ai_service = AiService(save_path)
     file = pathlib.Path(save_path)
-   # if not file.exists():
-    print('No model found. Training in progress')
-    ai_service.training_phase()
-    ai_service.mnist_validation()
-    ai_service.save_model()
-   # else:
-    ai_service.load_model()
-    print('Model found and loaded. Validation in progress')
-    ai_service.mnist_validation()
-       # rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
+    if not file.exists():
+        print('No model found. Training in progress')
+        ai_service.training_phase()
+        ai_service.mnist_validation()
+        ai_service.save_model()
+    else:
+        ai_service.load_model()
+        print('Model found and loaded. Validation in progress')
+        ai_service.mnist_validation()
+        rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 
     rospy.spin()
 
