@@ -35,12 +35,14 @@ def main():
     if not file.exists():
         print('No model found. Training in progress')
         ai_service.training_phase()
+        ai_service.mnist_validation()
         ai_service.save_model()
     else:
         ai_service.load_model()
         print('Model found and loaded. Validation in progress')
-        #ai_service.mnist_validation()
+q        #ai_service.mnist_validation()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
+
     rospy.spin()
 
 # Implies that the script is run standalone and cannot be imported as a module.
