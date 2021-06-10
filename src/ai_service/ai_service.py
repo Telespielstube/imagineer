@@ -56,7 +56,7 @@ class AiService():
         probab = list(ps.numpy()) # a list of possible numbers
        #  print("Predicted Digit =", probab.index(max(probab)))
         return probab.index(max(probab))
-
+       #####
         
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):
