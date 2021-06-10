@@ -9,9 +9,9 @@ class NeuralNetwork(nn.Module):
         super().__init__()
         self.flatten = nn.Flatten()                       
         self.input_layer = nn.Sequential(nn.Linear(28*28, 512), nn.ReLU()) #first layer has 784 input values, and 512 output values
-        self.hidden_layer1 = nn.Linear(512, 128)
-        self.hidden_layer2 = nn.Linear(128, 50)
-        self.output_layer = nn.Linear(50, 10)#output size is 10, because we expect a number from 0 to 9.
+        self.hidden_layer1 = nn.Linear(512, 254), nn.ReLU()
+        self.hidden_layer2 = nn.Linear(254, 128), nn.ReLU()#output size is 10, because we expect a number from 0 to 9.
+        self.output_layer = nn.Linear(128, 10)
 
     def forward(self, x):
         x = self.flatten(x)
