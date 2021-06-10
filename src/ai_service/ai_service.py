@@ -66,7 +66,7 @@ class AiService():
         correct = 0
         with torch.no_grad():
             for data, target in self.validation_data:
-                data, target = data.to(self.device), target.to(self.device)
+                #data, target = data.to(self.device), target.to(self.device)
                 output = self.model(data)
                 test_loss += criterion(output, target).item()  # sum up batch loss
                 pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
