@@ -38,7 +38,7 @@ class AiService():
                 loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
                 optimizer.step() #optimizing weights
-                running_loss += loss.item()
+                running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
         print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
@@ -83,9 +83,9 @@ class AiService():
     def load_model(self):
        self.model = torch.load(self.path)
 
-    # Converts the image which is respresnted as numpy array to a PyTorch readable tensor.
-    # @cv_image    Image object in opencv format.
+    # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
+    # @requsted_image    the image still in ROS sensor message forrmat.
     #
     # @return      cv_image converted to PyTorch tensor.
-    def image_to_tensor(self, cv_image):
-        return transforms.ToTensor()(cv_image)
+    def image_to_tensor(self, request_image):
+        return transforms.ToTensor()(cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))

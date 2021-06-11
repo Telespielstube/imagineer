@@ -11,17 +11,8 @@ from ai_service.ai_service import AiService
 def callback(request, service):
     response = ImageAckResponse()
     cv_bridge = CvBridge()
-    cv_image = convert_to_cv_image(cv_bridge, request.image)
-    response.result = service.validation_phase(cv_image) 
+    response.result = service.validation_phase(rrequest.image) 
     return response
-
-# Converts the ROS sensor message to a PyTorch compatible numpy array. 
-# @cv_bridge      CvBridge object needed to convert from sensor message to numpy
-# @image          The image sent from the controller node.
-# 
-# @return         numpy array which represents the image. 
-def convert_to_cv_image(cv_bridge, image):
-    return cv_bridge.imgmsg_to_cv2(image, 'mono8')
    
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
 # or loads a stored model. 
