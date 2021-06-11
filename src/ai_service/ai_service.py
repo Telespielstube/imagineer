@@ -46,6 +46,9 @@ class AiService():
                 print("Epoch {} - Training loss: {}".format(epoch, running_loss / len(self.training_data)))
         print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
 
+    # Function validates the trained model against the received image.
+    # @cv_image    cv_image image object to be validated.
+    # @return      a predicted number. 
     def validation_phase(self, cv_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(cv_image)
@@ -53,11 +56,9 @@ class AiService():
         with torch.no_grad():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         ps = torch.exp(output)
-        probab = list(ps.numpy()) # a list of possible numbers
-       #  print("Predicted Digit =", probab.index(max(probab)))
-        return probab.index(max(probab))
-       #####
-        
+        probability = list(ps.numpy()) # a list of possible numbers
+        return probability.index(max(probability))
+    
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):
         self.model.eval()
@@ -65,12 +66,12 @@ class AiService():
         test_loss = 0
         correct = 0
         with torch.no_grad():
-            for data, target in self.validation_data:
-                #data, target = data.to(self.device), target.to(self.device)
-                output = self.model(data)
-                test_loss += criterion(output, target).item()  # sum up batch loss
+            for image, label in self.validation_data:
+                image, label = image.to(self.device), label.to(self.device)
+                output = self.model(image)
+                test_loss += criterion(output, label).item()  # sum up batch loss
                 pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-                correct += pred.eq(target.view_as(pred)).sum().item()
+                correct += pred.eq(label.view_as(pred)).sum().item()
 
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
