@@ -43,8 +43,8 @@ class AiService():
                 optimizer.step() #And optimizes its weights
                 running_loss += loss.item()
             else:
-                print("Epoch {} - Training loss: {}".format(epoch, running_loss/len(self.training_data)))
-        print("\nTraining Time (in minutes) =",(time() - start_time) / 60)
+                print("Epoch {} - Training loss: {}".format(epoch, running_loss / len(self.training_data)))
+        print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
 
     def validation_phase(self, cv_image):
         self.model.eval()
@@ -73,7 +73,7 @@ class AiService():
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
         test_loss /= len(self.validation_data.dataset)
-        print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+        print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
 
 
