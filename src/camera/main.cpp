@@ -50,10 +50,10 @@ Image read_image(std::string image_file)
 }
 
 /* Publishes the key, value pair as std_msgs and imagineer::Number messages to all subscribers.
-* @node            Node object.
-* @img_publisher   image transport publisher object.
-* @int_message     integer publisher object.
-# @Image           Image object with filename and image as attributes.
+* @node                  camera node object.
+* @img_publisher         image transport publisher object.
+* @int_message           integer publisher object.
+# @message_to_publish    Image object to be sent.
 */
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)

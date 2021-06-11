@@ -86,10 +86,6 @@ class AiService():
     # Loads entire saved model.
     def load_model(self):
        self.model = torch.load(self.path)
-        
-    def show(self, img):   # transfer the pytorch tensor(img_tensor) to numpy array
-        npimg = img.numpy()
-        plt.imshow(np.transpose(npimg), interpolation='nearest')
 
     # Converts the image which is respresnted as numpy array to a PyTorch readable tensor.
     def image_to_tensor(self, numpy_image):
