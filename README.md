@@ -103,17 +103,22 @@ Once the object has been saved, the image is sent as a service message to the ar
 
 ### Neuronal network node
 The neural network node consists of two parts the service and the underlying neural network which is responsible for the image regogniction.
-The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
+Before the actual image recognition process, the neural network must be trained first. The necessarry MNIST(2) dataset are loaded in the class contructor.
 
+
+
+
+The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format.
-
 ```python
 def image_to_tensor(self, request_image):
         return transforms.ToTensor()(cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
 ```
 
+
 ## Sources
-[https://www.cplusplus.com]
+(MNIST)[http://yann.lecun.com/exdb/mnist/]
+(C++)[https://www.cplusplus.com]
