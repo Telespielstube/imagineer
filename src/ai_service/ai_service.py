@@ -30,20 +30,17 @@ class AiService():
         start_time = time()
         for epoch in range(self.epochs):
             running_loss = 0
+            # trainig phase
             for images, labels in self.training_data:
-                images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
-                optimizer.zero_grad() # Training pass 
-                if torch.cuda.is_available():
-                    output = self.model(images.cuda)
-                    loss = criterion(output, labels.cuda)  
-                else:          
-                    output = self.model(images)
-                    loss = criterion(output, labels)
+                optimizer.zero_grad() 
+                image, label = image.to(self.device), label.to(self.device)
+                output = self.model(images)
+                loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
-                optimizer.step() #And optimizes its weights
+                optimizer.step() #optimizing weights
                 running_loss += loss.item()
             else:
-                print("Epoch {} - Training loss: {}".format(epoch, running_loss / len(self.training_data)))
+                print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
         print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
 
     # Function validates the trained model against the received image.
