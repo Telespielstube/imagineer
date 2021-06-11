@@ -13,7 +13,9 @@ class NeuralNetwork(nn.Module):
         self.hidden_layer2 = nn.Linear(254, 128)#output size is 10, because we expect a number from 0 to 9.
         self.output_layer = nn.Linear(128, 10)
 
-    # Forward function
+    # Forward function is the calculation process, it computes output values 
+    # from input values. Activation function(Input * weight + bias)
+    # Activation function -> ReLU 
     def forward(self, x):
         x = self.flatten(x)
         x = F.relu(self.input_layer(x))

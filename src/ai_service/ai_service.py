@@ -76,9 +76,7 @@ class AiService():
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
 
-
     # Saves the entire trained model to a specific path.
-    # @model    trained model
     def save_model(self):
         torch.save(self.model, self.path)
         print('Model is saved')
@@ -88,5 +86,8 @@ class AiService():
        self.model = torch.load(self.path)
 
     # Converts the image which is respresnted as numpy array to a PyTorch readable tensor.
-    def image_to_tensor(self, numpy_image):
-        return transforms.ToTensor()(numpy_image)
+    # @cv_image    Image object in opencv format.
+    #
+    # @return      cv_image converted to PyTorch tensor.
+    def image_to_tensor(self, cv_image):
+        return transforms.ToTensor()(cv_image)
