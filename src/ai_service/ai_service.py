@@ -48,17 +48,14 @@ class AiService():
     # Function validates the trained model against the received image.
     # @cv_image    cv_image image object to be validated.
     # @return      a predicted number. 
-    def validation_phase(self, cv_image):
+    def validation_phase(self, request_image):
         self.model.eval()
-        tensor_image = self.image_to_tensor(cv_image)
-        rospy.loginfo("Tensor image, %s", tensor_image)
-        
+        tensor_image = self.image_to_tensor(request_image)
+        rospy.loginfo("Tensor image, %s", tensor_image)      
         with torch.no_grad():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
-        #ps = torch.exp(output) # creates new Tensor
         probability = output.cpu().data.numpy() # a list of possible numbers
-        rospy.loginfo('Output: %s', probability.argmax())
-        
+        rospy.loginfo('Output: %s', probability.argmax())      
         return probability.argmax() #return the most likely prediction in the list to the Service server callback.
     
     # Uses the standard MNIST validation data set to test the trained model.
