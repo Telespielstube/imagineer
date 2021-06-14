@@ -8,7 +8,7 @@ from ai_service.ai_service import AiService
 # @request    the received image as sensor message. 
 def callback(request, service):
     response = ImageAckResponse() 
-    response.result = service.validation_phase(request.image)
+    response.result = service.validating_phase(request.image)
     return response
      
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
@@ -21,12 +21,12 @@ def main():
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training_phase()
-        ai_service.mnist_validation()
+        ai_service.validating_mnist()
         ai_service.save_model()
     else:
         ai_service.load_model()
         print('Model found and loaded.')
-        ai_service.mnist_validation()
+        ai_service.validating_mnist()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
 

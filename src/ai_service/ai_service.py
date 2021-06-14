@@ -47,7 +47,7 @@ class AiService():
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
     # @return           the predicted number. 
-    def validation_phase(self, request_image):
+    def validating_phase(self, request_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(request_image)   
         with torch.no_grad():
@@ -57,7 +57,7 @@ class AiService():
         return probability #return the number with the largest predicted probability.
     
     # Uses the standard MNIST validation data set to test the trained model.
-    def mnist_validation(self):
+    def validating_mnist(self):
         self.model.eval()
         criterion = nn.CrossEntropyLoss()
         test_loss = 0
