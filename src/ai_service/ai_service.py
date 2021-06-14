@@ -51,13 +51,12 @@ class AiService():
     def validation_phase(self, cv_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(cv_image)
-        rospy.loginfo("Tensor image, %s", tensor_image.shape())
+        #rospy.loginfo("Tensor image, %s", tensor_image.shape())
         
         with torch.no_grad():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
-        #ps = torch.exp(output) # creates new Tensor
         probability = output.cpu().data.numpy() # a list of possible numbers
-        rospy.loginfo('Output: %s', probability.argmax())
+        #rospy.loginfo('Output: %s', probability.argmax())
         
         return probability.argmax() #return the most likely prediction in the list to the Service server callback.
     
