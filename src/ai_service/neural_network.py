@@ -8,7 +8,7 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
         self.flatten = nn.Flatten()                       
-        self.input_layer = nn.Sequential(nn.Linear(28*28, 512)) #first layer has 784 input values, and 512 output values
+        self.input_layer = nn.Sequential(nn.Linear(28 * 28, 512)) #first layer has 784 input values, and 512 output values
         self.hidden_layer1 = nn.Linear(512, 254)
         self.hidden_layer2 = nn.Linear(254, 128)#output size is 10, because we expect a number from 0 to 9.
         self.hidden_layer3 = nn.Linear(128, 64)

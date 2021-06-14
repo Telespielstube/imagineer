@@ -23,19 +23,19 @@ class AiService():
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.path = save_path
         self.cv_bridge = CvBridge()
-        self.model = NeuralNetwork()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model = NeuralNetwork(1, 28, 28).to(self.device)
         
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum)
-        start_time = time()
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
+                images = images.view(images.shape[0], -1)
                 image, label = images.to(self.device), labels.to(self.device)
                 output = self.model(image)
                 loss = criterion(output, label)
@@ -44,8 +44,6 @@ class AiService():
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
-        # elapsed_time = (time.time() - start_time) / 60
-        # print("\nTraining Time (in minutes): {} = ", (time() - ti)/60)
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
