@@ -10,8 +10,8 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 2000
-        self.epochs = 20
+        self.batch_size = 2800
+        self.epochs = 25
         self.learning_rate = 0.01
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
@@ -42,7 +42,7 @@ class AiService():
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
-        print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
+        print("\nTraining Time (in minutes): {:.2f} =".format((time() - start_time) / 60))
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
