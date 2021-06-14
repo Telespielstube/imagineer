@@ -35,7 +35,7 @@ class AiService():
             # trainig phase
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
-                images = images.view(images.shape[0], -1)
+
                 image, label = images.to(self.device), labels.to(self.device)
                 output = self.model(image)
                 loss = criterion(output, label)
