@@ -5,7 +5,7 @@ cv::Mat Processor::process_image(cv::Mat& message)
 {
     cv::Mat resized_message;
     cv::Mat gray;
-    cv::Mat invert
+    cv::Mat invert;
     cv::resize(message, message, cv::Size(28, 28));
     cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
     cv::threshold(message, message, 100, 255, cv::THRESH_BINARY);
