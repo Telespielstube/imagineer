@@ -1,16 +1,15 @@
 #!/usr/bin/env python
-import rospy, torch, pathlib, numpy
-from cv_bridge import CvBridge
+import rospy, torch, pathlib
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.ai_service import AiService
 
-
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image as sensor message. 
 def callback(request, service):
-    response = ImageAckResponse()  
-    return service.validation_phase(request.image) 
+    response = ImageAckResponse() 
+    response.result = service.validation_phase(request.image)
+    return response
      
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
 # or loads a stored model. 
@@ -26,7 +25,7 @@ def main():
         ai_service.save_model()
     else:
         ai_service.load_model()
-        print('Model found and loaded. Validation in progress')
+        print('Model found and loaded.')
         ai_service.mnist_validation()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
