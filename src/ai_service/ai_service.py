@@ -55,7 +55,7 @@ class AiService():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         probability = output.cpu().data.numpy() #moves tensor to cpu and converts it to numpy array
         rospy.loginfo('Output: %s', probability)      
-        return probability.index(max(probability)) #return the most likely prediction in the list to the Service server callback.
+        return probability.argmax(probability) #return the most likely prediction in the list to the Service server callback.
     
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):
