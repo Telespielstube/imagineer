@@ -4,7 +4,6 @@ from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
 from cv_bridge import CvBridge
-import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
@@ -51,10 +50,10 @@ class AiService():
     def validation_phase(self, request_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(request_image)
-        rospy.loginfo("Tensor image, %s", tensor_image)      
+       # rospy.loginfo("Tensor image, %s", tensor_image)      
         with torch.no_grad():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
-        probability = output.cpu().data.numpy() # a list of possible numbers
+        probability = output.cpu().data.numpy() 
         rospy.loginfo('Output: %s', probability.argmax())      
         return probability.argmax() #return the most likely prediction in the list to the Service server callback.
     
@@ -86,8 +85,8 @@ class AiService():
        self.model = torch.load(self.path)
 
     # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
-    # @requsted_image    the image still in ROS sensor message forrmat.
+    # @requsted_image    the image still in ROS sensor message format.
     #
-    # @return      cv_image converted to PyTorch tensor.
+    # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
         return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))

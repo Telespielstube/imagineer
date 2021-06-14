@@ -12,7 +12,7 @@ def callback(request, service):
     response = ImageAckResponse()
     
     response.result = service.validation_phase(request.image) 
-    return response
+    return response.result
    
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
 # or loads a stored model. 
