@@ -1,6 +1,6 @@
 import rospy, torch 
 import numpy as np
-import cv2
+import matplotlib.pyplot as plt
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
@@ -14,6 +14,7 @@ class AiService():
         self.batch_size = 2800
         self.epochs = 25
         self.learning_rate = 0.01
+        self.momentum = 0.9
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
@@ -28,7 +29,7 @@ class AiService():
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
+        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum)
         start_time = time()
         for epoch in range(self.epochs):
             running_loss = 0
@@ -90,4 +91,6 @@ class AiService():
     #
     # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
-        return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+        img = self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8')
+        plt.imshow(img, cmap='Greys')
+        return transforms.ToTensor()(img) #(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))

@@ -22,10 +22,6 @@ class Processor
         */
         cv::Mat process_image(cv::Mat& message);
 
-        /*
-        */
-        cv::Mat color_to_grey(cv::Mat& color_image);
-
         /* Callback function which is called when the node receives a new message from subscrribed topics.
         * @message    contains an image reference to the received image;   
         */
