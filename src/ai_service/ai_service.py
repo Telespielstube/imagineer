@@ -1,4 +1,4 @@
-import torch 
+import rospy, torch 
 import numpy as np
 from time import time
 from ai_service.neural_network import NeuralNetwork
@@ -49,12 +49,15 @@ class AiService():
     def validation_phase(self, cv_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(cv_image)
-        #image = tensor_image[0].view(1, 28, 28)
+        rospy.rospy.loginfo("Tensor image, %s", tensor_image)
+        
         with torch.no_grad():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
-        ps = torch.exp(output)
-        probability = list(ps.numpy()) # a list of possible numbers
-        return probability.index(max(probability))
+        #ps = torch.exp(output) # creates new Tensor
+        probability = output.cpu().data.numpy() # a list of possible numbers
+        rospy.rospy.loginfo('Output: %s', probability.argmax())
+        
+        return probability.argmax() #return the most likely prediction in the list to the Service server callback.
     
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):

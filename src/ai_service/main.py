@@ -11,7 +11,7 @@ from ai_service.ai_service import AiService
 def callback(request, service):
     response = ImageAckResponse()
     cv_bridge = CvBridge()
-    response.result = service.validation_phase(rrequest.image) 
+    response.result = service.validation_phase(request.image) 
     return response
    
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
@@ -20,8 +20,8 @@ def main():
     rospy.init_node('ai_service')
     save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
     ai_service = AiService(save_path)
-    file = pathlib.Path(save_path)
-    if not file.exists():
+    file_name = pathlib.Path(save_path)
+    if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training_phase()
         ai_service.mnist_validation()
