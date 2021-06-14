@@ -34,7 +34,7 @@ class AiService():
             # trainig phase
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
-                image, label = image.to(self.device), label.to(self.device)
+                image, label = images.to(self.device), labels.to(self.device)
                 output = self.model(images)
                 loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
