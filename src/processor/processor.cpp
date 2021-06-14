@@ -21,10 +21,8 @@ void Processor::callback(const sensor_msgs::ImageConstPtr& message)
         cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
 
         cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
-        cv::Mat greyscale =  color_to_grey(resized_image);
-        // cv::imshow("view", greyscale);
-        // cv::waitKey(30); 
-        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", resized_image).toImageMsg()); 
+        cv::Mat grayscale =  color_to_grey(resized_image);
+        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", grayscale).toImageMsg()); 
         ROS_INFO("Image is published.");
     }
     catch (cv_bridge::Exception& e)
