@@ -15,16 +15,16 @@ void Controller::send_image()
     {    
         if ((int)service.response.result == number) 
         {
-            ROS_INFO("Prediction was successful %i" (int)service.response.result);
+            ROS_INFO("Prediction was successful %i" service.response.result);
         }
         else
         {
-            ROS_INFO("Prediction was wrong. Received number: %i", (int)service.response.result);
+            ROS_INFO("Prediction was wrong. Received number: %i", service.response.result);
         }
     }
     else
     {
-        ROS_LOG("No number received!");
+        ROS_INFO("No number received!");
     }
 }
 
