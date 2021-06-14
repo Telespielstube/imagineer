@@ -44,8 +44,8 @@ class AiService():
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
-        elapsed_time = (time.time() - start_time) / 60
-        print("\nTraining Time (in minutes): {} = ", elapsed_time)
+        # elapsed_time = (time.time() - start_time) / 60
+        # print("\nTraining Time (in minutes): {} = ", (time() - ti)/60)
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
