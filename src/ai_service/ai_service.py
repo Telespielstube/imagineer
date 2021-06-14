@@ -3,6 +3,7 @@ import numpy as np
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
+import cv_bridge
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
