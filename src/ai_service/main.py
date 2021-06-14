@@ -8,7 +8,7 @@ from ai_service.ai_service import AiService
 # @request    the received image as sensor message. 
 def callback(request, service):
     response = ImageAckResponse() 
-    response.result = service.validating_phase(request.image)
+    response.result = service.validating(request.image)
     return response
      
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
@@ -20,7 +20,7 @@ def main():
     file_name = pathlib.Path(save_path)
     if not file_name.exists():
         print('No model found. Training in progress')
-        ai_service.training_phase()
+        ai_service.training()
         ai_service.validating_mnist()
         ai_service.save_model()
     else:
