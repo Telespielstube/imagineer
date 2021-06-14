@@ -43,8 +43,9 @@ class AiService():
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
-        print("\nTraining Time (in minutes): {:.2f} =".format((time() - start_time) / 60))
-
+        elapsed_time = (time.time() - start_time) / 60)
+        print("\nTraining Time (in minutes):  {}=", time.strftime('%Mn%Ss', elapsed_time))
+     time.strftime()
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
     # @return           the predicted number. 
@@ -89,7 +90,5 @@ class AiService():
     #
     # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
-        img = self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8')
-        cv2.imshow('sample image',img)
-        cv2.waitKey(0)
-        return transforms.ToTensor()(img) #(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+        cv2.imshow('view', self.cv_bridge.imgmsg_to_cv2(request_image))
+        return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
