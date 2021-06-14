@@ -26,7 +26,6 @@ def main():
     else:
         ai_service.load_model()
         print('Model found and loaded.')
-        ai_service.validating_mnist()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
 
