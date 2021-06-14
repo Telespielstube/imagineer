@@ -35,8 +35,8 @@ class AiService():
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
                 image, label = images.to(self.device), labels.to(self.device)
-                output = self.model(images)
-                loss = criterion(output, labels)
+                output = self.model(image)
+                loss = criterion(output, label)
                 loss.backward() #This is where the model learns by backpropagating
                 optimizer.step() #optimizing weights
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
