@@ -12,7 +12,7 @@ class AiService():
     def __init__(self, save_path):
         self.batch_size = 200
         self.epochs = 15
-        self.learning_rate = 0.01
+        self.learning_rate = 0.001
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
@@ -55,7 +55,7 @@ class AiService():
             output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
         probability = output.cpu().data.numpy() #moves tensor to cpu and converts it to numpy array
         rospy.loginfo('Output: %s', probability)      
-        return probability.argmax(probability) #return the most likely prediction in the list to the Service server callback.
+        return probability.argmax() #return the most likely prediction in the list to the Service server callback.
     
     # Uses the standard MNIST validation data set to test the trained model.
     def mnist_validation(self):
