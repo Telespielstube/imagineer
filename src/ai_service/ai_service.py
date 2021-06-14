@@ -24,7 +24,7 @@ class AiService():
         self.path = save_path
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = NeuralNetwork(1, 28, 28).to(self.device)
+        self.model = NeuralNetwork().to(self.device)
         
     # Function to train the mnist dataset.
     def training(self):
