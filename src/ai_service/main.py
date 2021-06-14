@@ -10,7 +10,7 @@ from ai_service.ai_service import AiService
 # @request    the received image as sensor message. 
 def callback(request, service):
     response = ImageAckResponse()
-    cv_bridge = CvBridge()
+    
     response.result = service.validation_phase(request.image) 
     return response
    

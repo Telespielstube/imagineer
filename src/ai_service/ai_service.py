@@ -3,7 +3,7 @@ import numpy as np
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
-import cv_bridge
+from cv_bridge import CvBridge()
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
@@ -21,6 +21,7 @@ class AiService():
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.path = save_path
+        self.cv_bridge = CvBridge()
         self.model = NeuralNetwork()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
@@ -92,4 +93,4 @@ class AiService():
     #
     # @return      cv_image converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
-        return transforms.ToTensor()(cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+        return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
