@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <iostream>
 
 void Controller::send_image()
 {       
@@ -8,23 +9,23 @@ void Controller::send_image()
     {
         service.request.image = storage.back().get_image(); // image gets passed to the service request image attribute.
         number = storage.back().get_number(); // the corresponding label(number) gets passed to an integer. 
-        ros::service::waitForService("/srv/ImageAck", -1);
-        ROS_INFO("Number sent: %i", number);
+        ros::service::waitForService("image_ack", -1);
+        std::cout << "Number sent: " << number;
     }
     if (service_client.call(service))
     {    
         if ((int)service.response.result == number) 
         {
-            ROS_INFO("Prediction was successful %i", (int)service.response.result);
+            std::cout << "Prediction was successful %i" << (int)service.response.result;
         }
         else
         {
-            ROS_INFO("Prediction was wrong. Received number: %i", (int)service.response.result);
+            std::cout << "Prediction was wrong. Received number: %i" << (int)service.response.result;
         }
     }
     else
     {
-        ROS_ERROR("No number received!");
+        std::cout << "No number received!";
     }
 }
 
