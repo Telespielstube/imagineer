@@ -9,11 +9,9 @@ from ai_service.ai_service import AiService
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image as sensor message. 
 def callback(request, service):
-    response = ImageAckResponse()
-    
-    response.result = service.validation_phase(request.image) 
-    return response.result
-   
+    response = ImageAckResponse()  
+    return service.validation_phase(request.image) 
+     
 # Handles all the basics like initializing node, ai_service and the Service server. Checks if a model is already saved 
 # or loads a stored model. 
 def main():
