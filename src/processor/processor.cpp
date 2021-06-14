@@ -8,7 +8,7 @@ cv::Mat Processor::process_image(cv::Mat& message)
     cv::Mat invert
     cv::resize(message, message, cv::Size(28, 28));
     cv::cvtColor(message, message, cv::COLOR_BGR2GRAY);
-    cv::treshold(message, message, 100, 255, cv::THRESH_BINARY);
+    cv::threshold(message, message, 100, 255, cv::THRESH_BINARY);
     cv::bitwise_not(message, message);
     return message;
 }
