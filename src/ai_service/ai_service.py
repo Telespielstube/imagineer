@@ -1,10 +1,10 @@
 import rospy, torch 
 import numpy as np
+import cv2
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
 from cv_bridge import CvBridge
-import cv2
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
@@ -44,7 +44,7 @@ class AiService():
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
         elapsed_time = (time.time() - start_time) / 60
-        print("\nTraining Time (in minutes):  {}=", elapsed_time)
+        print("\nTraining Time (in minutes): {} = ", elapsed_time)
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
@@ -90,8 +90,4 @@ class AiService():
     #
     # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
-        img = self.cv_bridge.imgmsg_to_cv2(request_image
-        cv2.imshow('view', img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
         return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
