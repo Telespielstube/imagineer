@@ -52,9 +52,10 @@ class AiService():
     # @return           the predicted number. 
     def validating(self, request_image):
         self.model.eval()
-        tensor_image = self.image_to_tensor(request_image)   
+        tensor_image = self.image_to_tensor(request_image) 
+        normalized_image = self.normalize_image(tensor_image)  
         with torch.no_grad():
-            output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
+            output = self.model(normalized_image) # model returns the vector of raw predictions that a classification model generates.         
         probability = output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array
         rospy.loginfo('Output: %s', probability)      
         return probability #return the number with the largest predicted probability.
@@ -85,6 +86,14 @@ class AiService():
     # Loads entire saved model.
     def load_model(self):
        self.model = torch.load(self.path)
+
+    # Normalizes the tensor_image so every image is aligned correctly.
+    # @tensor_image    image object in PyTorrch tensorr format.
+    #
+    # @return          correctly aligned image.
+    def normalize_image(self, tensor_image):
+        normalize = transforms.Compose([transforms.Normalize((0.1307,), (0.3081,))])
+        return normalize(tensor_image)
 
     # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
     # @requsted_image    the image still in ROS sensor message format.
