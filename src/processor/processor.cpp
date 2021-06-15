@@ -4,8 +4,15 @@
 cv::Mat Processor::process_image(cv::Mat& message)
 {
     cv::Mat resized_message;
+    cv::Mat grayscale_image;//declaring a matrix to store converted image//
+    cv::Mat binary_image;//declaring a matrix to store the binary image
+    cv::Mat inverted_binary_image;
     cv::resize(message, resized_message, cv::Size(28, 28));
-    return resized_message;
+    cv::cvtColor(resized_image, grayscale_image, COLOR_BGR2GRAY);//Converting BGR to Grayscale image and storing it into 'converted' matrix//
+    cv::threshold(grayscale_image, binary_image, 100, 255, THRESH_BINARY);//converting grayscale image stored in 'converted' matrix into binary image//
+    cv::bitwise_not(binary_image, inverted_binary_image);
+    
+    return inverted_binary_image;
 }
 
 void Processor::callback(const sensor_msgs::ImageConstPtr& message)
