@@ -22,7 +22,7 @@ class NeuralNetwork(nn.Module):
         x = F.relu(self.input_layer(x))
         x = F.relu(self.hidden_layer1(x))
         x = F.relu(self.hidden_layer2(x))
-        #x = F.relu(self.hidden_layer3(x))
+        x = F.relu(self.hidden_layer3(x))
         x = self.output_layer(x)
         
         return F.log_softmax(x, 1)
