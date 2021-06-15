@@ -100,6 +100,4 @@ class AiService():
     #
     # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
-        img = self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8')
-        plt.imshow(img, cmap='Greys')
-        return transforms.ToTensor()(img) #(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+        return transforms.ToTensor()((self.cv_bridge.imgmsg_to_cv2(request_image, 'bgr8'))
