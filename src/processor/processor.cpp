@@ -9,7 +9,7 @@ cv::Mat Processor::process_image(cv::Mat& message)
     cv::Mat inverted_binary_image;
     cv::resize(message, resized_message, cv::Size(28, 28));
     cv::cvtColor(resized_message, grayscale_image, cv::COLOR_BGR2GRAY);//Converting BGR to Grayscale image and storing it into 'converted' matrix//
-    cv::threshold(grayscale_image, binary_image, 80, 255, cv::THRESH_BINARY);//converting grayscale image stored in 'converted' matrix into binary image//
+    cv::threshold(grayscale_image, binary_image, 80, 200, cv::THRESH_BINARY);//converting grayscale image stored in 'converted' matrix into binary image//
     cv::bitwise_not(binary_image, inverted_binary_image);
     
     return inverted_binary_image;
@@ -22,7 +22,7 @@ void Processor::callback(const sensor_msgs::ImageConstPtr& message)
         cv::namedWindow("view", cv::WINDOW_AUTOSIZE);
 
         cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); // Converts the cv_bridge back to a ros image and processes it.
-        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", resized_image).toImageMsg()); 
+        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
         ROS_INFO("Image is published.");
     }
     catch (cv_bridge::Exception& e)
