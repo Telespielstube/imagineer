@@ -11,12 +11,12 @@ cv::Mat Processor::process_image(cv::Mat& message)
     cv::Mat resized_message;
     cv::Mat grayscale_image;
     cv::Mat threshold_image;
-    cv::Mat inverted_gray_image;
+    cv::Mat inverted_threshold_image;
     cv::resize(message, resized_message, cv::Size(28, 28));
     cv::cvtColor(resized_message, grayscale_image, cv::COLOR_BGR2GRAY);
     cv::threshold(grayscale_image, threshold_image, 110, 255, cv::THRESH_BINARY);
-    cv::bitwise_not(threshold_image, inverted_gray_image); 
-    return inverted_binary_image;
+    cv::bitwise_not(threshold_image, inverted_threshold_image); 
+    return inverted_threshold_image;
 }
 
 /* The callback function is called whenever a new message is received.
