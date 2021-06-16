@@ -9,7 +9,7 @@ cv::Mat Processor::process_image(cv::Mat& message)
     cv::Mat inverted_binary_image;
     cv::resize(message, resized_message, cv::Size(28, 28));
     cv::cvtColor(resized_message, grayscale_image, cv::COLOR_BGR2GRAY);//Converting BGR to Grayscale image and storing it into 'converted' matrix//
-    //cv::threshold(resized_message, binary_image, 150, 255, cv::THRESH_BINARY);//converting grayscale image stored in 'converted' matrix into binary image//
+    cv::threshold(resized_message, binary_image, 128, 255, cv::THRESH_BINARY);//converting grayscale image stored in 'converted' matrix into binary image//
     cv::bitwise_not(grayscale_image, inverted_binary_image);
     return inverted_binary_image;
 }
