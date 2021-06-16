@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <vector>
+#include <time.h>
 #include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -73,6 +74,7 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "camera");
     ROS_INFO("Camera node is running");
+    srand( (unsigned)time(NULL) );
     ros::NodeHandle node;
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
