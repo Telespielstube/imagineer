@@ -80,7 +80,7 @@ class AiService():
         directory = '/home/marta/catkin_ws/src/imagineer/saved_models/'
         try:
             os.mkdir(directory)
-        except:
+        except FileExistsError:
             pass
         torch.save(self.model, self.path)
         print('Model is saved')
