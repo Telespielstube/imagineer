@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import rospy, torch, pathlib
+import rospy, torch, pathlib, sys
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.ai_service import AiService
@@ -15,9 +15,8 @@ def callback(request, service):
 # or loads a stored model. 
 def main():
     rospy.init_node('ai_service')
-    save_path = '/home/marta/catkin_ws/src/imagineer/my_trained_mnist_model.pt'
-    ai_service = AiService(save_path)
-    file_name = pathlib.Path(save_path)
+    ai_service = AiService(sys.argv[0])
+    file_name = pathlib.Path(sys.argv[0])
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training()
@@ -25,7 +24,7 @@ def main():
         ai_service.save_model()
     else:
         ai_service.load_model()
-        print('Model found and loaded.')
+        print('Model found.')
         ai_service.validating_mnist()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
     rospy.spin()
