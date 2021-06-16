@@ -29,7 +29,7 @@ class AiService():
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.BCELoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
+        optimizer = torch.optim.ASGD(self.model.parameters(), self.learning_rate)
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
