@@ -15,7 +15,6 @@ def callback(request, service):
 # or loads a stored model. 
 def main():
     rospy.init_node('ai_service')
-    print(sys.argv[1])
     ai_service = AiService(sys.argv[1])
     file_name = pathlib.Path(sys.argv[1])
     if not file_name.exists():

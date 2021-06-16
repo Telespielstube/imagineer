@@ -1,4 +1,4 @@
-import rospy, torch 
+import rospy, torch, os 
 import numpy as np
 import matplotlib.pyplot as plt
 from time import time
@@ -77,6 +77,9 @@ class AiService():
 
     # Saves the entire trained model to a specific path.
     def save_model(self):
+        directory = '/home/marta/catkin_ws/src/imagineer/saved_models/'
+        try:
+            os.mkdir(directory)
         torch.save(self.model, self.path)
         print('Model is saved')
     
