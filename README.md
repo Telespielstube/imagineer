@@ -42,12 +42,6 @@ A ROS service is basically a request / reqly model. One node offers a service an
 
 ### roslaunch
 roslaunch is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
-```xml
-<launch>
-  <node name="ai_service" pgk="imagineer" type="ai_service" />
-  ...
-</launch>
-```
 In order to launch each node with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
@@ -65,7 +59,7 @@ Both variables are passed to the image object. The publish function puts the obj
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
 After sucessfully initializing the node via the roslaunch file, the subscriber function is called and subscribes to the image topic. If an image is received, the corresponding callback function is called.</br>
 
-```cpp
+```c++
 subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
 ```
 The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to save space and publish the image more efficiently, the image is reduced by half and returned as OpenCV image back to the callback function.   
@@ -95,16 +89,12 @@ After both messages are received they get syncronized by their time stamps in th
 ```c++
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
-The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object NumberAndPicture, which acts as the data type of the vector.
-```c++
-storage.push_back(NumberAndPicture(digit, saved_image));
-```
-Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node arrives.
+The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node arrives.
 
 ### Neuronal network node
 The neural network node consists of two parts the service and the underlying neural network which is responsible for the image regogniction.
-Before the actual image recognition process, the neural network must be trained first. The necessarry MNIST(2) dataset are loaded in the class contructor.
-
+Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
+The training function creates an optimizer object with the SGD algorithm. It stands for stochastic gradient descent and means that 
 
 
 

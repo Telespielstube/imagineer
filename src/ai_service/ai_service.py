@@ -1,6 +1,5 @@
-import rospy, torch, os 
+import torch, os 
 import numpy as np
-import matplotlib.pyplot as plt
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
@@ -8,6 +7,7 @@ from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
+
 class AiService():
 
     def __init__(self, save_path):
@@ -24,7 +24,8 @@ class AiService():
         self.path = save_path
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = NeuralNetwork().to(self.device)
+        self.model = NeuralNetwork()
+        self.model.to(self.device)
         
     # Function to train the mnist dataset.
     def training(self):
@@ -35,9 +36,9 @@ class AiService():
             # trainig phase
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
-                image, label = images.to(self.device), labels.to(self.device)
-                output = self.model(image)
-                loss = criterion(output, label)
+                images, labels = images.to(self.device), labels.to(self.device)
+                output = self.model(images)
+                loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
                 optimizer.step() #optimizing weights
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
@@ -47,15 +48,13 @@ class AiService():
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
     # @return           the predicted number. 
-    def validating(self, request_image):
+    def prediction(self, request_image):
         self.model.eval()
         tensor_image = self.image_to_tensor(request_image) 
         normalized_image = self.normalize_image(tensor_image)  
         with torch.no_grad():
             output = self.model(normalized_image) # model returns the vector of raw predictions that a classification model generates.         
-        probability = output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array
-        rospy.loginfo('Output: %s', probability)      
-        return probability #return the number with the largest predicted probability.
+        return output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array and returns the number with the largest predicted probability.
     
     # Uses the standard MNIST validation data set to test the trained model.
     def validating_mnist(self):
