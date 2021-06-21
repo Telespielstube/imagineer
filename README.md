@@ -37,7 +37,7 @@ ROS(3)  is an open-source operating system for robots. It offers a framework, li
 </br>
 ### Neural network overview
 A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch framework makes it concise and easier to understand the complexity behind it.</br>
-The decision to build the neural network with three hidden layers was due to a rather simple prediction problem and on the other side a performance  
+The decision to build the neural network with three hidden layers was based on the consideration that there was a rather simple prediction problem, keep a good performance, but should have a gradual readuction of neurons in the layers as well.
 
 ## Implementation
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
