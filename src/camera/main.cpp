@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <vector>
+#include <time.h>
 #include <experimental/filesystem>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -50,10 +51,10 @@ Image read_image(std::string image_file)
 }
 
 /* Publishes the key, value pair as std_msgs and imagineer::Number messages to all subscribers.
-* @node            Node object.
-* @img_publisher   image transport publisher object.
-* @int_message     integer publisher object.
-# @Image           Image object with filename and image as attributes.
+* @node                  camera node object.
+* @img_publisher         image transport publisher object.
+* @int_message           integer publisher object.
+# @message_to_publish    Image object to be sent.
 */
 void publish_message(ros::NodeHandle node, image_transport::Publisher img_publisher, ros::Publisher int_publisher, 
                     Image message_to_publish)
@@ -73,6 +74,7 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "camera");
     ROS_INFO("Camera node is running");
+    srand( (unsigned)time(NULL) );
     ros::NodeHandle node;
     image_transport::ImageTransport transport(node);
     image_transport::Publisher img_publisher = transport.advertise("camera/image", 1);
@@ -81,7 +83,7 @@ int main(int argc, char** argv)
     // the actual camera work is done here.
     std::string path = argv[1];
     std::vector<std::string> directory_files = get_files(path);
-    ros::Rate loop(10000);
+    ros::Rate loop(0.2);
     while (node.ok())
     {    
         if (img_publisher.getNumSubscribers() > 0 && int_publisher.getNumSubscribers() > 0)
@@ -89,12 +91,12 @@ int main(int argc, char** argv)
             std::string image_file = pick_file(directory_files);
             Image image_to_publish = read_image(image_file);
             publish_message(node, img_publisher, int_publisher, image_to_publish);
-            loop.sleep();
         }
         else
         { 
             continue;
         }
+        loop.sleep();
         ros::spinOnce();
     }
 }

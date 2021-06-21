@@ -1,41 +1,54 @@
 #include "controller.h"
-#include <iostream>
 
 void Controller::send_image()
 {       
     imagineer::ImageAck service;
-   // int number = 0;
+    int number = 0;
     if (!storage.empty())
     {
-        service.request.image = storage.back().get_image();
-      //  number = storage.back().get_number();
+        service.request.image = storage.back().get_image(); // image gets passed to the service request image attribute.
+        number = storage.back().get_number(); // the corresponding label(number) gets passed to an integer. 
+        ros::service::waitForService("image_ack", -1);
+        ROS_INFO("Number sent: %i", number);
     }
     if (service_client.call(service))
-    {
-        
-        ROS_INFO("Received number: %i", (int)service.response.result);
-        // compare_result();
+    {    
+        if ((int)service.response.result == number) 
+        {
+            ROS_INFO("Prediction was successful %i", service.response.result);
+        }
+        else
+        {
+            ROS_INFO("Prediction was wrong. Received number: %i", service.response.result);
+        }
     }
     else
     {
-        ROS_ERROR("No number received!");
+        ROS_INFO("No number received!");
     }
 }
 
-void Controller::add_to_list(int digit, sensor_msgs::Image& image)
+/* Adds received image and corresponding number from camera to the end of a growable list (vector).
+* @digit    corresponding image number.
+* @image    image object.
+*/
+inline void Controller::add_to_list(int digit, sensor_msgs::Image& image)
 {
     storage.push_back(NumberAndPicture(digit, image));
-    ROS_INFO("Object added");
 }
 
+/* Function is called as soon as the node syncronized the received image and number.
+* @image
+* @digit
+*/
 void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagineer::Number& digit)
 {
     try 
     {
         cv::imshow("view", cv_bridge::toCvCopy(image)->image);
         cv::waitKey(30); 
-        int number = digit.digit; // passes the ImageAck filed digit 
-        sensor_msgs::Image save_image = *image;
+        int number = digit.digit; // passes the ImageAck digit to an integer
+        sensor_msgs::Image save_image = *image; 
         add_to_list(number, save_image);
         send_image();
     }
@@ -44,6 +57,3 @@ void Controller::callback(const sensor_msgs::ImageConstPtr& image, const imagine
         ROS_ERROR("Error: %s", e.what());
     }
 }
-
-
-

@@ -21,7 +21,7 @@ find_package(
 )
 
 ## Uncomment if the package has a setup.py
-catkin_python_setup()
+# catkin_python_setup()
 
 ## Declare ROS messages and services
 add_message_files(
@@ -48,8 +48,7 @@ catkin_package(
 )
 
 ## Build the neural_network service.
-catkin_install_python(
-    PROGRAMS src/ai_service/ai_service.py 
+catkin_install_python(PROGRAMS src/ai_service/main.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
