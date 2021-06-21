@@ -93,9 +93,9 @@ boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imaginee
 The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neuronal network node.
 
 ### Neuronal network node
-The neural network node consists of two parts the service and the underlying neural network which is responsible for the image regogniction.
+The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
 Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
-The training function creates an optimizer object with the SGD algorithm and a cross entropy  loss function. SGD stands for stochastic gradient descent and means that 
+The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. SGD stands for stochastic gradient descent and means that the given pararmeters 
 
 
 
