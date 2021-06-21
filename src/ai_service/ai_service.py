@@ -30,7 +30,7 @@ class AiService():
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.ASGD(self.model.parameters(), self.learning_rate)
+        optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
@@ -53,7 +53,7 @@ class AiService():
         tensor_image = self.image_to_tensor(request_image) 
         normalized_image = self.normalize_image(tensor_image)  
         with torch.no_grad():
-            output = self.model(normalized_image) # model returns the vector of raw predictions that a classification model generates.         
+            output = self.model(normalized_image)
         return output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array and returns the number with the largest predicted probability.
     
     # Uses the standard MNIST validation data set to test the trained model.
