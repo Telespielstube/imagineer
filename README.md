@@ -30,7 +30,7 @@
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. 
 </br>
 ### Project description
-The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++(1) except the artifical intelligence node which is written in Python(2).
+The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++ except the artifical intelligence node which is written in Python(2).
 </br>
 ### ROS overview
 ROS(3)  is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
@@ -118,10 +118,12 @@ The approach to separate the different tasks makes it easier to maintain each si
 The decision to build the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well.
 .....
 Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.
-For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene. Whereas the optimizer Adam adds a scalable learning rate and a new parameter to the algorithm, the momentum. This means that the learning rate is individually processed for each weight. Momentum combines a ratio of old and new direction to adjust weights. Those additions make the Adam algorithm a powerful optimizer for complex deep neural networks, whereby SGD in turn is suited for small test applications.
+For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene. Whereas the optimizer Adam adds a scalable learning rate and a new parameter to the algorithm, the momentum. This means that the learning rate is individually processed for each weight. Momentum combines a ratio of old and new direction to adjust weights. Those additions make the Adam algorithm a powerful optimizer for complex deep neural networks, whereby SGD in turn is better suited for small test applications.
 ### Sources
-(C++)[https://www.cplusplus.com]</br>
+[https://www.cplusplus.com](#C++)</br>
 (Python)[https://www.python.org]</br>
-[2](MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
 (ROS)[https://www.ros.org]</br>
+(MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
+
 (PyTorch)[https://pytorch.org]
+
