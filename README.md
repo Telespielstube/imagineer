@@ -28,21 +28,21 @@
 </br>
 ## Introduction
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. 
+</br>
 ### Project description
 The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++(1) except the artifical intelligence node which is written in Python(2).
 </br>
-
 ### ROS overview
 ROS(3)  is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
 </br>
 ### Neural network overview
 A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch framework makes it concise and easier to understand the complexity behind it.</br>
-
-
+</br>
+</br>
 ## Implementation
 
 ### Messages and services
-Each ROS node only performs one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the known publish subscrber model. Nodes publish content as messages to topis and other nodes can subscrbe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
+Each ROS node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscrber model. Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
 A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
 
 ### roslaunch
@@ -97,17 +97,17 @@ The service for requesting the predicted number is also initialized in the const
 If the service receives an responses from the neuronal network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
 ### Neuronal network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
-Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
+Before the actual image recognition process, the neural network must be trained first by using the MNIST[2] datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
 The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
-[SGD](/Users/marta/Documents/CPP-workspace/imagineer/media/trained_SGD_with_cross_entropy.png)
- When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images and prediction. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
+[SGD](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images and prediction. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode requires a trained model in advance.
 In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neuronal network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image.
-The service callback function trrasmits the predicted digit back to the controller node.
+The service callback function sends the predicted digit back to the controller node.
 
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
@@ -122,6 +122,6 @@ For example the used SGD optimizer in the application takes the approach of pick
 ### Sources
 (C++)[https://www.cplusplus.com]</br>
 (Python)[https://www.python.org]</br>
-(MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
+[2](MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
 (ROS)[https://www.ros.org]</br>
 (PyTorch)[https://pytorch.org]
