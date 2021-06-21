@@ -98,8 +98,8 @@ If the service receives an responses from the neuronal network node it prints th
 ### Neuronal network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
 Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
-The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly form the data set.  
-To evaluate the trained model a verification is perfomed. This gives a view if the model is robust, under- or overfitted.
+The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
+To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 [SGD](/Users/marta/Documents/CPP-workspace/imagineer/media/trained_SGD_with_cross_entropy.png)
  When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images and prediction. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
@@ -111,13 +111,14 @@ The service callback function trrasmits the predicted digit back to the controll
 
 ### Graph
 An overview of the arrangement of all nodes in the application.
-[Graph](/Users/marta/Documents/CPP-workspace/imagineer/media/network_graph.png)
+[Graph](https://github.com/Telespielstube/imagineer/blob/docu/media/networrk_graph.png)
 
 ### Conclusion
-The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
-The approach to separate the different tasks makes it easier to maintain and extent the application. 
-The decision to build the neural network with three hidden layers was based on the consideration that there was a rather simple prediction problem, keep a good performance, but should have a gradual readuction of neurons in the layers as well.
-
+The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
+The decision to build the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well.
+.....
+Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain. But it gives a good insight understanding the different approaches used by the different optimizers.
+For example the used SGD optimizer in the application 
 ### Sources
 (C++)[https://www.cplusplus.com]</br>
 (Python)[https://www.python.org]</br>
