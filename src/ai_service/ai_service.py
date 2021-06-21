@@ -9,7 +9,7 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 2800
+        self.batch_size = 256
         self.epochs = 25
         self.learning_rate = 0.01
         self.momentum = 0.9
@@ -28,7 +28,7 @@ class AiService():
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
+        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum)
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
@@ -37,9 +37,9 @@ class AiService():
                 images, labels = images.to(self.device), labels.to(self.device)
                 output = self.model(images)
                 loss = criterion(output, labels)
-                loss.backward() #This is where the model learns by backpropagating
-                optimizer.step() #optimizing weights
-                running_loss += loss.item() # Returns the value of this tensor as a standard Python number
+                loss.backward() 
+                optimizer.step() 
+                running_loss += loss.item() # the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
 

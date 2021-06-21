@@ -15,6 +15,8 @@
 - [Controller node](#controller-node)
 - [Neural network node](#neural-network-node)
 - [Graph](#graph)
+- [Conclusion](#conclusion)
+- {Sources](#sources)
 
 ### Abbrevations
 [ROS](#ros) .................................................................................Robot Operationg System</br>
@@ -91,28 +93,28 @@ After both messages are received they get syncronized by their time stamps in th
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
 The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neuronal network node.
-
+If the service receives an responses from the neuronal network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
 ### Neuronal network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
 Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
-The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. SGD stands for stochastic gradient descent and means that the given pararmeters 
-
-
-
-
-The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
+The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly form the data set.  
+To evaluate the trained model a verification is perfomed. This gives a view if the model is robust, under- or overfitted.
+[SGD](/Users/marta/Documents/CPP-workspace/imagineer/media/trained_SGD_with_cross_entropy.png)
+ When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images and prediction. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
-
-
-The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode rrequires a trained model in advance.
-In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neuronal network returns the vector of  raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image.
+The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode requires a trained model in advance.
+In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neuronal network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image.
+The service callback function trrasmits the predicted digit back to the controller node.
 
 ### Graph
 An overview of the arrangement of all nodes in the application.
-[Graph](/Users/marta/Documents/CPP-workspace/imagineer/media/graph.png)
+[Graph](/Users/marta/Documents/CPP-workspace/imagineer/media/network_graph.png)
+
+### Conclusion
 
 ### Sources
 (MNIST)[http://yann.lecun.com/exdb/mnist/]
 (C++)[https://www.cplusplus.com]
+(PyTorch)[https://pytorch.org]
