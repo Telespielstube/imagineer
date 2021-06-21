@@ -99,8 +99,10 @@ If the service receives a response from the neural network node it prints the re
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
 Before the actual image recognition process, the neural network must be trained first by using the MNIST[2] datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
 The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
-To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.</br>
-![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)<>
+To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
+</br></br>
+![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+</br>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
@@ -109,7 +111,8 @@ The prediction function sets the mode to evaluation for the trained and loaded m
 In order to use the ROS(3) sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
 </br>
 ### Graph
-An overview of the arrangement of all nodes in the application.</br>
+An overview of the arrangement of all nodes in the application.
+</br></brr>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 
 ### Conclusion
