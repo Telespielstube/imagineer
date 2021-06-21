@@ -16,11 +16,11 @@
 - [Neural network node](#neural-network-node)
 - [Graph](#graph)
 - [Conclusion](#conclusion)
-- {Sources](#sources)
+- [Sources](#sources)
 
 ### Abbrevations
 [ROS](#ros) .................................................................................Robot Operationg System</br>
-[RPC](#rpc) ...................................................................................Remote Procedcure Call
+[RPC](#rpc) ...................................................................................Remote Procedcure Call</br>
 [SGD](#sgd) ..............................................................................Stochastic gradient descent
 </br>
 </br>
