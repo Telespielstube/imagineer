@@ -22,7 +22,7 @@
 [ROS](#ros)   ...............................................................................Robot Operationg System</br>
 [RPC](#rpc)   ..................................................................................Remote Procedcure Call</br>
 [SGD](#sgd)   ...........................................................................Stochastic gradient descent</br>
-[Adam](#adam) .............................................................................Adaptive Moment Estimation</br>
+[Adam](#adam) ..........................................................................Adaptive Moment Estimation</br>
 </br>
 </br>
 </br>
@@ -100,7 +100,7 @@ The neural network node consists of two parts, the service and the underlying ne
 Before the actual image recognition process, the neural network must be trained first by using the MNIST[2] datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
 The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.</br>
-[SGD](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)<>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
@@ -110,7 +110,7 @@ In order to use the ROS(3) sensor message image in the neural network properly i
 </br>
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
-[Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
+![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
