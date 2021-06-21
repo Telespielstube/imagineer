@@ -1,6 +1,4 @@
-import torch, os 
-import numpy as np
-from time import time
+import torch, os, numpy
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
 from cv_bridge import CvBridge
@@ -66,19 +64,18 @@ class AiService():
             for image, label in self.validation_data:
                 image, label = image.to(self.device), label.to(self.device)
                 output = self.model(image)
-                test_loss += criterion(output, label).item()  # sum up batch loss
-                pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-                correct += pred.eq(label.view_as(pred)).sum().item()
-
+                test_loss += criterion(output, label).item()  # sums up batch loss
+                pred = output.argmax()
+                correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
 
     # Saves the entire trained model to a specific path.
     def save_model(self):
-        directory = '/home/marta/catkin_ws/src/imagineer/saved_models/'
+        save_folder = '/home/marta/catkin_ws/src/imagineer/saved_models/'
         try:
-            os.mkdir(directory)
+            os.mkdir(save_folder)
         except FileExistsError:
             pass
         torch.save(self.model, self.path)
