@@ -1,5 +1,5 @@
 <launch>  
-  <node name="ai_service" pkg="imagineer" type="main.py" output="screen"/> 
+  <node name="ai_service" pkg="imagineer" type="main.py" output="screen" args="/home/marta/catkin_ws/src/imagineer/saved_models/my_trained_adam_cross_entro_model.pt"/> 
   <node name="processor" pkg="imagineer" type="processor" />
   <node name="camera" pkg="imagineer" type="camera" args="/home/marta/catkin_ws/src/imagineer/my_images"/>
   <node name="controller" pkg="imagineer" type="controller" output="screen" args="call --wait /image_ack true"/>

@@ -1,19 +1,20 @@
-import rospy, torch 
+import torch, os 
 import numpy as np
 from time import time
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
 from cv_bridge import CvBridge
-import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
+
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 200
-        self.epochs = 5
+        self.batch_size = 2800
+        self.epochs = 25
         self.learning_rate = 0.01
+        self.momentum = 0.9
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
                                 transform=transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
@@ -22,20 +23,20 @@ class AiService():
                                 transforms.Normalize((0.1307,), (0.3081,))])), 200, shuffle=True)
         self.path = save_path
         self.cv_bridge = CvBridge()
-        self.model = NeuralNetwork()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model = NeuralNetwork()
+        self.model.to(self.device)
         
     # Function to train the mnist dataset.
-    def training_phase(self):
+    def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
-        start_time = time()
+        optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
-                image, label = image.to(self.device), label.to(self.device)
+                images, labels = images.to(self.device), labels.to(self.device)
                 output = self.model(images)
                 loss = criterion(output, labels)
                 loss.backward() #This is where the model learns by backpropagating
@@ -43,24 +44,20 @@ class AiService():
                 running_loss += loss.item() # Returns the value of this tensor as a standard Python number
             else:
                 print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
-        print("\nTraining Time (in minutes): {:.0f} =".format((time() - start_time) / 60))
 
     # Function validates the trained model against the received image.
-    # @cv_image    cv_image image object to be validated.
-    # @return      a predicted number. 
-    def validation_phase(self, request_image):
+    # @request_image    image object to be validated.
+    # @return           the predicted number. 
+    def prediction(self, request_image):
         self.model.eval()
-
-        tensor_image = self.image_to_tensor(request_image)
-        rospy.loginfo("Tensor image, %s", tensor_image)      
+        tensor_image = self.image_to_tensor(request_image) 
+        normalized_image = self.normalize_image(tensor_image)  
         with torch.no_grad():
-            output = self.model(tensor_image) # model returns the vector of raw predictions that a classification model generates.         
-        probability = output.cpu().data.numpy() # a list of possible numbers
-        rospy.loginfo('Output: %s', probability.argmax())      
-        return probability.argmax() #return the most likely prediction in the list to the Service server callback.
+            output = self.model(normalized_image)
+        return output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array and returns the number with the largest predicted probability.
     
     # Uses the standard MNIST validation data set to test the trained model.
-    def mnist_validation(self):
+    def validating_mnist(self):
         self.model.eval()
         criterion = nn.CrossEntropyLoss()
         test_loss = 0
@@ -79,6 +76,11 @@ class AiService():
 
     # Saves the entire trained model to a specific path.
     def save_model(self):
+        directory = '/home/marta/catkin_ws/src/imagineer/saved_models/'
+        try:
+            os.mkdir(directory)
+        except FileExistsError:
+            pass
         torch.save(self.model, self.path)
         print('Model is saved')
     
@@ -86,9 +88,17 @@ class AiService():
     def load_model(self):
        self.model = torch.load(self.path)
 
-    # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
-    # @requsted_image    the image still in ROS sensor message forrmat.
+    # Normalizes the tensor_image so every image is aligned correctly.
+    # @tensor_image    image object in PyTorrch tensorr format.
     #
-    # @return      cv_image converted to PyTorch tensor.
+    # @return          correctly aligned image.
+    def normalize_image(self, tensor_image):
+        normalize = transforms.Compose([transforms.Normalize((0.1307,), (0.3081,))])
+        return normalize(tensor_image)
+
+    # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
+    # @requsted_image    the image still in ROS sensor message format.
+    #
+    # @return      ROS sensor message format converted to PyTorch tensor.
     def image_to_tensor(self, request_image):
         return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))

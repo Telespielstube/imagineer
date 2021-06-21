@@ -14,10 +14,12 @@
 - [Processor node](#processor-node)
 - [Controller node](#controller-node)
 - [Neural network node](#neural-network-node)
+- [Graph](#graph)
 
 ### Abbrevations
 [ROS](#ros) .................................................................................Robot Operationg System</br>
 [RPC](#rpc) ...................................................................................Remote Procedcure Call
+[SGD](#sgd) ..............................................................................Stochastic gradient descent
 </br>
 </br>
 </br>
@@ -42,12 +44,6 @@ A ROS service is basically a request / reqly model. One node offers a service an
 
 ### roslaunch
 roslaunch is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
-```xml
-<launch>
-  <node name="ai_service" pgk="imagineer" type="ai_service" />
-  ...
-</launch>
-```
 In order to launch each node with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
@@ -65,24 +61,23 @@ Both variables are passed to the image object. The publish function puts the obj
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
 After sucessfully initializing the node via the roslaunch file, the subscriber function is called and subscribes to the image topic. If an image is received, the corresponding callback function is called.</br>
 
-```cpp
+```c++
 subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
 ```
-The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to save space and publish the image more efficiently, the image is reduced by half and returned as OpenCV image back to the callback function.   
+The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNist images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
+The returned image is converted back to the ROS sensor message format and gets sent to the controller node.
 ```c++
 void callback(const sensor_msgs::ImageConstPtr& message)
 {
     try
     {
-        cv::Mat resized_image = process_image(cv_bridge::toCvCopy(message)->image); 
-        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", resized_image).toImageMsg()); 
+        cv::Mat processed_image = process_image(cv_bridge::toCvCopy(message)->image); 
+        publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", processed_image).toImageMsg()); 
     }
 ```      
-At last, the photo is converted back to a ROS Image message format and gets published as grayscale image to the controller node.
 
 ### Controller node
-After the node has been initialized, the controller object subscribes to the number topic published by the camera node and the topic set up by the processor node. Both topics get synchronized based on their set time stamp at publishing time. 
-
+After the node has been initialized, the controller object subscribes to the number topic published by the camera node and the new topic set up by the processor node.
 ```c++
 Controller() {
     img_subscriber.subscribe(node, "processor/image", 1);
@@ -95,15 +90,12 @@ After both messages are received they get syncronized by their time stamps in th
 ```c++
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
-The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object NumberAndPicture, which acts as the data type of the vector.
-```c++
-storage.push_back(NumberAndPicture(digit, saved_image));
-```
-Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node arrives.
+The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neuronal network node.
 
 ### Neuronal network node
-The neural network node consists of two parts the service and the underlying neural network which is responsible for the image regogniction.
-Before the actual image recognition process, the neural network must be trained first. The necessarry MNIST(2) dataset are loaded in the class contructor.
+The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
+Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
+The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. SGD stands for stochastic gradient descent and means that the given pararmeters 
 
 
 
@@ -112,13 +104,15 @@ The incomming service message contains the image as a ROS sensor message. The ca
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
-In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format.
-```python
-def image_to_tensor(self, request_image):
-        return transforms.ToTensor()(cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
-```
 
 
-## Sources
+The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode rrequires a trained model in advance.
+In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neuronal network returns the vector of  raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image.
+
+### Graph
+An overview of the arrangement of all nodes in the application.
+[Graph](/Users/marta/Documents/CPP-workspace/imagineer/media/graph.png)
+
+### Sources
 (MNIST)[http://yann.lecun.com/exdb/mnist/]
 (C++)[https://www.cplusplus.com]
