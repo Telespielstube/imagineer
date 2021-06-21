@@ -19,15 +19,15 @@
 - [Sources](#sources)
 
 ### Abbrevations
-[ROS](#ros) .................................................................................Robot Operationg System</br>
-[RPC](#rpc) ....................................................................................Remote Procedcure Call</br>
-[SGD](#sgd) .............................................................................Stochastic gradient descent
+[ROS](#ros)   ...............................................................................Robot Operationg System</br>
+[RPC](#rpc)   ..................................................................................Remote Procedcure Call</br>
+[SGD](#sgd)   ...........................................................................Stochastic gradient descent</br>
+[Adam](#adam) .............................................................................Adaptive Moment Estimation</br>
 </br>
 </br>
 </br>
 ## Introduction
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. 
-</br>
 ### Project description
 The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++(1) except the artifical intelligence node which is written in Python(2).
 </br>
