@@ -115,6 +115,8 @@ An overview of the arrangement of all nodes in the application.
 ### Conclusion
 
 ### Sources
-(MNIST)[http://yann.lecun.com/exdb/mnist/]
-(C++)[https://www.cplusplus.com]
+(C++)[https://www.cplusplus.com]</br>
+(Python)[https://www.python.org]</br>
+(MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
+(ROS)[https://www.ros.org]</br>
 (PyTorch)[https://pytorch.org]
