@@ -93,39 +93,38 @@ After both messages are received they get syncronized by their time stamps in th
 ```c++
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
-The service for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neuronal network node.
-If the service receives an responses from the neuronal network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
-### Neuronal network node
-The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image regogniction.
-Before the actual image recognition process, the neural network must be trained first by using the MNIST[2] datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The 3 hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
+The service(6) for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neural network node.
+If the service receives a response from the neural network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
+### Neural network node
+The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
+Before the actual image recognition process, the neural network must be trained first by using the MNIST[2] datasets. The neural network is built up with three hidden layers. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Once the network is initialized the next step is to train it.
 The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training iteration. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
-To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
+To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.</br>
 [SGD](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
-When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images and prediction. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
+When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode requires a trained model in advance.
-In order to use the ROS sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neuronal network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image.
-The service callback function sends the predicted digit back to the controller node.
-
+In order to use the ROS(3) sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
+</br>
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
 [Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 
 ### Conclusion
+The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
-The decision to build the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well.
-.....
+The decision to build the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well.</br>
 Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.
 For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene. Whereas the optimizer Adam adds a scalable learning rate and a new parameter to the algorithm, the momentum. This means that the learning rate is individually processed for each weight. Momentum combines a ratio of old and new direction to adjust weights. Those additions make the Adam algorithm a powerful optimizer for complex deep neural networks, whereby SGD in turn is better suited for small test applications.
 ### Sources
-##### 1 C++[https://www.cplusplus.com]</br>
+1. C++[https://www.cplusplus.com]</br>
 2. Python [https://www.python.org]</br>
 3. ROS [https://www.ros.org]</br>
 4. ROS Messages [http://wiki.ros.org/Messages]</br>
 5. roslaunch[http://wiki.ros.org/roslaunch]</br>
 5. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
-
-(PyTorch)[https://pytorch.org]
+6. ROS Service [http://wiki.ros.org/Services]</br>
+7. PyTorch [https://pytorch.org]
 
