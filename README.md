@@ -110,15 +110,15 @@ In order to use the ROS sensor message image in the neural network properly it n
 The service callback function trrasmits the predicted digit back to the controller node.
 
 ### Graph
-An overview of the arrangement of all nodes in the application.
-[Graph](https://github.com/Telespielstube/imagineer/blob/docu/media/networrk_graph.png)
+An overview of the arrangement of all nodes in the application.</br>
+[Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 
 ### Conclusion
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
 The decision to build the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well.
 .....
-Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain. But it gives a good insight understanding the different approaches used by the different optimizers.
-For example the used SGD optimizer in the application 
+Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.
+For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene. Whereas the optimizer Adam adds a scalable learning rate and a new parameter to the algorithm, the momentum. This means that the learning rate is individually processed for each weight. Momentum combines a ratio of old and new direction to adjust weights. Those additions make the Adam algorithm a powerful optimizer for complex deep neural networks, whereby SGD in turn is suited for small test applications.
 ### Sources
 (C++)[https://www.cplusplus.com]</br>
 (Python)[https://www.python.org]</br>
