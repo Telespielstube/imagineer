@@ -20,8 +20,8 @@
 
 ### Abbrevations
 [ROS](#ros) .................................................................................Robot Operationg System</br>
-[RPC](#rpc) ...................................................................................Remote Procedcure Call</br>
-[SGD](#sgd) ..............................................................................Stochastic gradient descent
+[RPC](#rpc) ....................................................................................Remote Procedcure Call</br>
+[SGD](#sgd) .............................................................................Stochastic gradient descent
 </br>
 </br>
 </br>
@@ -36,9 +36,13 @@ The software simulates a robot application, which processes a stream of images a
 ROS(3)  is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
 </br>
 ### Neural network overview
-In simple terms, a neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results.
+A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch framework makes it concise and easier to understand the complexity behind it.</br>
+The decision to build the neural network with three hidden layers was due to a rather simple prediction problem and on the other side a performance  
 
 ## Implementation
+The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
+The approach to separate the different tasks makes it easier to maintain and extent the application. 
+
 
 ### Messages and services
 Each ROS node only performs one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the known publish subscrber model. Nodes publish content as messages to topis and other nodes can subscrbe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
