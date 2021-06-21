@@ -30,10 +30,10 @@
 This documentation was created as part of the project work in the Spezielle Anwendungen der Informatik course in the Applied Computer Science course at HTW Berlin. 
 </br>
 ### Project description
-The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++ (1) [1](1) except the artifical intelligence node which is written in Python(2).
+The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number depticted on the received image by requesting a trained neural network model. All nodes are written in C++(1) except the artifical intelligence node which is written in Python(2).
 </br>
 ### ROS overview
-ROS(3)  is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
+ROS(3) is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
 </br>
 ### Neural network overview
 A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch framework makes it concise and easier to understand the complexity behind it.</br>
@@ -42,11 +42,11 @@ A neural network mimics a human brain. Just like a human brain, the artificial n
 ## Implementation
 
 ### Messages and services
-Each ROS node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscrber model. Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
+Each ROS node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscriber model (4). Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
 A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
 
 ### roslaunch
-roslaunch is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
+roslaunch(5) is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
 In order to launch each node with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
@@ -123,7 +123,9 @@ For example the used SGD optimizer in the application takes the approach of pick
 ##### 1 C++[https://www.cplusplus.com]</br>
 2. Python [https://www.python.org]</br>
 3. ROS [https://www.ros.org]</br>
-4. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
+4. ROS Messages [http://wiki.ros.org/Messages]</br>
+5. roslaunch[http://wiki.ros.org/roslaunch]</br>
+5. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
 
 (PyTorch)[https://pytorch.org]
 
