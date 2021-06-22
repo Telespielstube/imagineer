@@ -28,7 +28,7 @@ class AiService():
     # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
-        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum)
+        optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
         for epoch in range(self.epochs):
             running_loss = 0
             # trainig phase
