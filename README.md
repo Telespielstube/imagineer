@@ -42,18 +42,18 @@ A neural network mimics a human brain. Just like a human brain, the artificial n
 ## Implementation
 
 ### Messages and services
-Each ROS node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscriber model (4). Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
-A ROS service is basically a request / reqly model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
+Each ROS(3) node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscriber model(5). Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
+A ROS service(6) is basically a request / reply model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
 
 ### roslaunch
-roslaunch(5) is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
+roslaunch(7) is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
 In order to launch each node with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
 ## Nodes
 Each node perfoms a specific task in the image recognizing workflow which is laid out in the following section.
 ### Camera node
-The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored a random number is calculated from the number range of the vector size. If a number is calculated the file on the specific position is picked the ```std::string``` is converted to a OpenCV image format and the corresponding number is sliced from the path at the exact position. 
+The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored a random number is calculated from the number range of the vector size. If a number is calculated the file on the specific position is picked the ```std::string``` is converted to a OpenCV(8) image format and the corresponding number is sliced from the path at the exact position. 
 ```cpp
 int filename = std::stoi(image_file.substr(16, 17));
 cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
@@ -67,7 +67,7 @@ After sucessfully initializing the node via the roslaunch file, the subscriber f
 ```c++
 subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
 ```
-The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(6) images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
+The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(9) images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
 The returned image is converted back to the ROS sensor message format and gets sent to the controller node.
 ```c++
 void callback(const sensor_msgs::ImageConstPtr& message)
@@ -137,7 +137,7 @@ The decision to build the neural network with three hidden layers was based on t
 Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.
 For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene.  
 The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
-It points to the conclusion that SGD is a very reliable and highly accurate methode for small test applications, whereas Adam show its strenght in complex deep networks because the momentum minimizes the error rate.
+It points to the conclusion that SGD(11) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
 
 ### Sources
 1. C++[https://www.cplusplus.com]</br>
@@ -145,10 +145,11 @@ It points to the conclusion that SGD is a very reliable and highly accurate meth
 3. ROS [https://www.ros.org]</br>
 4. PyTorch [https://pytorch.org]
 5. ROS Messages [http://wiki.ros.org/Messages]</br>
-6. roslaunch[http://wiki.ros.org/roslaunch]</br>
-7. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
-8. ROS Service [http://wiki.ros.org/Services]</br>
-9. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html]
-10. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]
-11. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]
+6. ROS Service [http://wiki.ros.org/Services]</br>
+7. roslaunch[http://wiki.ros.org/roslaunch]</br>
+8. OpenCV [https://opencv.org]
+9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
+10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html]
+11. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]
+12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]
 
