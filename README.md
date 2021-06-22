@@ -17,6 +17,7 @@
 - [Graph](#graph)
 - [Conclusion](#conclusion)
 - [Sources](#sources)
+- [Figures](#figures)
 
 ### Abbrevations
 [ROS](#ros)   ...............................................................................Robot Operationg System</br>
@@ -124,6 +125,7 @@ for images, labels in self.training_data:
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 </br></br>
 ![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+Figure 1: Output of a training run with the SGD optimizer.
 </br>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
@@ -136,7 +138,7 @@ In order to use the ROS(3) sensor message image in the neural network properly i
 An overview of the arrangement of all nodes in the application.
 </br></br>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
-
+Figure 2: Graph of all nodes in the robot application.
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
@@ -158,3 +160,6 @@ It points to the conclusion that SGD(11) is a very reliable and highly accurate 
 11. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]
 12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]
 
+### Figures
+Figure 1: Output of a training run with the SGD optimizer.
+Figure 2: Graph of all nodes in the robot application.
