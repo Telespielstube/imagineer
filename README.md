@@ -38,9 +38,7 @@ ROS(3) is an open-source operating system for robots. It offers a framework, lib
 ### Neural network overview
 A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch(4) framework makes it concise and easier to understand the complexity behind it.</br>
 </br>
-</br>
 ## Implementation
-
 ### Messages and services
 Each ROS(3) node performs only one specific task. Therefore the nodes need to communicate in some way. ROS nodes communicate via the well known publish subscriber model(5). Nodes publish content as messages to topics and other nodes can subscribe to those topics. </br> The advantage of this model is an instant notification about news, parallelism and scalability.
 A ROS service(6) is basically a request / reply model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
@@ -97,12 +95,21 @@ The service(6) for requesting the predicted number is also initialized in the co
 If the service receives a response from the neural network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
 ### Neural network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
-Before the actual image recognition process, the neural network must be trained first by using the MNIST(2) datasets. The neural network is built up as sequential(8) where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. Both functions are a fundamental part in each training epoch. To update the paramaters correctly the gradients need to be cleard from the previous iteration. Now the image is passed to the forward function. Firstly, the tensor image needs to be flattened to a one dimensional tensor. Now it can be 
-
-
-
-The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. During the backpropagation process the weights are optimized. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set.  
+Before the actual image recognition process, the neural network has to be provided the MNIST(2) datasets. This is needed to train it and evaluate the accuracy of the training run.</br>
+The neural network is built up as sequential(8) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
+```python
+self.input_layer = nn.Sequential(nn.Linear(28 * 28, 512)) 
+self.hidden_layer2 = nn.Linear(254, 128)
+self.hidden_layer3 = nn.Linear(128, 64)
+self.output_layer = nn.Linear(64, 10
+```
+Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set. The method provides a high level of accuracy and is efficient in small networks. </br>
+```python
+criterion = nn.CrossEntropyLoss() 
+optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
+```
+Each iteration clears the gradients from the previous to update the parameters correctly. Now the Tensor is passed to the forward function. Which flattens the input to a one dimensional Tensor. Now each neuron in the hidden layers process the input and weight and the rectified linear activation functions to a new output Tensor. The follwoing loss function computes the gradients and the optimizer updates the weights during the backpropagation.
 ```python
 ...
 for images, labels in self.training_data:
