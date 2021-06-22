@@ -162,5 +162,5 @@ It points to the conclusion that SGD(11) is a very reliable and highly accurate 
 12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]
 
 ### Figures
-Figure 1: Output of a training run with the SGD optimizer.
+Figure 1: Output of a training run with the SGD optimizer.</brr>
 Figure 2: Graph of all nodes in the robot application.
