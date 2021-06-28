@@ -56,8 +56,8 @@ In order to launch each node with ```roslaunch``` only one command is necessary 
 ## Nodes
 Each node perfoms a specific task in the image recognizing workflow which is laid out in the following section.
 ### Camera node
-The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored, a random number is calculated from the number range of the vector size. The random number picks the file on the specific position from the list. The file content gets converted to a OpenCV image format and the file name is converted to an integer. 
-The publish function puts the object attributes in two different topics an sends them to all available subscribers.
+The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored, a random number is calculated from the number range of the vector size. Each number the random number function returns picks the file on the specific position from the file list. Then the file content gets converted to a OpenCV image format and the file name string is converted to an integer. 
+Finally, the publish function puts the image object and integer variable in two different topics an sends them to all available subscribers.
 
 ### Processor node
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
