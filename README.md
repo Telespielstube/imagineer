@@ -66,7 +66,7 @@ After sucessfully initializing the node via the roslaunch file, the subscriber f
 ```c++
 subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
 ```
-The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(9) images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
+The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(9) images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, is inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
 The returned image is converted back to the ROS sensor message format and gets sent to the controller node.
 ```c++
 void callback(const sensor_msgs::ImageConstPtr& message)
@@ -79,7 +79,7 @@ void callback(const sensor_msgs::ImageConstPtr& message)
 ```      
 
 ### Controller node
-After the node has been initialized, the controller object subscribes to the number topic published by the camera node and the new topic set up by the processor node.
+After the node has been initialized, the controller node subscribes to the number topic published by the camera node and the new topic set up by the processor node.
 ```c++
 Controller() {
     img_subscriber.subscribe(node, "processor/image", 1);
@@ -88,12 +88,13 @@ Controller() {
     ...
 }
 ```
-After both messages are received they get syncronized by their time stamps in their headers. The ```TimeSynchronizer``` function channels both messages into one callback. To achieve the bundling of topics, the TimeSynchronizer is declared as a member variable wrapped with a shared pointer, which allows sharing of the pointed object.
+Once both messages are received they get syncronized by their time stamps in their headers. The ```TimeSynchronizer``` function channels both messages into one callback. To achieve the bundling of topics, the TimeSynchronizer is declared as a member variable wrapped with a shared pointer, which allows sharing of the pointed object.
 ```c++
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
 The service(6) for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neural network node.
 If the service receives a response from the neural network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
+
 ### Neural network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
 Before the actual image recognition process, the neural network has to be provided the MNIST(2) datasets. This is needed to train it and evaluate the accuracy of the training run.</br>
@@ -110,7 +111,7 @@ Once the network is initialized the next step is to train it. The training funct
 criterion = nn.CrossEntropyLoss() 
 optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
 ```
-Each iteration clears the gradients from the previous to update the parameters correctly. Now the Tensor is passed to the forward function. Which flattens the input to a one dimensional Tensor. Now each neuron in the hidden layers process the input and weight and the rectified linear activation functions to a new output Tensor. The follwoing loss function computes the gradients and the optimizer updates the weights during the backpropagation.
+Each iteration clears the gradients from the previous to update the parameters correctly. Now the Tensor is passed to the forward function. Which flattens the input to a one dimensional Tensor. Now each neuron in the hidden layers process the input and weight and the rectified linear activation functions to a new output Tensor. The following loss function computes the gradients and the optimizer updates the weights during the backpropagation.
 ```python
 ...
 for images, labels in self.training_data:
@@ -131,8 +132,8 @@ When the evaluation is complete the model is saved to the project folder. If the
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
-The prediction function sets the mode to evaluation for the trained and loaded model. The evaluation mode requires a trained model in advance.
-In order to use the ROS(3) sensor message image in the neural network properly it needs to be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
+The prediction function sets the mode to evaluation for the trained and loaded model. 
+In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
 </br>
 ### Graph
 An overview of the arrangement of all nodes in the application.
