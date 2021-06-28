@@ -34,7 +34,7 @@ This documentation was created as part of the project work in the Spezielle Anwe
 The software simulates a robot application, which processes a stream of images and uses a fully connected neural network as backend to predict handwritten digits on a piece of paper. The application is distributed over several nodes, with each node taking on a specific task. All nodes exchange messages via the publisher subscriber model. The camera node reads the file and sends it to the processor node which does all the preprocessing work. The controller stores the image and the corresponding number. The artificial intelligence node predicts the handwritten number on the received image using a trained neural network model. All nodes are written in C++(1) except the artifical intelligence node which is written in Python(2).
 </br>
 ### ROS overview
-ROS(3) is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes are achieved through the ROS communication infrastructure. Which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
+ROS(3) is an open-source operating system for robots. It offers a framework, libraries, tools and to program the different peripherals for robots. The communication between the loosly coupled nodes is achieved through the ROS communication infrastructure, which is based on a publish subscribe message infrastructure and RPC-like services and actions. 
 </br>
 ### Neural network overview
 A neural network mimics a human brain. Just like a human brain, the artificial neural network links nodes using weighted edges. This means that the network can be trained through several training runs and thus predict results. By modifying the weighted edges the system improve the learning rate and prediction results. Especially the neural network with its use of the PyTorch(4) framework makes it concise and easier to understand the complexity behind it.</br>
@@ -97,7 +97,7 @@ If the service receives a response from the neural network node it prints the re
 ### Neural network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
 Before the actual image recognition process, the neural network has to be provided the MNIST(2) datasets. This is needed to train it and evaluate the accuracy of the training run.</br>
-The neural network is built up as sequential(8) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
+The neural network is built up as sequential(8) linear(9) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
 ```python
 self.input_layer = nn.Sequential(nn.Linear(28 * 28, 512)) 
 self.hidden_layer2 = nn.Linear(254, 128)
@@ -105,7 +105,7 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD stands for stochastic gradient descent and means that the data points are picked randomly from the data set. The method provides a high level of accuracy and is efficient in small networks. </br>
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent and means that the data points are picked randomly from the data set. The method provides a high level of accuracy and is efficient in small networks. </br>
 ```python
 criterion = nn.CrossEntropyLoss() 
 optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
@@ -144,7 +144,7 @@ Figure 2: Graph of all nodes in the robot application.
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
 Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.</br>
-For example the used SGD optimizer in the application takes the approach of picking randomly the next data point to convergene. The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
+For example the used SGD(11) optimizer in the application takes the approach of picking randomly the next data point to convergene. The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
 It points to the conclusion that SGD(11) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
 
 ### Sources
@@ -157,10 +157,11 @@ It points to the conclusion that SGD(11) is a very reliable and highly accurate 
 7. roslaunch[http://wiki.ros.org/roslaunch]</br>
 8. OpenCV [https://opencv.org]
 9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
-10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html]
-11. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]
-12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]
+10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html] </br>
+11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
+11. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
+12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]</br>
 
 ### Figures
-Figure 1: Output of a training run with the SGD optimizer.</brr>
+Figure 1: Output of a training run with the SGD optimizer.</br>
 Figure 2: Graph of all nodes in the robot application.
