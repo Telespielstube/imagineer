@@ -45,19 +45,19 @@ Each ROS(3) node performs only one specific task. Therefore the nodes need to co
 A ROS service(6) is basically a request / reply model. One node offers a service and another node calls the service by sending a request awaiting a reply. The advantage of this model is an instant notification about news, parallelism and scalability.
 
 ### roslaunch
+<<<<<<< HEAD
 roslaunch(7) is a tool which allows to define a set of rules how multiple ROS nodes should be launched. It basically simplifies the process of launching multiple distributed nodes. Each nodes integrated in the system is defined by a tag containig some attributes. The nodes which are launched via arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
+=======
+roslaunch is a tool which allows to launch multiple ROS nodes according to a set of rules that the user can define. This simplifies the process of launching multiple distributed nodes in the order necessary for the application. Each node integrated in the system is defined by a tag containing some attributes and can be given some arguments for launch. The nodes which are launched with arguments are the camera node and the neural network node. The camera gets the path to the images passed by argument and the neural network gets the path where to save the trained model by argument.
+>>>>>>> main
 In order to launch each node with ```roslaunch``` only one command is necessary now.</br>
 ```roslaunch imagineer startup.launch```
 
 ## Nodes
 Each node perfoms a specific task in the image recognizing workflow which is laid out in the following section.
 ### Camera node
-The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored a random number is calculated from the number range of the vector size. If a number is calculated the file on the specific position is picked the ```std::string``` is converted to a OpenCV(8) image format and the corresponding number is sliced from the path at the exact position. 
-```cpp
-int filename = std::stoi(image_file.substr(16, 17));
-cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
-```
-Both variables are passed to the image object. The publish function puts the object attributes in two different topics an sends them to all available subscribers.
+The node is launched with an additional argument which specifies the path to the image folder. All images are read in and stored as ```std::vector``` entries. After all files are stored, a random number is calculated from the number range of the vector size. The random number picks the file on the specific position from the list. The file content gets converted to a OpenCV image format and the file name is converted to an integer. 
+The publish function puts the object attributes in two different topics an sends them to all available subscribers.
 
 ### Processor node
 The processor node performs some manipulations on the photo that are necessary for further processing.</br>
@@ -148,6 +148,7 @@ For example the used SGD(11) optimizer in the application takes the approach of 
 It points to the conclusion that SGD(11) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
 
 ### Sources
+<<<<<<< HEAD
 1. C++[https://www.cplusplus.com]</br>
 2. Python [https://www.python.org]</br>
 3. ROS [https://www.ros.org]</br>
@@ -165,3 +166,10 @@ It points to the conclusion that SGD(11) is a very reliable and highly accurate 
 ### Figures
 Figure 1: Output of a training run with the SGD optimizer.</br>
 Figure 2: Graph of all nodes in the robot application.
+=======
+(C++)[https://www.cplusplus.com]</br>
+(Python)[https://www.python.org]</br>
+(MNIST)[http://yann.lecun.com/exdb/mnist/]</br>
+(ROS)[https://www.ros.org]</br>
+(PyTorch)[https://pytorch.org]
+>>>>>>> main
