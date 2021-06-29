@@ -25,4 +25,4 @@ class NeuralNetwork(nn.Module):
         x = F.relu(self.hidden_layer3(x))
         x = self.output_layer(x)
         
-        return F.log_softmax(x, 1)
+        return x
