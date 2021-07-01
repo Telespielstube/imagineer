@@ -9,15 +9,13 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 256
+        self.batch_size = 32
         self.epochs = 25
         self.learning_rate = 0.01
         self.momentum = 0.9
         self.transform = transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
-        self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, 
-                                self.transform, self.batch_size, shuffle=True)
-        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, 
-                                self.transform, self.batch_size, shuffle=True)
+        self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, self.transform, self.batch_size, shuffle=True)
+        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, self.transform, self.batch_size, shuffle=True)
         self.path = save_path
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -47,8 +45,7 @@ class AiService():
     # @return           the predicted number. 
     def prediction(self, request_image):
         self.model.eval()
-        tensor_image = self.image_to_tensor(request_image) 
-        normalized_image = self.normalize_image(tensor_image)  
+        normalized_tensor = self.image_to_normalized_tensor(request_image)   
         with torch.no_grad():
             output = self.model(normalized_image)
         return output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array and returns the number with the largest predicted probability.
@@ -84,17 +81,12 @@ class AiService():
     def load_model(self):
        self.model = torch.load(self.path)
 
-    # Normalizes the tensor_image so every image is aligned correctly.
+    # Converts the ROS sensor message to a PyTorch tensor and normalizes the tensor_image 
+    # that every image is aligned correctly.
     # @tensor_image    image object in PyTorrch tensorr format.
     #
-    # @return          correctly aligned image.
-    def normalize_image(self, tensor_image):
+    # @return          correctly aligned image in PyTorch's tensor format
+    def image_to_normalize_tensor(self, tensor_image):
+        tensor = transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
         normalize = transforms.Compose([transforms.Normalize((0.1307,), (0.3081,))])
-        return normalize(tensor_image)
-
-    # Converts the ROS sensor rmessage image to a PyTorch readable tensor.
-    # @requsted_image    the image still in ROS sensor message format.
-    #
-    # @return      ROS sensor message format converted to PyTorch tensor.
-    def image_to_tensor(self, request_image):
-        return transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+        return normalize(tensor)

@@ -23,6 +23,5 @@ class NeuralNetwork(nn.Module):
         x = F.relu(self.hidden_layer1(x))
         x = F.relu(self.hidden_layer2(x))
         x = F.relu(self.hidden_layer3(x))
-        x = self.output_layer(x)
-        
+        x = self.output_layer(x) 
         return x
