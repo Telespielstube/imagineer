@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import rospy, torch, pathlib, sys
+import rospy, torch, pathlib
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.ai_service import AiService
