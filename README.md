@@ -102,7 +102,9 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent and means that the data points are picked randomly from the data set. The method provides a high level of accuracy and is efficient in small networks. </br>
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
+The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random start point is chosen. Based on the starting point, the product of the learning rate and the result of the cross entropy is subtracted from the current position for each new position. That means the closer the function minimum the smaller the steps become. </br>
+The addition stochastic only means that the starting data point is chosen randomly for each epoch. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
 ```python
 criterion = nn.CrossEntropyLoss() 
 optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
