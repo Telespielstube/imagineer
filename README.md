@@ -62,7 +62,7 @@ After sucessfully initializing the node via the roslaunch file, the subscriber f
 ```c++
 subscriber = transport.subscribe("camera/image", 1, &Processor::callback, this);
 ```
-The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(9) images, they are reduced to 28 x 28 pixels. Furthermore, the image is converted to grayscale, is inverted and manipulated with a certain threshold. This is neccessary for better edge detection respectively object detection in the image. 
+The image processing function call converts the received ROS image message to a manipulable OpenCV image format. In order to adapt the images to the size of the MNIST(9) images, they are scaled down to 28 x 28 pixels. Furthermore, the image is converted to grayscale,  inverted and a certain threshold is applied. This is neccessary for better edge detection respectively object detection in the image. 
 The returned image is converted back to the ROS sensor message format and gets sent to the controller node.
 ```c++
 void callback(const sensor_msgs::ImageConstPtr& message)
@@ -75,7 +75,7 @@ void callback(const sensor_msgs::ImageConstPtr& message)
 ```      
 
 ### Controller node
-After the node has been initialized, the controller node subscribes to the number topic published by the camera node and the new topic set up by the processor node.
+After the node has been initialized, the controller node subscribes to the number topic published by the camera node and the new image topic set up by the processor node.
 ```c++
 Controller() {
     img_subscriber.subscribe(node, "processor/image", 1);
@@ -84,26 +84,26 @@ Controller() {
     ...
 }
 ```
-Once both messages are received they get syncronized by their time stamps in their headers. The ```TimeSynchronizer``` function channels both messages into one callback. To achieve the bundling of topics, the TimeSynchronizer is declared as a member variable wrapped with a shared pointer, which allows sharing of the pointed object.
+Once both messages are received they get syncronized by their time stamps in their headers. The ```TimeSynchronizer``` function channels both messages into one callback. To achieve the bundling of topics, the TimeSynchronizer is declared as a member variable wrapped with a shared pointer, which allows accessing the object it points to in a memory-safe way.
 ```c++
 boost::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::Image, imagineer::Number>> sync;
 ```
-The service(6) for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neural network node.
-If the service receives a response from the neural network node it prints the received digit on the screen, otherwise an error message occurrs that no digit is received.
+The service(6) for requesting the predicted number is also initialized in the constructor of the controller class. To save the digit and corresponding image in a ```std::vector``` data structure, both are copied to a new object named NumberAndPicture, which acts as the data type of the vector. Once the object has been saved, the image is sent as a service message to the artificial intelligence node and the callback blocks until the response from the requested service node is received. The stored number serves as a validation for the predicted number in the image from the neural network node.
+If the service receives a response from the neural network node, it prints the received digit on the screen, otherwise an error message occurrs that no digit was received.
 
 ### Neural network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
 Before the actual image recognition process, the neural network has to be provided the MNIST(2) datasets. This is needed to train it and evaluate the accuracy of the training run.</br>
-The neural network is built up as sequential(10) linear(11 ) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
+The neural network is built up as sequential(10) linear(11) network, where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons. Each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
 ```python
 self.input_layer = nn.Sequential(nn.Linear(28 * 28, 512)) 
 self.hidden_layer2 = nn.Linear(254, 128)
 self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
-Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
+Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
 Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
-The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random start point is chosen.</br>
+The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
 θ = θ − η · ∇θJ(θ) (11)
 </br>
 Based on the starting point θ, the product of the learning rate η and the result of the cross entropy ∇θJ(θ) is subtracted from the current position θ for each new position. That means the closer the function minimum the smaller the steps become. </br>
@@ -112,7 +112,7 @@ The addition stochastic only means that the starting data point is chosen random
 criterion = nn.CrossEntropyLoss() 
 optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
 ```
-Each iteration clears the gradients from the previous to update the parameters correctly. Now the Tensor is passed to the forward function. Which flattens the input to a one dimensional Tensor. Now each neuron in the hidden layers process the input and weight and the rectified linear activation functions to a new output Tensor. The following loss function computes the gradients and the optimizer updates the weights during the backpropagation.
+Each iteration clears the gradients from the previous to update the parameters correctly. Now the Tensor is passed to the forward function, which flattens the input to a one dimensional Tensor. Then, each neuron in the hidden layers processes the input and weight and the rectified linear activation functions to a new output Tensor. The following loss function computes the gradients and the optimizer updates the weights during the backpropagation.
 ```python
 ...
 for images, labels in self.training_data:
@@ -126,31 +126,30 @@ for images, labels in self.training_data:
 ```
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 </br></br>
-![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)</br>
-Figure 1: Output of a training run with the SGD optimizer.
+![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+</br>Figure 1: Output of a training run with the SGD optimizer.
 </br></br>
-When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
+When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incoming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 The prediction function sets the mode to evaluation for the trained and loaded model. 
-In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets passed to the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector need to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
+In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets processed on the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector needs to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
 </br>
 ### Graph
-An overview of the arrangement of all nodes in the application.
-</br></br>
+An overview of the arrangement of all nodes in the application.</br>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 Figure 2: Graph of all nodes in the robot application.
 
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
-Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the exchange of the optimizer to Adam in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.</br>
-For example the used SGD(13) optimizer in the application takes the approach of picking randomly the next data point to convergene. The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
-It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
+Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
+For example the used SGD(13) optimizer in the application takes the approach of picking randomly the next data point to convergene. 
+It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
 ### Sources
-<<<<<<< HEAD
+
 1. C++[https://www.cplusplus.com]</br>
 2. Python [https://www.python.org]</br>
 3. ROS [https://www.ros.org]</br>

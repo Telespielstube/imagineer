@@ -12,7 +12,7 @@ class Image
         }
         
         /* operator overloading function which takes argument &other and copies it to a memeber variable.
-        * @other        reference to a parameter to be copied to a member variable .
+        * @other        reference to a parameter to be copied to a member variable.
         * @return       object reference.
         */ 
         Image& operator= (const Image &other)

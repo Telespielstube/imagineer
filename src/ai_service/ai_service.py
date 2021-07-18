@@ -9,10 +9,9 @@ from torchvision.transforms import ToTensor, Compose
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 32
-        self.epochs = 25
-        self.learning_rate = 0.01
-        self.momentum = 0.9
+        self.batch_size = 256
+        self.epochs = 15
+        self.learning_rate = 0.001
         self.transform = transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, self.transform), self.batch_size, shuffle=True)
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, self.transform), self.batch_size, shuffle=True)
