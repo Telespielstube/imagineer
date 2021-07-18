@@ -94,7 +94,7 @@ If the service receives a response from the neural network node it prints the re
 ### Neural network node
 The neural network node consists of two parts, the service and the underlying neural network which is responsible for the image recognition.</br>
 Before the actual image recognition process, the neural network has to be provided the MNIST(2) datasets. This is needed to train it and evaluate the accuracy of the training run.</br>
-The neural network is built up as sequential(8) linear(9) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
+The neural network is built up as sequential(10) linear(11 ) network. Where the three hidden layers are connected in a cascading way. The input layer contains 784 neurons, each neuron stands for one pixel of the image to be recognized. The three hidden layers reduce the number of neurons gradually, up to the output layer which contains 10 neurons for the classification of the predicted number. 
 ```python
 self.input_layer = nn.Sequential(nn.Linear(28 * 28, 512)) 
 self.hidden_layer2 = nn.Linear(254, 128)
@@ -103,7 +103,10 @@ self.output_layer = nn.Linear(64, 10
 ```
 Each neuron processes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
 Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
-The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random start point is chosen. Based on the starting point, the product of the learning rate and the result of the cross entropy is subtracted from the current position for each new position. That means the closer the function minimum the smaller the steps become. </br>
+The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random start point is chosen.</br>
+θ = θ − η · ∇θJ(θ) (11)
+</br>
+Based on the starting point θ, the product of the learning rate η and the result of the cross entropy ∇θJ(θ) is subtracted from the current position θ for each new position. That means the closer the function minimum the smaller the steps become. </br>
 The addition stochastic only means that the starting data point is chosen randomly for each epoch. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
 ```python
 criterion = nn.CrossEntropyLoss() 
@@ -123,7 +126,7 @@ for images, labels in self.training_data:
 ```
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 </br></br>
-![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
+![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)</br>
 Figure 1: Output of a training run with the SGD optimizer.
 </br></br>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incomming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
@@ -142,9 +145,9 @@ Figure 2: Graph of all nodes in the robot application.
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
-Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the exchange of different optimizers in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.</br>
-For example the used SGD(11) optimizer in the application takes the approach of picking randomly the next data point to convergene. The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
-It points to the conclusion that SGD(11) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
+Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the exchange of the optimizer to Adam in the training process does not result in a huge performance gain and time saving. But it gives a good insight understanding the different approaches used by the different optimizers.</br>
+For example the used SGD(13) optimizer in the application takes the approach of picking randomly the next data point to convergene. The exchange of the optimizer to Adam did not result in any significant time savings or accuracy improvements despite the adaptive learning rate and a new parameter, the momentum.</br>
+It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications, whereas Adam(12) show its strenght in complex deep networks because the it benefits of the adaptive learning rate and the momentum minimizes the error rate.
 
 ### Sources
 <<<<<<< HEAD
@@ -159,8 +162,9 @@ It points to the conclusion that SGD(11) is a very reliable and highly accurate 
 9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
 10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html] </br>
 11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
-11. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
-12. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]</br>
+12. An overview of gradient descent optimization algorithms [https://arxiv.org/pdf/1609.04747.pdf] </br.>
+13. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
+14. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]</br>
 
 ### Figures
 Figure 1: Output of a training run with the SGD optimizer.</br>
