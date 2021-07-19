@@ -12,7 +12,7 @@ class AiService():
         self.batch_size = 256
         self.epochs = 15
         self.learning_rate = 0.001
-        self.transform = transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+        self.transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.path = save_path
