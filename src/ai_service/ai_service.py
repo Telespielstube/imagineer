@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import torch, os, numpy
 from ai_service.neural_network import NeuralNetwork
 from torch import nn
