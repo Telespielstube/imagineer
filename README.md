@@ -102,7 +102,7 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD algorithm and a cross entropy loss function. The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(13). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
 θ = θ − η · ∇θJ(θ) (11)
 </br>
@@ -161,9 +161,8 @@ It points to the conclusion that SGD(13) is a very reliable and highly accurate 
 9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
 10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html] </br>
 11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
-12. An overview of gradient descent optimization algorithms [https://arxiv.org/pdf/1609.04747.pdf] </br.>
-13. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
-14. Pytorch Adam [https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam]</br>
+12. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
+13. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
 
 ### Figures
 Figure 1: Output of a training run with the SGD optimizer.</br>
