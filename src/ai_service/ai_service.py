@@ -22,7 +22,7 @@ class AiService():
         self.model = NeuralNetwork()
         self.model.to(self.device)
         
-    # Function to train the mnist dataset.
+    # Function to train the mnist dataset...
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
