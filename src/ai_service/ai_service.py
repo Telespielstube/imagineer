@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import torch, os, numpy
 from torch import nn
 from cv_bridge import CvBridge
