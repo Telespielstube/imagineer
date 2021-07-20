@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from torch import nn
 import torch.nn.functional as F
 
