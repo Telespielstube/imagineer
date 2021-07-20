@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import torch, os, numpy
 from ai_service.neural_network import NeuralNetwork
-from torch import nn
+#from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
@@ -22,7 +22,7 @@ class AiService():
         self.model = NeuralNetwork()
         self.model.to(self.device)
         
-    # Function to train the mnist dataset...
+    # Function to train the mnist dataset.
     def training(self):
         criterion = nn.CrossEntropyLoss() #combines LogSoftmax and NLLLoss in one single class.
         optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
