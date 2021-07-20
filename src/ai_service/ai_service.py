@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import torch, os, numpy
 from ai_service.neural_network import NeuralNetwork
-#from torch import nn
+from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
@@ -46,7 +46,7 @@ class AiService():
         self.model.eval()
         normalized_tensor = self.image_to_normalized_tensor(request_image)   
         with torch.no_grad():
-            output = self.model(normalized_image)
+            output = self.model(normalized_tensor)
         return output.cpu().data.numpy().argmax() #moves tensor to cpu and converts it to numpy array and returns the number with the largest predicted probability.
     
     # Uses the standard MNIST validation data set to test the trained model.
@@ -85,7 +85,7 @@ class AiService():
     # @tensor_image    image object in PyTorrch tensorr format.
     #
     # @return          correctly aligned image in PyTorch's tensor format
-    def image_to_normalize_tensor(self, tensor_image):
-        tensor = transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(request_image, 'mono8'))
+    def image_to_normalized_tensor(self, tensor_image):
+        tensor = transforms.ToTensor()(self.cv_bridge.imgmsg_to_cv2(tensor_image, 'mono8'))
         normalize = transforms.Compose([transforms.Normalize((0.1307,), (0.3081,))])
         return normalize(tensor)
