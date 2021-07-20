@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy, torch, pathlib, sys
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
