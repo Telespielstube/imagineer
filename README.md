@@ -102,9 +102,9 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(13). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(11) stands for stochastic gradient descent. 
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(13) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
-θ = θ − η · ∇θJ(θ) (11)
+θ = θ − η · ∇θJ(θ) (14)
 </br>
 Based on the starting point θ, the product of the learning rate η and the result of the cross entropy ∇θJ(θ) is subtracted from the current position θ for each new position. That means the closer the function minimum the smaller the steps become. </br>
 The addition stochastic only means that the starting data point is chosen randomly for each epoch. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
@@ -134,7 +134,7 @@ When the evaluation is complete the model is saved to the project folder. If the
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 The prediction function sets the mode to evaluation for the trained and loaded model. 
-In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets processed on the cpu, because the ```numpy``` module is not cuda compatible and the tensor vector needs to be converted to a numpy vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
+In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets processed on the cpu, because the ```numpy```(15) module is not cuda compatible and the tensor vector needs to be converted to a numpy(15) vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
 </br>
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
@@ -144,8 +144,8 @@ Figure 2: Graph of all nodes in the robot application.
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
-Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
-For example the used SGD(13) optimizer in the application takes the approach of picking randomly the next data point to convergene. 
+Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance without overfitting the model and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
+Good results can be achieved with the MNIST database even with a small batch size and few runs.
 It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
 ### Sources
@@ -161,8 +161,10 @@ It points to the conclusion that SGD(13) is a very reliable and highly accurate 
 9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
 10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html] </br>
 11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
-12. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
-13. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
+12. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
+13. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
+14. An overview of gradient descent optimization algorithms [https://arxiv.org/pdf/1609.04747.pdf]
+15. NumPy [https://numpy.org]
 
 ### Figures
 Figure 1: Output of a training run with the SGD optimizer.</br>
