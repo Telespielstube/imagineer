@@ -42,7 +42,7 @@ std::string pick_file(std::vector<std::string> files)
 Image read_image(std::string image_file) 
 {
     Image message;
-    int filename = std::experimental::filesystem::path(image_file).stem();
+    int filename = std::stoi(std::experimental::filesystem::path(image_file).stem());
     ROS_INFO("File: %i", filename);
     cv::Mat image = cv::imread(image_file, cv::IMREAD_COLOR);
     message.set_filename(filename);
