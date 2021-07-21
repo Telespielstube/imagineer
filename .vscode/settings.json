@@ -54,7 +54,8 @@
         "ctime": "cpp",
         "ratio": "cpp",
         "iomanip": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "numbers": "cpp"
     },
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
