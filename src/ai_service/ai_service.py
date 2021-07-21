@@ -10,7 +10,7 @@ from ai_service.neural_network import NeuralNetwork
 class AiService():
 
     def __init__(self, save_path):
-        self.batch_size = 256
+        self.batch_size = 32
         self.epochs = 15
         self.learning_rate = 0.001
         self.transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])

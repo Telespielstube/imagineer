@@ -145,8 +145,7 @@ Figure 2: Graph of all nodes in the robot application.
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
 Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance without overfitting the model and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
-Good results can be achieved with the MNIST database even with a small batch size and few runs.
-It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
+Good results can be achieved with the MNIST database even with a small batch size and few runs. It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
 ### Sources
 
