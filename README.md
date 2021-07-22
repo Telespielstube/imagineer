@@ -107,7 +107,8 @@ The basic functionality of a gradient descent procedure is to find the lowest po
 θ = θ − η · ∇θJ(θ) (14)
 </br>
 Based on the starting point θ, the product of the learning rate η and the result of the cross entropy ∇θJ(θ) is subtracted from the current position θ for each new position. That means the closer the function minimum the smaller the steps become. </br>
-The addition stochastic only means that the starting data point is chosen randomly for each epoch. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
+Stochastic only means that the starting data point is chosen randomly. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
+
 ```python
 criterion = nn.CrossEntropyLoss() 
 optimizer = torch.optim.SGD(self.model.parameters(), self.learning_rate)
@@ -126,8 +127,12 @@ for images, labels in self.training_data:
 ```
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 </br></br>
+|     | Trainig loss | Validation loss | Accuracy |
+|-----|--------------|-----------------|----------|
+| SGD | 0.0003014007 |     0.0005      |  98.14%  |
+</br>
 ![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
-</br>Figure 1: Output of a training run with the SGD optimizer.
+</br>Figure 1: Output of the complete training run and validation with the SGD optimizer.
 </br></br>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incoming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
@@ -145,7 +150,7 @@ Figure 2: Graph of all nodes in the robot application.
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
 Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance without overfitting the model and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
-Good results can be achieved with the MNIST database even with a small batch size and few runs. It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
+With the MNIST database a good fitted model can be achieved with little effort. A good fitted model can be recognized by the fact that training and validation results are close together (Figure 1). It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
 ### Sources
 
