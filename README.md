@@ -127,13 +127,6 @@ for images, labels in self.training_data:
 ```
 To evaluate the trained model a verification is perfomed. This gives an overview if the model is robust, under- or overfitted.
 </br></br>
-|     | Trainig loss | Validation loss | Accuracy |
-|-----|--------------|-----------------|----------|
-| SGD | 0.0003014007 |     0.0005      |  98.14%  |
-</br>
-![SGD training overview](https://github.com/Telespielstube/imagineer/blob/main/media/trained_SGD_with_cross_entropy.png)
-</br>Figure 1: Output of the complete training run and validation with the SGD optimizer.
-</br></br>
 When the evaluation is complete the model is saved to the project folder. If the node locates a saved model in the specified folder the next time it is launched, the service server is launched and the node is ready to receive images. The incoming service message contains the image as a ROS sensor message. The callback function is wrapped in a lambda function which allows to take the service object as additional argument.
 ```python
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
@@ -144,13 +137,19 @@ In order to use the ROS(3) sensor message image properly, it must be converted t
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
-Figure 2: Graph of all nodes in the robot application.
+Figure 1: Graph of all nodes in the robot application.
 
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
 The approach to separate the different tasks makes it easier to maintain each single node and and ensures the ability to extent the application.</br> 
 Building the neural network with three hidden layers was based on the consideration that on the one hand there was a rather simple prediction problem, maintain a good performance without overfitting the model and on the other hand to ensure a gradual reduction of neurons in the layers as well. Regarding the rather simple task, the use of the SGD(13) optimizer gives a good insight understanding the basics of optimizers.</br>
-With the MNIST database a good fitted model can be achieved with little effort. A good fitted model can be recognized by the fact that training and validation results are close together (Figure 1). It points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
+</br></br>
+|     | Trainig loss | Validation loss | Accuracy |
+|-----|--------------|-----------------|----------|
+| SGD | 0.0003014007 |     0.0005      |  98.14%  |
+</br>Figure 2: Output of the complete training run and validation with the SGD optimizer.</br>
+With the MNIST database a robust model can be achieved with little effort. A robust model is defined by the fact that training and validation results are close together (see Figure 1). As seen in the table, the training loss and validation loss are very close. This result was achieved with only 10 epochs a batch size of 32 a standard learning rate of 0.001 and a five-layer fully connected model.
+That points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
 ### Sources
 
@@ -171,5 +170,5 @@ With the MNIST database a good fitted model can be achieved with little effort. 
 15. NumPy [https://numpy.org]
 
 ### Figures
-Figure 1: Output of a training run with the SGD optimizer.</br>
-Figure 2: Graph of all nodes in the robot application.
+Figure 1: Graph of all nodes in the robot application.</br>
+Figure 2: Output of the complete training run and validation with the SGD optimizer.
