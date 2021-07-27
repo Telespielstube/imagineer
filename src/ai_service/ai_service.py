@@ -4,7 +4,7 @@ from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor, Compose, Normalize
+from torchvision.transforms import ToTensor, Compose
 from ai_service.neural_network import NeuralNetwork
 
 class AiService():
@@ -64,6 +64,20 @@ class AiService():
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
+
+    # Saves the entire trained model to a specific path.
+    def save_model(self, save_path):
+        save_folder = '/home/marta/catkin_ws/src/imagineer/saved_models/'
+        try:
+            os.mkdir(save_folder)
+        except FileExistsError:
+            pass
+        torch.save(self.model, save_path)
+        print('Model is saved')
+    
+    # Loads entire saved model.
+    def load_model(self, save_path):
+       self.model = torch.load(save_path)
 
     # Converts the ROS sensor message to a PyTorch tensor and normalizes the tensor_image 
     # that every image is aligned correctly.

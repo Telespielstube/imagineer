@@ -17,5 +17,5 @@ class Storage():
         print('Model is saved')
     
     # Loads entire saved model.
-    def load_model(self):
-        self.ai_service.model = torch.load(self.path)
+    def load_model(self, save_path):
+        self.ai_service.model = torch.load(save_path)
