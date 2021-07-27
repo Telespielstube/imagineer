@@ -19,9 +19,9 @@ def main():
     print('Service is running.')
     
     file_name = pathlib.Path(sys.argv[1])
+    print(f'{file_name}')
     ai_service = AiService()
     storage = Storage(sys.argv[1], ai_service)
-    print(f'{file_name} and setup ai_service and storage finished')
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training()

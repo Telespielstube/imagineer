@@ -4,7 +4,7 @@ from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor, Compose
+from torchvision.transforms import ToTensor, Compose, Normalize
 from ai_service.neural_network import NeuralNetwork
 
 class AiService():
