@@ -7,7 +7,7 @@ class Storage():
         self.ai_service = ai_service
 
     # Saves the entire trained model to a specific path.
-    def save_model(self, model):
+    def save_model(self):
         save_folder = '/home/marta/catkin_ws/src/imagineer/saved_models/'
         try:
             os.mkdir(save_folder)

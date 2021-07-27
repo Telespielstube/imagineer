@@ -21,13 +21,14 @@ def main():
     file_name = pathlib.Path(sys.argv[1])
     ai_service = AiService()
     storage = Storage(sys.argv[1], ai_service)
+    print(f'{file_name} and setup ai_service and storage finished')
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training()
         ai_service.validating_mnist()
-        storage.save_model(ai_service)
+        storage.save_model()
     else:
-        storage.load_model(ai_service)
+        storage.load_model()
         print('Model found.')
         ai_service.validating_mnist()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
