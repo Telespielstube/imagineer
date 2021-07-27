@@ -1,9 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy, torch, pathlib, sys
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
 from ai_service.ai_service import AiService
-from ai_service.neural_network import NeuralNetwork
 
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image as sensor message. 
@@ -17,8 +16,7 @@ def callback(request, service):
 def main():
     rospy.init_node('ai_service')
     print('Service is running.')
-    neural_network = NeuralNetwork()
-    ai_service = AiService(neural_network)
+    ai_service = AiService()
     file_name = pathlib.Path(sys.argv[1])
     if not file_name.exists():
         print('No model found. Training in progress')

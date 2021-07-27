@@ -5,10 +5,11 @@ from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose, Normalize
+from ai_service.neural_network import NeuralNetwork
 
 class AiService():
 
-    def __init__(self, neural_network):
+    def __init__(self):
         self.batch_size = 32
         self.epochs = 10
         self.learning_rate = 0.001
@@ -17,7 +18,7 @@ class AiService():
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = neural_network
+        self.model = NeuralNetwork()
         self.model.to(self.device)
         
     # Function to train the mnist dataset.
