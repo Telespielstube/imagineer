@@ -49,7 +49,7 @@ catkin_package(
 
 ## Build the neural_network service.
 catkin_install_python(PROGRAMS src/ai_service/main.py
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/src
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 ## Build camera, processor, controller.
