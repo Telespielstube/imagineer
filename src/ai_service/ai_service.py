@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-import torch, os, numpy
+import torch, os, numpy, ai_service.neural_network
 from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose, Normalize
-from ai_service.neural_network import NeuralNetwork
 
 class AiService():
 
