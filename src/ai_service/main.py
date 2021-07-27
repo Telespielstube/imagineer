@@ -16,8 +16,8 @@ def callback(request, service):
 def main():
     rospy.init_node('ai_service')
     print('Service is running.')
-    ai_service = AiService()
     file_name = pathlib.Path(sys.argv[1])
+    ai_service = AiService()
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training()
