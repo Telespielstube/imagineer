@@ -25,7 +25,7 @@ class NeuralNetwork(nn.Module):
         x = self.flatten(x)
         x = self.linear_layer(x)
         return x
-
+        
 class AiService():
 
     def __init__(self):
