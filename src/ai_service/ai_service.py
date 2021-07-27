@@ -5,7 +5,7 @@ from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor, Compose
-import neural_network
+from ai_service.neural_network import NeuralNetwork
 
 class AiService():
 
