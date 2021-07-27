@@ -48,7 +48,7 @@ catkin_package(
 )
 
 ## Build the neural_network service.
-catkin_install_python(PROGRAMS src/ai_service/*.py
+catkin_install_python(PROGRAMS src/ai_service/main.py src/ai_service/ai_service.py src/ai_service/neural_network.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/src
 )
 
