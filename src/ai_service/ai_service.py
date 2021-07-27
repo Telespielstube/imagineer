@@ -9,14 +9,13 @@ from ai_service.neural_network import NeuralNetwork
 
 class AiService():
 
-    def __init__(self, save_path):
+    def __init__(self):
         self.batch_size = 32
         self.epochs = 10
         self.learning_rate = 0.001
         self.transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
-        self.path = save_path
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = NeuralNetwork()
@@ -65,20 +64,6 @@ class AiService():
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
-
-    # Saves the entire trained model to a specific path.
-    def save_model(self):
-        save_folder = '/home/marta/catkin_ws/src/imagineer/saved_models/'
-        try:
-            os.mkdir(save_folder)
-        except FileExistsError:
-            pass
-        torch.save(self.model, self.path)
-        print('Model is saved')
-    
-    # Loads entire saved model.
-    def load_model(self):
-       self.model = torch.load(self.path)
 
     # Converts the ROS sensor message to a PyTorch tensor and normalizes the tensor_image 
     # that every image is aligned correctly.
