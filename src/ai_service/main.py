@@ -2,7 +2,7 @@
 import rospy, torch, pathlib, sys
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
-from ai_service import AiService
+from ai_service.ai_service import AiService
 # Function is called if the node receives a messages via the subscribed topic.
 # @request    the received image as sensor message. 
 def callback(request, service):
