@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import rospy, torch, os, numpy
+import rospy 
+import torch, os, numpy
 from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
