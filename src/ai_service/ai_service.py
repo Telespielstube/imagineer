@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import torch, os, numpy
+import rospy, torch, os, numpy
 from torch import nn
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
