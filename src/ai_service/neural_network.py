@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import rospy
 from torch import nn
 import torch.nn.functional as F
 
