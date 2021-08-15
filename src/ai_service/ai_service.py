@@ -36,7 +36,7 @@ class AiService():
         self.learning_rate = 0.001
         self.transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
         self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root="./data", train=True, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
-        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root=./data", train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
+        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root="./data", train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = NeuralNetwork()
