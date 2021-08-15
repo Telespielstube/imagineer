@@ -135,6 +135,7 @@ In order to use the ROS(3) sensor message image properly, it must be converted t
 </br>
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
+</br>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
 Figure 1: Graph of all nodes in the robot application.
 
