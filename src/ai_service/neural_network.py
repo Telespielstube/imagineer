@@ -18,7 +18,7 @@ class NeuralNetwork(nn.Module):
     # from input values. Activation function(Input * weight + bias)
     # Activation function -> ReLU 
     def forward(self, x):
-        x = x.view(-1)
+       # x = x.view(-1)
        # x = self.flatten(x)
         x = self.linear_layer(x)
         return x
