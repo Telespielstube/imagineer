@@ -57,7 +57,7 @@ class AiService():
                 loss.backward() 
                 optimizer.step() 
                 running_loss += loss.item() # the value of this tensor as a standard Python number
-                print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
+            print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
