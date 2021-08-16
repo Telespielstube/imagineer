@@ -58,9 +58,8 @@ class AiService():
         correct = 0
         with torch.no_grad():
             for image, label in self.validation_data:
-                img = numpy.array(image, dtype='float')
-                pixels = img.reshape((28, 28))
-                plt.imshow(pixels, cmap='gray')
+                img = numpy.array(image.test.images[0], dtype='float').reshape((28, 28))
+                plt.imshow(img, cmap='gray')
                 plt.show()
                 # image, label = image.to(self.device), label.to(self.device)
                 # output = self.model(image)
