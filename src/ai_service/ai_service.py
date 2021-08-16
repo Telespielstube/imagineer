@@ -58,14 +58,11 @@ class AiService():
         correct = 0
         with torch.no_grad():
             for image, label in self.validation_data:
-                img = numpy.array(image.test.images[0], dtype='float').reshape((28, 28))
-                plt.imshow(img, cmap='gray')
-                plt.show()
-                # image, label = image.to(self.device), label.to(self.device)
-                # output = self.model(image)
-                # test_loss += criterion(output, label).item()  # sums up batch loss
-                # pred = output.argmax()
-                # correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
+                image, label = image.to(self.device), label.to(self.device)
+                output = self.model(image)
+                test_loss += criterion(output, label).item()  # sums up batch loss
+                pred = output.argmax(dim=1, keepdim=True)
+                correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
