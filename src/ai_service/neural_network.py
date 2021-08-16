@@ -7,7 +7,7 @@ class NeuralNetwork(nn.Module):
     # Initializes the Neural Network by setting up the layers.
     def __init__(self):
         super().__init__()
-        self.flatten = nn.Flatten()                       
+     #   self.flatten = nn.Flatten()                       
         self.linear_layer = nn.Sequential(nn.Linear(28 * 28, 512), nn.ReLU(), #first layer has 784 input values (pixels), and 512 output values
         nn.Linear(512, 254), nn.ReLU(), 
         nn.Linear(254, 128), nn.ReLU(),
@@ -18,6 +18,7 @@ class NeuralNetwork(nn.Module):
     # from input values. Activation function(Input * weight + bias)
     # Activation function -> ReLU 
     def forward(self, x):
-        x = self.flatten(x)
+        x = x.view(-1, x)
+       # x = self.flatten(x)
         x = self.linear_layer(x)
         return x
