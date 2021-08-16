@@ -2,7 +2,7 @@
 import rospy 
 import torch, os, numpy
 from torch import nn
-from matplotlib import plt
+from matplotlib import pyplot as plt
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
