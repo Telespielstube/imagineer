@@ -2,7 +2,7 @@
 import rospy 
 import torch, os, numpy
 from torch import nn
-from matplotlib import pyplot
+from matplotlib import plt
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
@@ -57,16 +57,16 @@ class AiService():
         test_loss = 0
         correct = 0
         with torch.no_grad():
-            for i in self.validation_data:  
-                pyplot.subplot(330 + 1 + i)
-                pyplot.imshow(i, cmap=pyplot.get_cmap('gray'))
-                pyplot.show()
-            # for image, label in self.validation_data:
-            #     image, label = image.to(self.device), label.to(self.device)
-            #     output = self.model(image)
-            #     test_loss += criterion(output, label).item()  # sums up batch loss
-            #     pred = output.argmax()
-            #     correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
+            for image, label in self.validation_data:
+                img = numpy.array(image, dtype='float')
+                pixels = img.reshape((28, 28))
+                plt.imshow(pixels, cmap='gray')
+                plt.show()
+                # image, label = image.to(self.device), label.to(self.device)
+                # output = self.model(image)
+                # test_loss += criterion(output, label).item()  # sums up batch loss
+                # pred = output.argmax()
+                # correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
