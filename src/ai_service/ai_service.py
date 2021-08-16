@@ -32,7 +32,7 @@ class AiService():
             for images, labels in self.training_data:
                 optimizer.zero_grad() 
                 images, labels = images.to(self.device), labels.to(self.device)
-                output = self.model(images.view(-1))
+                output = self.model(images)
                 loss = criterion(output, labels)
                 loss.backward() 
                 optimizer.step() 
