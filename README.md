@@ -105,7 +105,7 @@ Once the network is initialized the next step is to train it. The training funct
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
 w_(t+1)=w_t-η_(t+1 )*∇F_(λ,S)*(w_t) (14)
 </br>
-From the starting position, the product of the learning rate η_ (t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_ (t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
+From the starting position, the product of the learning rate η_(t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_(t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
 
 ```python
 criterion = nn.CrossEntropyLoss() 
