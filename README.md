@@ -103,10 +103,9 @@ self.output_layer = nn.Linear(64, 10
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
 Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(13) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
-θ = θ − η · ∇θJ(θ) (14)
+w_(t+1)=w_t-η_(t+1 )*∇F_(λ,S)*(w_t) (14)
 </br>
-Based on the starting point θ, the product of the learning rate η and the result of the cross entropy ∇θJ(θ) is subtracted from the current position θ for each new position. That means the closer the function minimum the smaller the steps become. </br>
-Stochastic only means that the starting data point is chosen randomly. Furthermore the entire data set is divided into small batches to minimize the computations and increase the variance.
+From the starting position, the product of the learning rate η_ (t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_ (t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
 
 ```python
 criterion = nn.CrossEntropyLoss() 
@@ -167,7 +166,7 @@ That points to the conclusion that SGD(13) is a very reliable and highly accurat
 11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
 12. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
 13. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
-14. An overview of gradient descent optimization algorithms [https://arxiv.org/pdf/1609.04747.pdf]
+14. SGD Generalizes Better Than GD [https://arxiv.org/pdf/2102.01117v2.pdf]
 15. NumPy [https://numpy.org]
 
 ### Figures
