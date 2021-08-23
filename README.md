@@ -103,7 +103,7 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1.</br>
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(13). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1.</br>
 </br>
 ![Cross entropy loss function](https://github.com/Telespielstube/imagineer/blob/docu/media/cross_entropy.png)</br>
 Figure 1: Cross entropy loss function 
@@ -113,7 +113,7 @@ SGD(13) stands for stochastic gradient descent.
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
 </br>
 ![SGD update rule](https://github.com/Telespielstube/imagineer/blob/docu/media/sgd_update_rule.png)</br>
-Figure 2: SGD update rule (14)
+Figure 2: SGD update rule (15)
 </br>
 From the starting position, the product of the learning rate η_(t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_(t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
 
@@ -140,7 +140,7 @@ When the evaluation is complete the model is saved to the project folder. If the
 rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))
 ```
 The prediction function sets the mode to evaluation for the trained and loaded model. 
-In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets processed on the cpu, because the ```numpy```(15) module is not cuda compatible and the tensor vector needs to be converted to a numpy(15) vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
+In order to use the ROS(3) sensor message image properly, it must be converted to PyTorch's Tensor format and normalized to the same values the trained model is. Now the image is passed to the trained model object and the neural network returns the vector of raw predictions that a classification model generates. Every prediction gets processed on the cpu, because the ```numpy```(16) module is not cuda compatible and the tensor vector needs to be converted to a numpy(16) vector to return the largest predicted probability of the digit in the image. The service callback function sends the predicted digit back to the controller node.
 </br>
 ### Graph
 An overview of the arrangement of all nodes in the application.</br>
@@ -174,10 +174,11 @@ That points to the conclusion that SGD(13) is a very reliable and highly accurat
 9. MNIST [http://yann.lecun.com/exdb/mnist/]</br>
 10. PyTorch Sequential [https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html] </br>
 11. PyTorch Linear [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html]</br>
-12. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
-13. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
-14. SGD Generalizes Better Than GD [https://arxiv.org/pdf/2102.01117v2.pdf]
-15. NumPy [https://numpy.org]
+12. PyTorch SGD [https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD]</br>
+13. PyTorch CrossEntropyLoss [https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html]</br>
+14. Cross Entropy Formula [https://moodle.htw-berlin.de/pluginfile.php/1163173/mod_resource/content/3/03_Logistic_Regression.pdf]
+15. SGD Generalizes Better Than GD [https://arxiv.org/pdf/2102.01117v2.pdf]
+16. NumPy [https://numpy.org]
 
 ### Figures
 Figure 1: Cross entropy loss function.</br>
