@@ -101,7 +101,11 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. SGD(13) stands for stochastic gradient descent. 
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. 
+
+∂/∂θ  Jθ=-1/m ∑_(i=1)^m▒〖[y^((i))  log⁡〖h_θ (x^((i) ) )+(1-y^((i) ))log⁡(1-h_θ (x^((i) ) ))]〗 〗
+The calculated input value x ^(i) is logarithmized with the true output value y^(i) in the first term and the estimated output is calculated in the second term. The sum is then divided by the number of training samples. The minus sign minimizes the loss as the two probability values y^(i), x^(i) get closer.</br>
+SGD(13) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
 w_(t+1)=w_t-η_(t+1 )*∇F_(λ,S)*(w_t) (14)
 </br>
