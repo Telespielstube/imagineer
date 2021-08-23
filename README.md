@@ -18,6 +18,8 @@
 - [Conclusion](#conclusion)
 - [Sources](#sources)
 - [Figures](#figures)
+- [Tables](#(tables)
+
 
 ### Abbrevations
 [ROS](#ros)   ...............................................................................Robot Operationg System</br>
@@ -102,12 +104,14 @@ self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
 Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1. 
+![Cross entropy loss function](https://github.com/Telespielstube/imagineer/blob/docu/media/cross_entropy.png)
+Figure 1: Cross entropy loss function 
 
-∂/∂θ  Jθ=-1/m ∑_(i=1)^m▒〖[y^((i))  log⁡〖h_θ (x^((i) ) )+(1-y^((i) ))log⁡(1-h_θ (x^((i) ) ))]〗 〗
 The calculated input value x ^(i) is logarithmized with the true output value y^(i) in the first term and the estimated output is calculated in the second term. The sum is then divided by the number of training samples. The minus sign minimizes the loss as the two probability values y^(i), x^(i) get closer.</br>
 SGD(13) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
-w_(t+1)=w_t-η_(t+1 )*∇F_(λ,S)*(w_t) (14)
+![SGD update rule]
+Figure 2: SGD update rule (14)
 </br>
 From the starting position, the product of the learning rate η_(t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_(t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
 
@@ -140,7 +144,7 @@ In order to use the ROS(3) sensor message image properly, it must be converted t
 An overview of the arrangement of all nodes in the application.</br>
 </br>
 ![Network graph](https://github.com/Telespielstube/imagineer/blob/docu/media/network_graph.png)
-Figure 1: Graph of all nodes in the robot application.
+Figure 3: Graph of all nodes in the robot application.
 
 ### Conclusion
 The specification of the project was to create a robot application connected to a neurarl network to recognize handwritten digits.</br>
@@ -151,7 +155,7 @@ Building the neural network with three hidden layers was based on the considerat
 |-----|--------------|-----------------|----------|
 | SGD | 0.0003014007 |     0.0005      |  98.14%  |
 
-Figure 2: Output of the complete training run and validation with the SGD optimizer.</br></br>
+Table 1: Output of the complete training run and validation with the SGD optimizer.</br></br>
 With the MNIST database a robust model can be achieved with little effort. A robust model is defined by the fact that training and validation results are close together (see Figure 1). As seen in the table, the training loss and validation loss are very close. This result was achieved with only 10 epochs a batch size of 32 a standard learning rate of 0.001 and a five-layer fully connected model.
 That points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
@@ -174,5 +178,9 @@ That points to the conclusion that SGD(13) is a very reliable and highly accurat
 15. NumPy [https://numpy.org]
 
 ### Figures
-Figure 1: Graph of all nodes in the robot application.</br>
-Figure 2: Output of the complete training run and validation with the SGD optimizer.
+Figure 1: Cross entropy loss function.</br>
+Figure 2: SGD update rule.</br>
+Figure 3: Graph of all nodes in the robot application.</br>
+
+### Tables
+Table 1: Output of the complete training run and validation with the SGD optimizer.
