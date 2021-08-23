@@ -103,15 +103,14 @@ self.hidden_layer3 = nn.Linear(128, 64)
 self.output_layer = nn.Linear(64, 10
 ```
 Each neuron computes a set of input values and weights and an activation function to an output value which is then passed on as input value to next neuron. </br>
-Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1.
-
+Once the network is initialized the next step is to train it. The training function creates an optimizer object with the SGD(12) algorithm and a cross entropy loss function(12). The cross entropy helps to classify the model by outputting the probabiliy values between 0 and 1.</br>
 ![Cross entropy loss function](https://github.com/Telespielstube/imagineer/blob/docu/media/cross_entropy.png)</br>
 Figure 1: Cross entropy loss function 
 
 The calculated input value x ^(i) is logarithmized with the true output value y^(i) in the first term and the estimated output is calculated in the second term. The sum is then divided by the number of training samples. The minus sign minimizes the loss as the two probability values y^(i), x^(i) get closer.</br>
 SGD(13) stands for stochastic gradient descent. 
 The basic functionality of a gradient descent procedure is to find the lowest point of a mathematical function by iterating in steps. To find the lowest point, a random starting point is chosen.</br>
-![SGD update rule]
+![SGD update rule](https://github.com/Telespielstube/imagineer/blob/docu/media/sgd_update_rule.png)</br>
 Figure 2: SGD update rule (14)
 </br>
 From the starting position, the product of the learning rate η_(t + 1) and the result of the calculated gradient from the loss function ∇F_ (λ, S) (w_t) is subtracted from the current position w_t for each new position w_(t + 1). That is, the closer the function minimum is, the smaller the steps become. The addition stochastic means that with each pass only the data of the selected batch size is processed and an update is carried out after each pass. (14)
