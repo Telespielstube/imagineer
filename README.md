@@ -146,9 +146,8 @@ Building the neural network with three hidden layers was based on the considerat
 </br>
 |     | Trainig loss | Validation loss | Accuracy |
 |-----|--------------|-----------------|----------|
-| SGD | 0.0003014007 |     0.0005      |  98.14%  |
-</br>
-</br>Figure 2: Output of the complete training run and validation with the SGD optimizer.</br>
+| SGD | 0.0003014007 |     0.0005      |  98.14%  |</br>
+Figure 2: Output of the complete training run and validation with the SGD optimizer.</br>
 With the MNIST database a robust model can be achieved with little effort. A robust model is defined by the fact that training and validation results are close together (see Figure 1). As seen in the table, the training loss and validation loss are very close. This result was achieved with only 10 epochs, a batch size of 32, a standard learning rate of 0.001 and a five-layer fully connected model.
 That points to the conclusion that SGD(13) is a very reliable and highly accurate methode for small test applications.
 
