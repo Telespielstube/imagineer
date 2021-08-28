@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy, torch, pathlib, sys
 from sensor_msgs.msg import Image
 from imagineer.srv import ImageAck, ImageAckResponse
@@ -16,15 +16,15 @@ def callback(request, service):
 def main():
     rospy.init_node('ai_service')
     print('Service is running.')
-    ai_service = AiService(sys.argv[1])
     file_name = pathlib.Path(sys.argv[1])
+    ai_service = AiService()
     if not file_name.exists():
         print('No model found. Training in progress')
         ai_service.training()
         ai_service.validating_mnist()
-        ai_service.save_model()
+        ai_service.save_model(sys.argv[1])
     else:
-        ai_service.load_model()
+        ai_service.load_model(sys.argv[1])
         print('Model found.')
         ai_service.validating_mnist()
         rospy.Service('image_ack', ImageAck, lambda request : callback (request, ai_service))

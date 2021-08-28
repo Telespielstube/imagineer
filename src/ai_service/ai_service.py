@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
+import rospy 
 import torch, os, numpy
 from torch import nn
+from matplotlib import pyplot as plt
 from cv_bridge import CvBridge
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor, Compose
+from torchvision.transforms import ToTensor, Compose, Normalize
 from ai_service.neural_network import NeuralNetwork
-
+        
 class AiService():
 
-    def __init__(self, save_path):
+    def __init__(self):
         self.batch_size = 32
         self.epochs = 10
         self.learning_rate = 0.001
         self.transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
-        self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=True, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
-        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root='./data', train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
-        self.path = save_path
+        self.training_data = torch.utils.data.DataLoader(datasets.MNIST(root="./data", train=True, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
+        self.validation_data = torch.utils.data.DataLoader(datasets.MNIST(root="./data", train=False, download=True, transform=self.transform), batch_size=self.batch_size, shuffle=True)
         self.cv_bridge = CvBridge()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = NeuralNetwork()
@@ -37,7 +38,7 @@ class AiService():
                 loss.backward() 
                 optimizer.step() 
                 running_loss += loss.item() # the value of this tensor as a standard Python number
-                print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
+            print("Epoch {} - Training loss: {:.10f}".format(epoch, running_loss / len(self.training_data)))
 
     # Function validates the trained model against the received image.
     # @request_image    image object to be validated.
@@ -60,25 +61,25 @@ class AiService():
                 image, label = image.to(self.device), label.to(self.device)
                 output = self.model(image)
                 test_loss += criterion(output, label).item()  # sums up batch loss
-                pred = output.argmax()
+                pred = output.argmax(dim=1, keepdim=True)
                 correct += pred.eq(label.view_as(pred)).sum().item() #sums up the correct predicted numbers
         test_loss /= len(self.validation_data.dataset)
         print('\n Validation: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(self.validation_data.dataset), 100. * correct / len(self.validation_data.dataset)))
 
     # Saves the entire trained model to a specific path.
-    def save_model(self):
+    def save_model(self, save_path):
         save_folder = '/home/marta/catkin_ws/src/imagineer/saved_models/'
         try:
             os.mkdir(save_folder)
         except FileExistsError:
             pass
-        torch.save(self.model, self.path)
+        torch.save(self.model, save_path)
         print('Model is saved')
     
     # Loads entire saved model.
-    def load_model(self):
-       self.model = torch.load(self.path)
+    def load_model(self, save_path):
+       self.model = torch.load(save_path)
 
     # Converts the ROS sensor message to a PyTorch tensor and normalizes the tensor_image 
     # that every image is aligned correctly.
